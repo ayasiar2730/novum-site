@@ -1,0 +1,209 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Novum Integral — tokens del Design System v1
+   Fuente de verdad: docs/novum-design-system-v1.md
+   La paleta de Tailwind se reinicia: solo existen estos colores.
+   ============================================================ */
+
+@theme {
+  /* --- reinicio de la paleta por defecto --- */
+  --color-*: initial;
+
+  /* --- morados --- */
+  --color-purple-900: #2c0e72;
+  --color-purple-700: #4b16a8;
+  --color-purple-500: #7a38c0;
+  --color-purple-100: #eee6f8;
+
+  /* --- verdes ---
+     green-500 es el verde de marca: rellenos, nodos, banda oscura.
+     NUNCA como texto sobre fondo claro (contraste 2.7:1). Texto verde = green-700. */
+  --color-green-700: #43772c;
+  --color-green-500: #68b04a;
+  --color-green-300: #8bcb68;
+  --color-green-100: #e8f4e1;
+
+  /* --- neutros con sesgo violeta --- */
+  --color-neutral-0: #ffffff;
+  --color-neutral-50: #f7f6fa;
+  --color-neutral-100: #eceaf1;
+  --color-neutral-300: #c9c5d4;
+  --color-neutral-500: #8b869c;
+  --color-neutral-700: #5b5670;
+  --color-neutral-900: #2a2636;
+  --color-neutral-950: #17141f;
+
+  --color-white: #ffffff;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  /* --- sombra única (teñida de morado) --- */
+  --shadow-lift: 0 1px 2px rgba(23, 20, 31, 0.06), 0 8px 24px rgba(44, 14, 114, 0.08);
+
+  /* --- escala tipográfica --- */
+  --text-display: 3.5rem; /* 56 */
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.02em;
+  --text-display--font-weight: 700;
+
+  --text-display-md: 3rem; /* 48 — titulares largos en pantallas medianas */
+  --text-display-md--line-height: 1.08;
+  --text-display-md--letter-spacing: -0.02em;
+  --text-display-md--font-weight: 700;
+
+  --text-display-sm: 2.25rem; /* 36 */
+  --text-display-sm--line-height: 1.1;
+  --text-display-sm--letter-spacing: -0.02em;
+  --text-display-sm--font-weight: 700;
+
+  --text-h1: 2.5rem; /* 40 */
+  --text-h1--line-height: 1.1;
+  --text-h1--letter-spacing: -0.015em;
+  --text-h1--font-weight: 700;
+
+  --text-h1-sm: 1.875rem; /* 30 */
+  --text-h1-sm--line-height: 1.15;
+  --text-h1-sm--letter-spacing: -0.015em;
+  --text-h1-sm--font-weight: 700;
+
+  --text-h2: 1.875rem; /* 30 */
+  --text-h2--line-height: 1.2;
+  --text-h2--letter-spacing: -0.01em;
+  --text-h2--font-weight: 600;
+
+  --text-h2-sm: 1.5rem; /* 24 */
+  --text-h2-sm--line-height: 1.25;
+  --text-h2-sm--letter-spacing: -0.01em;
+  --text-h2-sm--font-weight: 600;
+
+  --text-h3: 1.375rem; /* 22 */
+  --text-h3--line-height: 1.3;
+  --text-h3--font-weight: 600;
+
+  --text-h3-sm: 1.25rem; /* 20 */
+  --text-h3-sm--line-height: 1.3;
+  --text-h3-sm--font-weight: 600;
+
+  --text-lead: 1.25rem; /* 20 */
+  --text-lead--line-height: 1.5;
+
+  --text-body: 1.0625rem; /* 17 */
+  --text-body--line-height: 1.6;
+
+  --text-body-sm: 1rem; /* 16 */
+  --text-body-sm--line-height: 1.6;
+
+  --text-small: 0.9375rem; /* 15 */
+  --text-small--line-height: 1.55;
+
+  --text-label: 0.75rem; /* 12 */
+  --text-label--line-height: 1;
+  --text-label--letter-spacing: 0.08em;
+  --text-label--font-weight: 600;
+
+  --text-nav: 0.9375rem; /* 15 */
+  --text-nav--line-height: 1;
+  --text-nav--font-weight: 500;
+}
+
+@theme inline {
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background-color: var(--color-neutral-50);
+    color: var(--color-neutral-900);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--color-purple-100);
+    color: var(--color-purple-900);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-purple-500);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  [id] {
+    scroll-margin-top: 5rem;
+  }
+}
+
+/* ============================================================
+   Utilidades propias del sistema
+   ============================================================ */
+
+@utility container-site {
+  width: 100%;
+  max-width: 75rem; /* 1200 */
+  margin-inline: auto;
+  padding-inline: 1.5rem; /* 24 */
+
+  @media (width >= 64rem) {
+    padding-inline: 2.5rem; /* 40 */
+  }
+}
+
+@utility container-wide {
+  width: 100%;
+  max-width: 90rem; /* 1440 */
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+
+  @media (width >= 64rem) {
+    padding-inline: 2.5rem;
+  }
+}
+
+@utility section-y {
+  padding-block: 4rem; /* 64 */
+
+  @media (width >= 48rem) {
+    padding-block: 6rem; /* 96 */
+  }
+}
+
+@utility measure {
+  max-width: 66ch;
+}
+
+@utility tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Retícula de puntos del hero (color desde token, sin imagen) */
+@utility bg-dotgrid {
+  background-image: radial-gradient(circle, var(--color-neutral-100) 1px, transparent 1.5px);
+  background-size: 24px 24px;
+}
