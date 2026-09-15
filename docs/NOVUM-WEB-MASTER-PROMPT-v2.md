@@ -99,23 +99,24 @@ Orden definitivo. Prevalece sobre cualquier otro listado.
 | 1 | Header | — | §5 |
 | 2 | Hero — posicionamiento | — | fase0 §5.1 |
 | 3 | El problema del sector | — | fase0 §5.2 |
-| 4 | Nosotros — declaración institucional + perfiles ocultos | `#nosotros` | fase0 §5.6 |
-| 5 | Lo que construimos — SIAR protagonista + Presupuesto + Planeación | `#soluciones` | fase0 §5.3 |
-| 6 | Por qué es distinto | — | fase0 §5.4 |
-| 7 | Cómo acompañamos | `#servicios` | fase0 §5.5 |
-| 8 | CTA — demostración y contacto | `#contacto` | fase0 §5.7 |
-| 9 | Footer | — | fase0 §5.8 |
+| 4 | Soluciones — SIAR principal + Presupuesto + Planeación estratégica + Más soluciones | `#soluciones` | fase0 §5.3 |
+| 5 | Por qué es distinto | — | fase0 §5.4 |
+| 6 | *(Bloque 2)* Inteligencia del sector | `#inteligencia` | pendiente |
+| 7 | Acompañamiento | `#servicios` | fase0 §5.5 |
+| 8 | Nosotros — Experiencia que entiende el sector (institucional; perfiles en código, no públicos) | `#nosotros` | fase0 §5.6 |
+| 9 | CTA — demostración y contacto | `#contacto` | fase0 §5.7 |
+| 10 | Footer (línea institucional corta) | — | fase0 §5.8 |
 
-Lógica narrativa: *somos esto → entendemos esto → construimos esto → lo hacemos distinto así → lo implementamos con usted → hablemos.*
+Lógica narrativa: *entendemos su realidad → tenemos soluciones → las hacemos distinto → se lo mostramos con datos → lo acompañamos → quiénes somos → hablemos.*
 
-Tratamiento visual de cada sección: `design-system §7`. En particular: **SIAR ocupa el ancho completo** y los otros dos módulos van compactos debajo; los tres problemas y los cuatro diferenciadores **no llevan numeración** ni se presentan como tarjetas iguales.
+Tratamiento visual de cada sección: `design-system §7`. En particular: **SIAR mantiene la jerarquía** por composición y por su constelación metodológica — sin mockups de interfaz hasta tener capturas reales — y las demás soluciones van como portafolio en tres columnas; los tres problemas y los cuatro diferenciadores **no llevan numeración** ni se presentan como tarjetas iguales.
 
 ---
 
 ## 5. Header y navegación
 
 - Logo a la izquierda (componente `<Logo variant="light">`).
-- Navegación: **Soluciones** (`#soluciones`) · **Servicios** (`#servicios`) · **Nosotros** (`#nosotros`) · **Contacto** (`#contacto`). Todas son anclas de la misma página; ninguna apunta a una sección que pueda estar oculta.
+- Navegación: **Soluciones** (`#soluciones`) · **Acompañamiento** (`#servicios`) · **Nosotros** (`#nosotros`) · **Contacto** (`#contacto`). *(Bloque 2 añade **Inteligencia**.)* Todas son anclas de la misma página; ninguna apunta a una sección que pueda estar oculta.
 - A la derecha: botón primario **"Agendar una demostración"** y enlace discreto **"Ingresar a la plataforma"** → `https://app.novumintegral.com` (`rel="noopener"`).
 - Sticky, transparente al inicio; al hacer scroll pasa a `--neutral-0` con borde inferior de 1 px (`design-system §9`).
 - Menú móvil accesible (§13). Header compacto; no un bloque gigante.
@@ -124,13 +125,15 @@ Tratamiento visual de cada sección: `design-system §7`. En particular: **SIAR 
 
 ## 6. Contenido: qué se preserva y qué se puede mejorar
 
+> **Regla del corte comercial (14 de septiembre de 2026).** Los estados internos de construcción de producto — "en desarrollo", "en diseño", "en pruebas", porcentajes de avance, fechas de lanzamiento, hojas de ruta técnicas — pueden existir como información de gestión del proyecto, pero **no forman parte de la comunicación comercial pública** salvo decisión expresa posterior. La web comunica utilidad, capacidad, experiencia, especialización, tecnología + acompañamiento e información convertida en decisiones. Tampoco se publican nombres, cargos, fotografías ni años de experiencia de personas: la sección Nosotros es institucional.
+
 Usa el texto de `novum-web-fase0.md` §5 como fuente. **No inventes** clientes, testimonios, cifras, certificaciones, alianzas, premios, casos, logos de terceros, regulaciones no mencionadas, integraciones ni funcionalidades no confirmadas. Si algo no está respaldado por el documento, no lo presentes como hecho.
 
-Puedes mejorar jerarquía, ritmo, microcopy, redundancias y errores gramaticales. No cambies el sentido, y no toques la afirmación regulatoria de SIAR: *"Construido sobre los estándares de la Superintendencia Financiera y la norma ISO 31000, para que su entidad esté por encima de lo que exige la Supersolidaria, no apenas al día."*
+Puedes mejorar jerarquía, ritmo, microcopy, redundancias y errores gramaticales. No cambies el sentido. La afirmación regulatoria de SIAR es deliberadamente prudente — *"Diseñado tomando como referencia buenas prácticas de gestión de riesgos, ISO 31000 y referentes técnicos aplicables al sistema financiero, adaptados a las necesidades del sector solidario."* — y **no debe endurecerse**: nada de cumplimiento garantizado, aval de autoridad, aprobación oficial ni normas de la Superintendencia Financiera presentadas como obligación para entidades vigiladas por Supersolidaria. Tampoco se prometen funcionalidades específicas no verificadas contra el producto: los diferenciadores se expresan como propuesta de enfoque.
 
 **Registro:** español de Colombia, trato de **usted**, profesional y directo. Conserva los términos del sector: *asociados* (no clientes), *cartera*, *Supersolidaria*, *revisoría fiscal*, *consejo de administración*, *junta directiva*, *sector solidario*. Evita "revolucionamos", "disruptivo", "la solución definitiva", "único", "el mejor" y similares. La autoridad se demuestra, no se proclama.
 
-**Estados de producto** — visibles y elegantes, según `design-system §2`: SIAR "En pruebas con datos reales" · Presupuesto "En desarrollo" · Planeación "En diseño". Deben leerse como *esto existe, esto evoluciona, esto viene*, nunca como errores.
+**Estados de producto:** no se muestran en la web pública (ver la regla del corte comercial). `StatusTag` se conserva en código para preview o interfaces futuras con razón de producto.
 
 **Postura de marca:** pequeños, especializados y extremadamente competentes. No aparentar una corporación.
 
@@ -157,15 +160,15 @@ CARTERA · DATOS · MACRO  →  SIAR  →  PRESUPUESTO · PLANEACIÓN  →  DECI
 DECISIÓN es el único nodo verde. No es un diagrama de flujo ni una infografía: es una pieza de identidad. Medidas, grosores, colores por token, versión móvil y comportamiento del motion: `design-system §6`, que se sigue al pie de la letra. El estado inicial del SVG es el estado final: la composición se ve completa aunque falle el JavaScript y con `prefers-reduced-motion: reduce`.
 
 ### Marco de producto
-En SIAR, un placeholder estructural para la captura real de la Fase 1, según `design-system §7`. **No dibujes gráficos falsos** que puedan confundirse con el producto.
+Retirado hasta tener capturas auténticas del software: no se muestran esqueletos ni mockups que puedan parecer una interfaz real. SIAR mantiene la jerarquía con su constelación metodológica (`Products.tsx`).
 
 ---
 
 ## 8. Nosotros y equipo
 
-- La sección `#nosotros` **existe siempre en producción** con la declaración institucional de `fase0 §5.6`, en HTML plano. Es la definición de la entidad para personas, buscadores y sistemas de IA.
-- Los **perfiles individuales** van dentro de esa sección y son **lo único** controlado por `NEXT_PUBLIC_SHOW_TEAM`: `true` en preview, `false` en producción. No elimines el código; solo no se renderiza.
-- Sin fotografías. Sin inventar los datos marcados como pendientes. Perfiles como lista tipográfica, sin avatares.
+- La sección `#nosotros` es **institucional**: "Experiencia que entiende el sector", texto base, complemento y seis capacidades (Riesgos · Finanzas · Cumplimiento · Planeación · Analítica · Tecnología). **Sin nombres, cargos, fotografías ni años individuales.**
+- La **declaración institucional** completa (`fase0 §5.6`) vive en el **JSON-LD** (`Organization.description`) y en la descripción de metadatos; el pie de página lleva solo una línea corta ("Software y acompañamiento especializado para el sector solidario.") para no convertirse en sección de contenido. La presentación institucional visible es la sección Nosotros.
+- Los **perfiles individuales** siguen en código y solo se renderizan con `NEXT_PUBLIC_SHOW_TEAM=true` (nunca en producción). No elimines el código.
 
 ---
 

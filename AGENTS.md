@@ -6,6 +6,7 @@ Antes de tocar código, lee `docs/NOVUM-WEB-MASTER-PROMPT-v2.md` (jerarquía de 
 - Sitio público e indexable: nunca `noindex`; nunca copiar configuración de la aplicación `app.novumintegral.com`.
 - Los perfiles del equipo se controlan con `NEXT_PUBLIC_SHOW_TEAM`; la declaración institucional de `#nosotros` es siempre pública.
 - No recrear el logo en código: `<Logo>` lee `public/brand/*.svg`.
+- Los estados internos de producto (en desarrollo, en diseño, en pruebas, roadmap) y los perfiles individuales del equipo **no se muestran en la web pública**. `StatusTag` y los perfiles se conservan en código para preview o usos futuros con razón de producto.
 - No agregar dependencias sin justificarlo. Sin librerías de animación: el motion es CSS.
 - Validar antes de reportar: `npm run lint`, `npm run typecheck`, `npm run build`, y la página renderizada en los breakpoints 320 · 390 · 768 · 1024 · 1280 · 1440 · 1920.
 

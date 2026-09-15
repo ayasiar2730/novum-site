@@ -1,51 +1,125 @@
-import { products, roadmap, statusLabel, type ProductStatus } from "@/content/site";
+import { products } from "@/content/site";
 import { SectionHeading } from "@/components/SectionHeading";
-import { StatusTag } from "@/components/StatusTag";
-import { ProductFrame } from "@/components/ProductFrame";
 
 /**
- * SIAR a ancho completo con esqueleto de interfaz; después, la hoja de ruta
- * (orden de salida de productos independientes — no dependencias de datos —
- * con el lenguaje de nodos del hero), y Presupuesto / Planeación debajo.
+ * Portafolio de soluciones. Sin estados de desarrollo, sin roadmap, sin
+ * mockups de interfaz: SIAR mantiene la jerarquía por composición y por una
+ * pieza abstracta en el lenguaje de nodos del sitio (sus componentes
+ * metodológicos), y las demás soluciones van como portafolio en tres columnas.
  */
 
-function RoadmapNode({ status }: { status: ProductStatus | "futuro" }) {
-  if (status === "futuro") {
-    return (
-      <span className="flex h-5 w-5 items-center justify-center">
-        <span className="h-3.5 w-3.5 rounded-full border-[1.5px] border-dashed border-neutral-500 bg-neutral-0" />
-      </span>
-    );
-  }
-  if (status === "pruebas") {
-    return (
-      <span className="relative flex h-5 w-5 items-center justify-center">
-        <span className="absolute inset-0 rounded-full bg-green-500/25" />
-        <span className="relative h-3 w-3 rounded-full bg-green-500" />
-      </span>
-    );
-  }
-  if (status === "desarrollo") {
-    return (
-      <span className="flex h-5 w-5 items-center justify-center">
-        <span className="h-3.5 w-3.5 rounded-full border-[1.5px] border-purple-700 bg-neutral-0 [background:linear-gradient(90deg,var(--color-purple-700)_50%,transparent_50%)]" />
-      </span>
-    );
-  }
+/** Constelación metodológica: el nodo SIAR al centro y sus siete componentes alrededor. */
+function SiarConstellation({ pillars }: { pillars: readonly string[] }) {
+  const ARIA = `Componentes metodológicos de SIAR: ${pillars.map((x) => x.toLowerCase()).join(", ")}.`;
+  const cx = 260;
+  const cy = 230;
+  const ring = 148;
+  const labelRing = 182;
+  const nodes = pillars.map((label, i) => {
+    const angle = -Math.PI / 2 + (i * 2 * Math.PI) / pillars.length;
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    const anchor: "start" | "middle" | "end" = Math.abs(cos) < 0.25 ? "middle" : cos > 0 ? "start" : "end";
+    return {
+      label,
+      x: cx + ring * cos,
+      y: cy + ring * sin,
+      lx: cx + labelRing * cos,
+      ly: cy + labelRing * sin + (Math.abs(cos) < 0.25 ? (sin < 0 ? -6 : 14) : 4),
+      anchor,
+    };
+  });
+
   return (
-    <span className="flex h-5 w-5 items-center justify-center">
-      <span className="h-3.5 w-3.5 rounded-full border-[1.5px] border-neutral-500 bg-neutral-0" />
-    </span>
+    <svg
+      viewBox="-56 0 632 460"
+      role="img"
+      aria-label={ARIA}
+      className="mx-auto block h-auto w-full max-w-[520px] font-sans"
+    >
+      <title>{ARIA}</title>
+      <defs>
+        <radialGradient id="siarField" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" style={{ stopColor: "var(--color-purple-500)", stopOpacity: 0.16 }} />
+          <stop offset="1" style={{ stopColor: "var(--color-purple-500)", stopOpacity: 0 }} />
+        </radialGradient>
+      </defs>
+
+      <circle cx={cx} cy={cy} r={ring + 40} fill="url(#siarField)" />
+      <circle
+        cx={cx}
+        cy={cy}
+        r={ring}
+        fill="none"
+        stroke="var(--color-purple-100)"
+        strokeWidth="1"
+        strokeDasharray="2 6"
+      />
+      <circle cx={cx} cy={cy} r={ring * 0.55} fill="none" stroke="var(--color-purple-100)" strokeWidth="1" />
+
+      {nodes.map((n) => (
+        <line
+          key={`l-${n.label}`}
+          x1={cx}
+          y1={cy}
+          x2={n.x}
+          y2={n.y}
+          stroke="var(--color-purple-500)"
+          strokeOpacity="0.35"
+          strokeWidth="1.25"
+        />
+      ))}
+
+      <circle
+        cx={cx}
+        cy={cy}
+        r="34"
+        fill="var(--color-neutral-0)"
+        stroke="var(--color-purple-100)"
+        strokeWidth="2"
+      />
+      <circle cx={cx} cy={cy} r="17" fill="var(--color-purple-700)" />
+      <text
+        x={cx}
+        y={cy + 60}
+        textAnchor="middle"
+        fontSize="13"
+        fontWeight="700"
+        letterSpacing="2.2"
+        fill="var(--color-purple-900)"
+      >
+        SIAR
+      </text>
+
+      {nodes.map((n) => (
+        <g key={n.label}>
+          <circle
+            cx={n.x}
+            cy={n.y}
+            r="7"
+            fill="var(--color-neutral-0)"
+            stroke="var(--color-purple-500)"
+            strokeWidth="1.5"
+          />
+          <text
+            x={n.lx}
+            y={n.ly}
+            textAnchor={n.anchor}
+            fontSize="12.5"
+            fontWeight="600"
+            letterSpacing="1.2"
+            fill="var(--color-neutral-700)"
+          >
+            {n.label.toUpperCase()}
+          </text>
+        </g>
+      ))}
+    </svg>
   );
 }
 
 export function Products() {
   const { siar, others } = products;
-  const steps: { name: string; status: ProductStatus | "futuro"; note: string }[] = [
-    { name: siar.name, status: siar.status, note: statusLabel[siar.status] },
-    ...others.map((p) => ({ name: p.name, status: p.status, note: statusLabel[p.status] })),
-    { name: roadmap.next.name, status: "futuro", note: roadmap.next.note },
-  ];
 
   return (
     <section
@@ -64,75 +138,51 @@ export function Products() {
           />
         </div>
 
-        {/* SIAR — protagonista */}
+        {/* SIAR — solución principal */}
         <div className="mt-16 grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-14">
-          <div className="flex min-w-0 flex-col gap-6 lg:col-span-5" data-reveal>
-            <StatusTag status={siar.status} />
-            <h3 className="text-h2-sm md:text-h2 text-neutral-950">
-              <span className="text-purple-700">{siar.name}</span> — {siar.fullName}
-            </h3>
-            <ul className="flex flex-col divide-y divide-neutral-100 border-y border-neutral-100">
-              {siar.features.map((feature) => (
-                <li key={feature} className="flex items-start gap-3 py-3 text-body-sm text-neutral-900">
-                  <span
-                    aria-hidden="true"
-                    className="mt-[0.55em] h-1.5 w-1.5 shrink-0 rounded-full bg-purple-500"
-                  />
-                  {feature}
-                </li>
-              ))}
-            </ul>
-            <p className="border-l-2 border-purple-500 pl-4 text-body-sm text-neutral-700">
-              {siar.paragraphs[1]}
+          <div className="flex min-w-0 flex-col gap-6 lg:col-span-6" data-reveal>
+            <p className="flex items-center gap-3 text-label uppercase text-purple-700">
+              <span aria-hidden="true" className="h-px w-6 bg-purple-500" />
+              {siar.name} — {siar.fullName}
             </p>
-            <p className="text-small text-neutral-500">{siar.roadmap}</p>
+            <h3 className="text-h2-sm md:text-h1 text-neutral-950">
+              <span className="text-purple-700">{siar.name}.</span> {siar.tagline}
+            </h3>
+            <p className="text-body measure text-neutral-700">{siar.description}</p>
+            <p className="border-l-2 border-purple-500 pl-4 text-body-sm measure text-neutral-700">
+              {siar.basis}
+            </p>
           </div>
-          <div className="min-w-0 lg:col-span-7" data-reveal style={{ transitionDelay: "120ms" }}>
-            <ProductFrame caption={siar.frameCaption} />
-          </div>
-        </div>
-
-        {/* Hoja de ruta */}
-        <div className="mt-20 border-t border-neutral-100 pt-10" data-reveal>
-          <div className="grid gap-8 lg:grid-cols-12">
-            <div className="lg:col-span-4">
-              <h3 className="flex items-center gap-3 text-label uppercase text-purple-700">
-                <span aria-hidden="true" className="h-px w-6 bg-purple-500" />
-                {roadmap.title}
-              </h3>
-              <p className="mt-4 text-body-sm text-neutral-700">{roadmap.intro}</p>
+          <div className="min-w-0 lg:col-span-6" data-reveal style={{ transitionDelay: "120ms" }}>
+            <div className="bg-dotgrid [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_78%)] px-2 py-4 md:px-6 md:py-8">
+              <SiarConstellation pillars={siar.pillars} />
             </div>
-            <ol
-              className="relative grid gap-6 sm:grid-cols-4 lg:col-span-8"
-              aria-label="Estado de los módulos"
-            >
-              <span
-                aria-hidden="true"
-                className="absolute top-[10px] left-2 right-2 hidden h-px bg-neutral-100 sm:block"
-              />
-              {steps.map((step) => (
-                <li key={step.name} className="relative flex flex-col gap-3 sm:pr-6">
-                  <RoadmapNode status={step.status} />
-                  <p className="text-body-sm font-semibold text-neutral-950">{step.name}</p>
-                  <p className="text-small text-neutral-500">{step.note}</p>
-                </li>
-              ))}
-            </ol>
           </div>
         </div>
 
-        {/* Presupuesto y Planeación */}
-        <div className="mt-12 grid gap-10 border-t border-neutral-100 pt-10 md:grid-cols-2 md:gap-0 md:divide-x md:divide-neutral-100">
+        {/* Portafolio */}
+        <div className="mt-16 grid gap-10 border-t border-neutral-100 pt-10 md:grid-cols-3 md:gap-0 md:divide-x md:divide-neutral-100">
           {others.map((product, i) => (
             <div
               key={product.name}
-              className={`flex flex-col gap-4 ${i === 0 ? "md:pr-12" : "md:pl-12"}`}
+              className={`flex flex-col gap-4 ${i === 0 ? "md:pr-10" : i === others.length - 1 ? "md:pl-10" : "md:px-10"}`}
               data-reveal
-              style={{ transitionDelay: `${i * 80}ms` }}
+              style={{ transitionDelay: `${i * 70}ms` }}
             >
-              <StatusTag status={product.status} />
-              <h3 className="text-h3-sm md:text-h3 text-neutral-950">{product.name}</h3>
-              <p className="text-body-sm text-neutral-700">{product.body}</p>
+              <span
+                aria-hidden="true"
+                className={`h-2.5 w-2.5 rounded-full border-[1.5px] ${
+                  product.open
+                    ? "border-dashed border-neutral-500 bg-neutral-0"
+                    : "border-purple-500 bg-purple-100"
+                }`}
+              />
+              <h3
+                className={`text-h3-sm md:text-h3 ${product.open ? "text-neutral-700" : "text-neutral-950"}`}
+              >
+                {product.name}
+              </h3>
+              <p className="text-body-sm text-neutral-700">{product.tagline}</p>
             </div>
           ))}
         </div>

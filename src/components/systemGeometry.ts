@@ -3,7 +3,7 @@
  * La usan el hero (HeroSystem) y la marca de agua del CTA, para que digan lo mismo.
  *
  * Lo que representa — y es verdad del negocio:
- *   productos independientes (SIAR, Presupuesto, Planeación, y más por venir)
+ *   soluciones independientes (SIAR, Presupuesto, Planeación, y más por venir)
  *   + servicios de acompañamiento
  *   → convergen en la entidad → que es quien decide.
  * No representa dependencias de datos entre productos: no las hay.
@@ -17,31 +17,35 @@ export type SystemGroup = {
   nodes: SystemNode[];
 };
 
+const X = 208;
+const STEP = 36;
+
 export const DESKTOP = {
-  viewBox: "34 34 766 420",
-  center: { x: 520, y: 250, label: "SU ENTIDAD" },
-  output: { x: 730, y: 250, label: "DECISIÓN" },
+  viewBox: "34 34 766 440",
+  center: { x: 520, y: 264, label: "SU ENTIDAD" },
+  output: { x: 730, y: 264, label: "DECISIÓN" },
   groups: [
     {
       key: "software",
       label: "SOFTWARE",
-      labelAt: { x: 208, y: 58 },
+      labelAt: { x: X, y: 58 },
       nodes: [
-        { x: 208, y: 92, label: "SIAR" },
-        { x: 208, y: 132, label: "PRESUPUESTO" },
-        { x: 208, y: 172, label: "PLANEACIÓN" },
-        { x: 208, y: 212, label: "MÁS MÓDULOS", dashed: true },
+        { x: X, y: 92, label: "SIAR" },
+        { x: X, y: 92 + STEP, label: "PRESUPUESTO" },
+        { x: X, y: 92 + STEP * 2, label: "PLANEACIÓN" },
+        { x: X, y: 92 + STEP * 3, label: "MÁS SOLUCIONES", dashed: true },
       ],
     },
     {
       key: "acompanamiento",
       label: "ACOMPAÑAMIENTO",
-      labelAt: { x: 208, y: 274 },
+      labelAt: { x: X, y: 258 },
       nodes: [
-        { x: 208, y: 308, label: "DIAGNÓSTICO" },
-        { x: 208, y: 348, label: "IMPLEMENTACIÓN" },
-        { x: 208, y: 388, label: "CAPACITACIÓN" },
-        { x: 208, y: 428, label: "CUMPLIMIENTO" },
+        { x: X, y: 292, label: "DIAGNÓSTICO" },
+        { x: X, y: 292 + STEP, label: "IMPLEMENTACIÓN" },
+        { x: X, y: 292 + STEP * 2, label: "CAPACITACIÓN" },
+        { x: X, y: 292 + STEP * 3, label: "AUDITORÍA SIAR" },
+        { x: X, y: 292 + STEP * 4, label: "CUMPLIMIENTO" },
       ],
     },
   ] as SystemGroup[],
@@ -63,6 +67,11 @@ export function outputPath(cx: number, cy: number, ox: number, oy: number, r = 3
   return `M ${x0} ${cy} C ${x0 + bend} ${cy} ${x1 - bend} ${oy} ${x1} ${oy}`;
 }
 
+/**
+ * Móvil: subconjunto de tres nodos por grupo (aprobado):
+ * SOFTWARE → SIAR · PRESUPUESTO · PLANEACIÓN
+ * ACOMPAÑAMIENTO → DIAGNÓSTICO · AUDITORÍA SIAR · CUMPLIMIENTO
+ */
 export const MOBILE = {
   viewBox: "0 0 320 370",
   center: { x: 160, y: 262, label: "SU ENTIDAD" },
@@ -84,8 +93,8 @@ export const MOBILE = {
       y: 158,
       nodes: [
         { x: 60, y: 158, label: "DIAGNÓSTICO" },
-        { x: 160, y: 158, label: "IMPLEMENTACIÓN" },
-        { x: 260, y: 158, label: "CAPACITACIÓN" },
+        { x: 160, y: 158, label: "AUDITORÍA SIAR" },
+        { x: 260, y: 158, label: "CUMPLIMIENTO" },
       ],
     },
   ],

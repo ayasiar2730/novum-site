@@ -49,3 +49,4 @@ Vercel, proyecto propio conectado a este repositorio. Dominios `novumintegral.co
 - Una sola banda oscura (la sección de contacto). Sin gradientes de fondo. Sin tarjetas repetidas.
 - Verde `--color-green-500` nunca como texto sobre fondo claro.
 - No inventar clientes, cifras, certificaciones, testimonios ni URLs.
+- **Sin estados internos de desarrollo en la web pública** (en desarrollo, en diseño, en pruebas, roadmap, fechas): son información de gestión, no comunicación comercial. Sin nombres ni perfiles de personas: la sección Nosotros es institucional.

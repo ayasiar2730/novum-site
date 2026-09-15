@@ -74,7 +74,9 @@ La regla práctica: **verde sobre claro solo en `--green-700` si es texto**, y `
 | En desarrollo | `--purple-100` | `--purple-700` | Está evolucionando |
 | En diseño | `--neutral-100` | `--neutral-700` | Viene |
 
-Misma forma, mismo tamaño, misma posición en los tres productos. La diferencia es solo el color.
+Misma forma, mismo tamaño, misma posición. La diferencia es solo el color.
+
+> **Uso:** estos estados son información interna de gestión. `StatusTag` puede usarse en preview o en futuras interfaces donde exista una razón de producto, pero **no es requisito de la web pública** y no se muestra en ella (regla del corte comercial, 14 sep 2026).
 
 ---
 
@@ -157,15 +159,15 @@ Solo con `html.js` (lo pone `MotionRoot` tras montar): las conexiones se trazan 
 
 **Problema del sector.** Composición editorial: tres bloques en columnas desiguales (4/4/4 en escritorio con separación de 1 px vertical entre ellos, apilados en móvil). Cada bloque: la frase clave en H3 `--purple-900`, el párrafo en cuerpo `--neutral-700`. Sin cajas, sin sombras, sin numeración.
 
-**Lo que construimos.** **No son tres tarjetas iguales.** SIAR ocupa el ancho completo: texto a la izquierda (5/12), marco de producto a la derecha (7/12). Presupuesto y Planeación van debajo en dos columnas compactas separadas por línea. La jerarquía visual encode la realidad: uno existe, dos vienen.
+**Soluciones.** **No son tarjetas iguales.** SIAR ocupa el ancho completo: texto a la izquierda (6/12) y, a la derecha, su **constelación metodológica** — el nodo SIAR al centro y sus siete componentes (metodologías, medición, monitoreo, matrices, indicadores, evidencias, seguimiento) alrededor, en el mismo lenguaje del hero. Presupuesto, Planeación estratégica y Más soluciones van debajo en tres columnas separadas por línea; "Más soluciones" lleva nodo punteado y título en neutral-700. Sin estados, sin hoja de ruta.
 
-**Marco de producto (placeholder de captura).** Superficie `--neutral-0`, radio 12, borde 1 px `--neutral-100`, sombra única, proporción 16:10. Adentro: retícula fina, una barra superior de 32 px en `--neutral-50` con tres puntos de ventana, y una etiqueta centrada en 12 px mayúsculas `--neutral-500`: "Captura del módulo SARC · Fase 1". **No se dibujan gráficos falsos** que puedan confundirse con el producto.
+**Marco de producto.** Retirado hasta tener capturas auténticas: no se muestran esqueletos ni mockups que puedan parecer una interfaz real. Cuando existan capturas, se incorporan en un marco con la sombra única de la sección.
 
 **Por qué es distinto.** Cuatro filas en layout alterno: frase clave grande a un lado (H2), explicación al otro; la siguiente fila invierte los lados. Una línea de 1 px separa cada fila. Sin tarjetas.
 
 **Cómo acompañamos.** Lista 2 × 2 con divisores de 1 px, título del servicio en H3 y una línea de descripción. Sin íconos.
 
-**Nosotros.** La declaración institucional en cuerpo grande (20 px) sobre 9/12 columnas. Debajo, si `NEXT_PUBLIC_SHOW_TEAM` está activo, los perfiles como lista: nombre en 600, rol en `--purple-700` pequeño, una línea de perfil. **Sin avatares ni círculos de reemplazo.**
+**Nosotros — Experiencia que entiende el sector.** Texto base como afirmación grande con el único filete verde de la página; complemento en cuerpo; **capacidades** como lista editorial con filos de 1 px (2 columnas en móvil, 3 en escritorio), cada una con un nodo pequeño — nunca seis tarjetas. Sin nombres ni avatares. La declaración institucional va en el pie de página.
 
 **CTA final.** La banda oscura. Título en blanco 40 px, párrafo `--neutral-100`, botón verde, enlace secundario en blanco. Los datos de contacto en una fila debajo, 15 px, `--green-300` para los enlaces.
 

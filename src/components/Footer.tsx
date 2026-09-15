@@ -8,6 +8,7 @@ export function Footer() {
         <div className="flex flex-col gap-5 md:col-span-5">
           <Logo variant="mark" />
           <p className="text-h3-sm md:text-h3 measure text-neutral-950">{site.tagline}</p>
+          <p className="text-small text-neutral-700">{site.footerLine}</p>
           <p className="text-small text-neutral-500">{site.legalName}</p>
         </div>
 

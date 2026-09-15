@@ -21,10 +21,11 @@ export default function Home() {
       <main id="contenido" className="flex-1">
         <Hero />
         <Problem />
-        <About />
         <Products />
         <Differentiators />
+        {/* Bloque 2: Inteligencia del sector irá aquí */}
         <Services />
+        <About />
         <FinalCta />
       </main>
       <Footer />

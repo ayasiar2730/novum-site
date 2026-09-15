@@ -59,7 +59,7 @@ El sitio se publica por fases. Cada fase sale sola y no depende de la siguiente.
 ### Fase 0 — "Existimos" (esta semana)
 Una sola página en el dominio raíz, completa y bien hecha. Es el objeto de este documento.
 
-Secciones, en el orden en que aparecen en la página: posicionamiento → el problema del sector → **nosotros** *(declaración institucional pública; perfiles del equipo construidos pero ocultos en público, ver 5.6)* → líneas de producto → por qué es distinto → servicios → contacto y demostración → pie de página.
+Secciones, en el orden en que aparecen en la página: posicionamiento → el problema → soluciones → por qué es distinto → *(Bloque 2: inteligencia del sector)* → acompañamiento → **nosotros** *(institucional, sin nombres; ver 5.6)* → contacto y demostración → pie de página *(con la declaración institucional)*.
 
 *(La numeración 5.x de este documento agrupa el contenido; el orden en la página es el de esta lista y lo fija el Master Prompt v2.)*
 
@@ -89,6 +89,8 @@ Tres páginas, una por línea de producto, con una misma plantilla: para quién 
 
 ## 5. Contenido de la Fase 0 — texto completo
 
+> **Regla del corte comercial (14 de septiembre de 2026).** Los estados internos de construcción de producto — "en desarrollo", "en diseño", "en pruebas", porcentajes de avance, fechas de lanzamiento, hojas de ruta técnicas — pueden existir como información de gestión del proyecto, pero **no forman parte de la comunicación comercial pública** salvo decisión expresa posterior. La web comunica utilidad, capacidad, experiencia, especialización, tecnología + acompañamiento e información convertida en decisiones. Tampoco se publican nombres, cargos, fotografías ni años de experiencia de personas: la sección Nosotros es institucional.
+
 > Todo lo que sigue es texto redactado para revisar y corregir. Las notas entre corchetes son instrucciones o pendientes, no texto del sitio.
 
 ### 5.1 Encabezado y posicionamiento
@@ -97,7 +99,7 @@ Tres páginas, una por línea de producto, con una misma plantilla: para quién 
 
 **Título:** Gestión de riesgos, presupuesto y planeación para cooperativas, fondos de empleados y mutuales.
 
-**Subtítulo:** Una plataforma integral y un equipo que conoce el sector, para que su entidad cumpla con la norma y decida con datos.
+**Subtítulo:** Una plataforma integral y un equipo que conoce el sector, para que su entidad gestione sus riesgos con método y decida con datos.
 
 **Eslogan (en el encabezado o como línea de cierre de la sección):** Inteligencia que anticipa, análisis que transforma, decisiones que generan valor.
 
@@ -108,46 +110,50 @@ Tres páginas, una por línea de producto, con una misma plantilla: para quién 
 
 *[Alternativa de título, más corta: "Riesgos, presupuesto y planeación en una sola plataforma." Elegir una.]*
 
-### 5.2 El problema — "Lo que vemos en las entidades del sector"
+### 5.2 El problema — "Cuando la información existe, pero no se convierte en decisiones"
 
-**Cierres a mano.** Los indicadores de cartera, liquidez y solvencia se arman en hojas de cálculo cada mes. Cada fórmula es un riesgo, y el error aparece cuando el reporte ya salió.
+**Introducción:** Tres situaciones que se repiten en entidades del sector solidario, independientemente de su tamaño.
 
-**La norma no deja de crecer.** SARC, SARL, SARO, SARLAFT: cada sistema exige políticas, comités, evidencias y reportes. Y los equipos que los sostienen son de dos o tres personas.
+**Sistemas que no aportan valor estratégico.** Las entidades cuentan con información, aplicativos y reportes, pero con frecuencia funcionan de manera aislada y no se convierten en una visión útil para tomar decisiones.
 
-**Decisiones sin tablero.** Consejos de administración y juntas directivas aprueban colocaciones, tasas y presupuestos con información de hace dos meses — o sin ella.
+**Regulación y gestión cada vez más exigentes.** Cumplir no consiste solo en presentar reportes: exige metodologías, evidencia, seguimiento y capacidad de análisis sostenidas en el tiempo.
 
-### 5.3 Las líneas de producto — "Lo que construimos"
+**Decisiones sin contexto suficiente.** Conocer los indicadores propios es importante. Entender cómo se comporta la entidad frente al sector, su entorno y sus riesgos permite decidir mejor.
 
-**Título:** Tres productos hoy. Más en camino. Un solo aliado.
+*(Se retiró "Cierres a mano": Novum no se posiciona como una solución contra Excel. No se incluye "Planeación, riesgos y presupuesto trabajando por separado" para evitar cualquier lectura de suite integrada.)*
 
-**Introducción:** Cada producto resuelve un frente distinto de la gestión de su entidad y se contrata por separado. Todos con el mismo criterio sectorial y el mismo acompañamiento.
+### 5.3 Soluciones — "Tecnología especializada para el sector solidario."
+
+**Introducción:** Cada solución resuelve un frente distinto de la gestión de su entidad y se contrata por separado, con el mismo criterio sectorial y el mismo acompañamiento.
 
 **SIAR — Sistema Integral de Administración de Riesgos**
-Riesgo de crédito con segmentación de cartera, análisis de deterioro y mapas de riesgo. Comités de expertos con calificación individual y trazabilidad completa para auditoría. Indicadores macroeconómicos actualizados automáticamente y comparativo de su entidad frente al sector. El informe integral de riesgos se exporta con un clic.
-Construido sobre los estándares de la Superintendencia Financiera y la norma ISO 31000, para que su entidad esté por encima de lo que exige la Supersolidaria, no apenas al día.
-*[Etiqueta de estado sugerida: "En pruebas con datos reales". Liquidez, operativo, mercado y LA/FT en las siguientes fases.]*
+*Gestión integral de riesgos para el sector solidario.*
+Una solución orientada a fortalecer la gestión de riesgos mediante metodologías, medición, control, monitoreo, matrices, indicadores y evidencias.
+Diseñado tomando como referencia buenas prácticas de gestión de riesgos, ISO 31000 y referentes técnicos aplicables al sistema financiero, adaptados a las necesidades del sector solidario.
+*(Afirmación regulatoria prudente: no promete cumplimiento, no presenta normas de la Superintendencia Financiera como obligación para entidades vigiladas por Supersolidaria. Constelación con los mismos siete conceptos — se sustituyó "seguimiento" por "control" para evitar redundancia con "monitoreo".)*
+*(Comunicación metodológica a propósito: no se listan funcionalidades hasta verificarlas contra el producto. Sin "informe integral con un clic", sin "indicadores macro automáticos", sin fases.)*
 
-**Presupuesto y ejecución presupuestal**
-Formulación, proyección y seguimiento presupuestal pensados para entidades del sector solidario. Escenarios, ejecución en tiempo real y alertas cuando una partida se desvía.
-*[Etiqueta de estado sugerida: "En desarrollo".]*
+**Presupuesto** — Planeación, construcción, seguimiento y análisis presupuestal orientado a la toma de decisiones.
 
-**Planeación estratégica**
-Objetivos, indicadores y responsables en un solo lugar, con seguimiento periódico. Para que la planeación estratégica deje de ser un documento anual y se convierta en seguimiento.
-*[Etiqueta de estado sugerida: "En diseño".]*
+**Planeación estratégica** — Objetivos, indicadores, iniciativas, responsables y seguimiento dentro de una metodología estructurada.
 
-*[Pregunta para la revisión: ¿mostrar el estado de cada módulo suma credibilidad o resta? Ver sección 8.]*
+**Más soluciones** — Seguimos construyendo herramientas especializadas para las necesidades reales del sector solidario.
+
+*(Sin estados, sin porcentajes, sin fechas, sin hoja de ruta. Sin mockup de interfaz hasta tener capturas reales; SIAR mantiene jerarquía con su constelación metodológica.)*
 
 ### 5.4 Por qué es distinto
 
-**Analítica en todo.** Cada módulo incluye analítica de datos. No es un informe aparte que se compra después.
+**Analítica para decidir.** La información adquiere valor cuando permite interpretar, comparar y tomar decisiones con mayor criterio.
 
-**Evidencia para la auditoría, creada en el proceso.** Las calificaciones de los comités quedan registradas persona por persona. Cuando llega la revisoría fiscal o la Supersolidaria, el soporte ya existe.
+**Evidencia para la gestión.** Una gestión sólida requiere metodologías, soportes, trazabilidad y evidencia que permitan entender cómo se toman y se siguen las decisiones.
 
-**Su entidad frente al sector.** No solo sus propios números: dónde está frente al promedio en cobertura, deterioro y crecimiento.
+**Su entidad en contexto.** Los indicadores propios cuentan una parte de la historia. Entender el comportamiento del sector y del entorno aporta contexto para interpretar mejor los resultados.
 
-**Diagnóstico antes que software.** Empezamos midiendo la madurez del sistema de riesgos de su entidad. Cada seis meses se repite, para ver la evolución con datos y no con impresiones.
+**Diagnóstico antes que solución.** Antes de recomendar herramientas o acompañamiento, buscamos entender el nivel de madurez, las brechas y las necesidades reales de la entidad.
 
-### 5.5 Servicios — "Cómo acompañamos"
+*(Reescritos como propuesta de enfoque, no como funcionalidades: se retiraron "cada módulo incluye analítica", "calificaciones de comités registradas persona por persona" y el comparativo sectorial automático.)*
+
+### 5.5 Acompañamiento — "Cómo acompañamos"
 
 **Introducción:** El software es la herramienta. El acompañamiento es lo que hace que funcione dentro de la entidad.
 
@@ -157,23 +163,31 @@ Objetivos, indicadores y responsables en un solo lugar, con seguimiento periódi
 
 **Capacitación.** Para consejos, juntas, comités y equipos operativos. Metodologías activas, no presentaciones de tres horas.
 
-**Transformación digital.** Acompañamiento para pasar del Excel a procesos digitales, a la medida de entidades pequeñas y medianas.
+**Auditoría SIAR.** Evaluamos el nivel de implementación y madurez del Sistema Integral de Administración de Riesgos de su entidad, así como su alineación con los requerimientos aplicables, e identificamos fortalezas, brechas y oportunidades de mejora en gobierno, metodologías, documentación, controles, monitoreo y evidencia. *(Es la auditoría del sistema de la entidad, no del software Novum. No implica certificación.)*
 
-**Oficial de cumplimiento.** Un rol que la norma exige y que una entidad pequeña no siempre puede sostener de planta. Lo asumimos con el criterio y la evidencia que pide la Supersolidaria. *[Validar con Yorgi la redacción y el alcance legal del servicio: si se asume el rol o se presta apoyo al oficial designado.]*
+**Oficial de cumplimiento.** Acompañamiento especializado para fortalecer la gestión de cumplimiento, el seguimiento y la documentación requerida por la entidad. *[Formulación neutral a propósito: no afirma que Novum asuma el cargo ni reemplace al oficial designado. Se actualizará cuando se defina jurídicamente si Novum puede asumir ese rol en determinadas entidades.]*
 
-**Gestor de riesgos.** Gestión de riesgos tercerizada: comités, indicadores, informes y seguimiento, con la misma trazabilidad que deja SIAR. *[Validar alcance.]*
+**Gestor de riesgos.** Gestión de riesgos tercerizada: comités, indicadores, informes y seguimiento. *[Validar alcance legal.]*
 
-### 5.6 Nosotros — "Conocemos el sector desde adentro"
+### 5.6 Nosotros — "Experiencia que entiende el sector"
 
-**Declaración institucional (pública, siempre visible):**
+**Texto base:** Novum integra profesionales con experiencia en gestión financiera, riesgos, cumplimiento, tecnología, analítica, planeación, procesos y dirección de organizaciones del sector solidario.
 
-Novum Integral SAS es una empresa colombiana de software y consultoría especializada en el sector de economía solidaria: cooperativas de ahorro y crédito, fondos de empleados y asociaciones mutuales. Desarrollamos SIAR, un sistema integral de administración de riesgos, y productos independientes para presupuesto y planeación estratégica, y acompañamos a las entidades con diagnóstico, implementación, capacitación y servicios especializados como oficial de cumplimiento y gestor de riesgos. Somos un equipo pequeño y especializado, con experiencia directa en el sector.
+**Complemento:** Nuestro equipo combina experiencia práctica en cooperativas, fondos de empleados, asociaciones mutuales, sistemas de administración de riesgos, transformación de procesos y desarrollo tecnológico.
+
+**Capacidades:** Riesgos · Finanzas · Cumplimiento · Planeación · Analítica · Tecnología.
+
+*(Sin nombres, fotografías, cargos ni años individuales. La palabra "pequeño" se elimina de la comunicación pública: el tamaño no es parte de la propuesta de valor.)*
+
+**Declaración institucional (pública, siempre visible — en el pie de página):**
+
+Novum Integral SAS es una empresa colombiana de software y consultoría especializada en el sector de economía solidaria: cooperativas de ahorro y crédito, fondos de empleados y asociaciones mutuales. Desarrollamos SIAR, un sistema integral de administración de riesgos, y productos independientes para presupuesto y planeación estratégica, y acompañamos a las entidades con diagnóstico, implementación, capacitación y servicios especializados como oficial de cumplimiento y gestor de riesgos. Somos un equipo especializado, con experiencia directa en el sector.
 
 *[Ciudad: agregar "desde [ciudad]" cuando se confirme.]*
 
 **Perfiles del equipo:**
 
-> **Los perfiles se construyen completos pero quedan OCULTOS en el sitio público** hasta que el equipo los apruebe. Visibles solo en despliegues de vista previa (`NEXT_PUBLIC_SHOW_TEAM`). La declaración institucional de arriba **no** depende de esa variable. Sin fotografías por ahora. Los roles y las líneas de perfil son un **borrador** para que cada persona los ajuste.
+> **Los perfiles individuales NO se publican.** Siguen en código y solo se renderizan con `NEXT_PUBLIC_SHOW_TEAM=true` (nunca en producción). Se conservan por si más adelante se decide presentarlos.
 
 **Yorgi Celiar Ríos Epalza** — Riesgos y sector solidario
 Administrador financiero, especialista en riesgos. Ocho años de experiencia en el sector solidario.
@@ -215,6 +229,7 @@ Ingeniero de sistemas.
 - Novum Integral SAS
 - Inteligencia que anticipa, análisis que transforma, decisiones que generan valor.
 - Ingresar a la plataforma → `app.novumintegral.com`
+- Línea institucional corta: "Software y acompañamiento especializado para el sector solidario." *(La declaración institucional completa vive en el JSON-LD y en la descripción de metadatos; el footer no es una sección de contenido.)*
 - Política de tratamiento de datos personales *[pendiente de redactar]*
 - LinkedIn *[pendiente: la página de empresa aún no existe]*
 - © 2026 Novum Integral SAS
