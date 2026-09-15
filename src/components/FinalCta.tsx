@@ -2,34 +2,32 @@ import { contact, cta, finalCta } from "@/content/site";
 import { chatLink, demoLink } from "@/lib/links";
 import { ButtonLink } from "@/components/ButtonLink";
 import { SectionHeading } from "@/components/SectionHeading";
+import { DESKTOP, inputPath, outputPath } from "@/components/systemGeometry";
 
 /** La única banda oscura de la página (design system §2), con el motivo del sistema en marca de agua. */
 function Watermark() {
+  const D = DESKTOP;
+  const inputs = D.groups.flatMap((g) => g.nodes);
   return (
     <svg
-      viewBox="0 0 800 600"
+      viewBox={D.viewBox}
       aria-hidden="true"
       className="pointer-events-none absolute -right-40 top-1/2 hidden h-[135%] w-auto -translate-y-1/2 opacity-[0.12] lg:block"
     >
       <g fill="none" stroke="#ffffff" strokeWidth="1.25" strokeLinecap="round">
-        <path d="M 148 190 C 270 190 270 300 376 300" />
-        <path d="M 148 300 C 262 300 262 300 376 300" />
-        <path d="M 148 410 C 270 410 270 300 376 300" />
-        <path d="M 424 300 C 500 300 500 225 582 225" />
-        <path d="M 424 300 C 500 300 500 375 582 375" />
-        <path d="M 598 225 C 670 225 670 300 720 300" />
-        <path d="M 598 375 C 670 375 670 300 720 300" />
-        <circle cx="140" cy="190" r="6" />
-        <circle cx="140" cy="300" r="6" />
-        <circle cx="140" cy="410" r="6" />
-        <circle cx="400" cy="300" r="26" />
-        <circle cx="400" cy="300" r="64" strokeOpacity="0.5" />
-        <circle cx="590" cy="225" r="8" />
-        <circle cx="590" cy="375" r="8" />
-        <circle cx="730" cy="300" r="18" />
+        {inputs.map((n) => (
+          <path key={n.label} d={inputPath(n, D.center.x, D.center.y)} />
+        ))}
+        <path d={outputPath(D.center.x, D.center.y, D.output.x, D.output.y)} />
+        {inputs.map((n) => (
+          <circle key={n.label} cx={n.x} cy={n.y} r="6.5" />
+        ))}
+        <circle cx={D.center.x} cy={D.center.y} r="32" />
+        <circle cx={D.center.x} cy={D.center.y} r="66" strokeOpacity="0.5" />
+        <circle cx={D.output.x} cy={D.output.y} r="19" />
       </g>
-      <circle cx="400" cy="300" r="14" fill="#ffffff" />
-      <circle cx="730" cy="300" r="10" fill="var(--color-green-500)" />
+      <circle cx={D.center.x} cy={D.center.y} r="16" fill="#ffffff" />
+      <circle cx={D.output.x} cy={D.output.y} r="11" fill="var(--color-green-500)" />
     </svg>
   );
 }

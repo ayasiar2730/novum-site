@@ -10,14 +10,14 @@ Este documento reúne todo lo necesario para revisar y luego construir la primer
 
 **Novum Integral SAS** es una empresa colombiana de software y consultoría para el **sector de economía solidaria**: cooperativas de ahorro y crédito, fondos de empleados y asociaciones mutuales. Está en proceso de constitución (solicitud radicada en Cámara de Comercio, CIIU principal 7020 — consultoría de gestión; secundarios 6201 y 6311 — desarrollo de software y procesamiento de datos).
 
-**Qué ofrece.** Una plataforma integral con tres módulos que comparten los mismos datos, más servicios de acompañamiento:
+**Qué ofrece.** Productos de software **independientes** — hoy tres, con más en camino; cada uno se contrata por separado y no comparten datos entre sí — más servicios de acompañamiento:
 
 | Línea | Qué es | Estado hoy |
 |---|---|---|
 | **SIAR** — Sistema Integral de Administración de Riesgos | Riesgo de crédito (SARC) como primer módulo; liquidez, operativo, mercado y LA/FT en fases siguientes | En pruebas con datos reales anonimizados. Aplicación en `app.novumintegral.com` |
-| **Presupuesto y ejecución presupuestal** | Presupuesto por escenarios y seguimiento de ejecución, integrado con los indicadores de riesgo | En desarrollo |
+| **Presupuesto y ejecución presupuestal** | Formulación, proyección y seguimiento presupuestal por escenarios, pensado para el sector solidario | En desarrollo |
 | **Planeación estratégica** | Objetivos, indicadores, responsables y seguimiento | En diseño |
-| **Servicios** | Diagnóstico de madurez, consultoría e implementación, capacitación, transformación digital | Disponibles |
+| **Servicios** | Diagnóstico de madurez, consultoría e implementación, capacitación, transformación digital, **oficial de cumplimiento, gestor de riesgos** | Disponibles |
 
 **Modelo de negocio.** Licenciamiento mensual del software + servicios de consultoría, diagnóstico y acompañamiento.
 
@@ -118,7 +118,9 @@ Tres páginas, una por línea de producto, con una misma plantilla: para quién 
 
 ### 5.3 Las líneas de producto — "Lo que construimos"
 
-**Introducción:** Una sola plataforma, tres módulos que comparten los mismos datos. Su entidad contrata lo que necesita hoy y amplía cuando crece.
+**Título:** Tres productos hoy. Más en camino. Un solo aliado.
+
+**Introducción:** Cada producto resuelve un frente distinto de la gestión de su entidad y se contrata por separado. Todos con el mismo criterio sectorial y el mismo acompañamiento.
 
 **SIAR — Sistema Integral de Administración de Riesgos**
 Riesgo de crédito con segmentación de cartera, análisis de deterioro y mapas de riesgo. Comités de expertos con calificación individual y trazabilidad completa para auditoría. Indicadores macroeconómicos actualizados automáticamente y comparativo de su entidad frente al sector. El informe integral de riesgos se exporta con un clic.
@@ -126,11 +128,11 @@ Construido sobre los estándares de la Superintendencia Financiera y la norma IS
 *[Etiqueta de estado sugerida: "En pruebas con datos reales". Liquidez, operativo, mercado y LA/FT en las siguientes fases.]*
 
 **Presupuesto y ejecución presupuestal**
-Presupuesto por escenarios, seguimiento de la ejecución y alertas cuando una partida se desvía. Integrado con los indicadores de riesgo, para que el presupuesto refleje la cartera real y no solo el histórico.
+Formulación, proyección y seguimiento presupuestal pensados para entidades del sector solidario. Escenarios, ejecución en tiempo real y alertas cuando una partida se desvía.
 *[Etiqueta de estado sugerida: "En desarrollo".]*
 
 **Planeación estratégica**
-Objetivos, indicadores y responsables en un solo lugar, con seguimiento periódico. Cierra el ciclo: lo que la entidad define en la planeación se mide en el presupuesto y se controla en los riesgos.
+Objetivos, indicadores y responsables en un solo lugar, con seguimiento periódico. Para que la planeación estratégica deje de ser un documento anual y se convierta en seguimiento.
 *[Etiqueta de estado sugerida: "En diseño".]*
 
 *[Pregunta para la revisión: ¿mostrar el estado de cada módulo suma credibilidad o resta? Ver sección 8.]*
@@ -157,11 +159,15 @@ Objetivos, indicadores y responsables en un solo lugar, con seguimiento periódi
 
 **Transformación digital.** Acompañamiento para pasar del Excel a procesos digitales, a la medida de entidades pequeñas y medianas.
 
+**Oficial de cumplimiento.** Un rol que la norma exige y que una entidad pequeña no siempre puede sostener de planta. Lo asumimos con el criterio y la evidencia que pide la Supersolidaria. *[Validar con Yorgi la redacción y el alcance legal del servicio: si se asume el rol o se presta apoyo al oficial designado.]*
+
+**Gestor de riesgos.** Gestión de riesgos tercerizada: comités, indicadores, informes y seguimiento, con la misma trazabilidad que deja SIAR. *[Validar alcance.]*
+
 ### 5.6 Nosotros — "Conocemos el sector desde adentro"
 
 **Declaración institucional (pública, siempre visible):**
 
-Novum Integral SAS es una empresa colombiana de software y consultoría especializada en el sector de economía solidaria: cooperativas de ahorro y crédito, fondos de empleados y asociaciones mutuales. Construimos SIAR, un sistema integral de administración de riesgos, y módulos de presupuesto y planeación estratégica que comparten los mismos datos, acompañados de diagnóstico, implementación y capacitación. Somos un equipo pequeño y especializado, con experiencia directa en el sector.
+Novum Integral SAS es una empresa colombiana de software y consultoría especializada en el sector de economía solidaria: cooperativas de ahorro y crédito, fondos de empleados y asociaciones mutuales. Desarrollamos SIAR, un sistema integral de administración de riesgos, y productos independientes para presupuesto y planeación estratégica, y acompañamos a las entidades con diagnóstico, implementación, capacitación y servicios especializados como oficial de cumplimiento y gestor de riesgos. Somos un equipo pequeño y especializado, con experiencia directa en el sector.
 
 *[Ciudad: agregar "desde [ciudad]" cuando se confirme.]*
 

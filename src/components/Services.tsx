@@ -1,7 +1,7 @@
 import { services } from "@/content/site";
 import { SectionHeading } from "@/components/SectionHeading";
 
-/** Lista 2 × 2 con divisores de 1 px y estado hover. Sin íconos, sin tarjetas. */
+/** Lista con divisores de 1 px (2 columnas en tablet, 3 en escritorio) y estado hover. Sin íconos, sin tarjetas. */
 export function Services() {
   return (
     <section
@@ -18,13 +18,13 @@ export function Services() {
             intro={services.intro}
           />
         </div>
-        <div className="mt-14 grid border-t border-l border-neutral-100 md:grid-cols-2">
+        <div className="mt-14 grid border-t border-l border-neutral-100 md:grid-cols-2 lg:grid-cols-3">
           {services.items.map((item, i) => (
             <div
               key={item.title}
               className="group flex flex-col gap-4 border-r border-b border-neutral-100 px-6 py-9 transition-colors duration-200 hover:bg-neutral-50 md:px-10 md:py-12"
               data-reveal
-              style={{ transitionDelay: `${(i % 2) * 60}ms` }}
+              style={{ transitionDelay: `${(i % 3) * 60}ms` }}
             >
               <div className="flex items-baseline justify-between gap-4">
                 <h3 className="text-h3 md:text-h2-sm text-neutral-950 transition-colors duration-200 group-hover:text-purple-900">

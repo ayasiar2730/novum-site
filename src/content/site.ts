@@ -13,7 +13,7 @@ export const site = {
   metaDescription:
     "Empresa colombiana de software y consultoría para cooperativas, fondos de empleados y mutuales: gestión de riesgos, presupuesto y planeación estratégica.",
   institutional:
-    "Novum Integral SAS es una empresa colombiana de software y consultoría especializada en el sector de economía solidaria: cooperativas de ahorro y crédito, fondos de empleados y asociaciones mutuales. Construimos SIAR, un sistema integral de administración de riesgos, y módulos de presupuesto y planeación estratégica que comparten los mismos datos, acompañados de diagnóstico, implementación y capacitación. Somos un equipo pequeño y especializado, con experiencia directa en el sector.",
+    "Novum Integral SAS es una empresa colombiana de software y consultoría especializada en el sector de economía solidaria: cooperativas de ahorro y crédito, fondos de empleados y asociaciones mutuales. Desarrollamos SIAR, un sistema integral de administración de riesgos, y productos independientes para presupuesto y planeación estratégica, y acompañamos a las entidades con diagnóstico, implementación, capacitación y servicios especializados como oficial de cumplimiento y gestor de riesgos. Somos un equipo pequeño y especializado, con experiencia directa en el sector.",
   year: 2026,
 } as const;
 
@@ -110,8 +110,9 @@ export type ProductStatus = "pruebas" | "desarrollo" | "diseno";
 
 export const products = {
   eyebrow: "Lo que construimos",
-  title: "Una sola plataforma, tres módulos que comparten los mismos datos.",
-  intro: "Su entidad contrata lo que necesita hoy y amplía cuando crece.",
+  title: "Tres productos hoy. Más en camino. Un solo aliado.",
+  intro:
+    "Cada producto resuelve un frente distinto de la gestión de su entidad y se contrata por separado. Todos con el mismo criterio sectorial y el mismo acompañamiento.",
   siar: {
     name: "SIAR",
     fullName: "Sistema Integral de Administración de Riesgos",
@@ -133,12 +134,12 @@ export const products = {
     {
       name: "Presupuesto y ejecución presupuestal",
       status: "desarrollo" as ProductStatus,
-      body: "Presupuesto por escenarios, seguimiento de la ejecución y alertas cuando una partida se desvía. Integrado con los indicadores de riesgo, para que el presupuesto refleje la cartera real y no solo el histórico.",
+      body: "Formulación, proyección y seguimiento presupuestal pensados para entidades del sector solidario. Escenarios, ejecución en tiempo real y alertas cuando una partida se desvía.",
     },
     {
       name: "Planeación estratégica",
       status: "diseno" as ProductStatus,
-      body: "Objetivos, indicadores y responsables en un solo lugar, con seguimiento periódico. Cierra el ciclo: lo que la entidad define en la planeación se mide en el presupuesto y se controla en los riesgos.",
+      body: "Objetivos, indicadores y responsables en un solo lugar, con seguimiento periódico. Para que la planeación estratégica deje de ser un documento anual y se convierta en seguimiento.",
     },
   ],
 } as const;
@@ -146,7 +147,8 @@ export const products = {
 export const roadmap = {
   title: "Hoja de ruta",
   intro:
-    "Un solo sistema que crece módulo a módulo. El orden es deliberado: los riesgos alimentan el presupuesto, y ambos la planeación.",
+    "SIAR sale primero porque es el producto más maduro. Presupuesto y planeación siguen su propio camino, y el portafolio seguirá creciendo.",
+  next: { name: "Próximos productos", note: "El portafolio sigue creciendo" },
 } as const;
 
 export const statusLabel: Record<ProductStatus, string> = {
@@ -198,6 +200,14 @@ export const services = {
     {
       title: "Transformación digital",
       body: "Acompañamiento para pasar del Excel a procesos digitales, a la medida de entidades pequeñas y medianas.",
+    },
+    {
+      title: "Oficial de cumplimiento",
+      body: "Un rol que la norma exige y que una entidad pequeña no siempre puede sostener de planta. Lo asumimos con el criterio y la evidencia que pide la Supersolidaria.",
+    },
+    {
+      title: "Gestor de riesgos",
+      body: "Gestión de riesgos tercerizada: comités, indicadores, informes y seguimiento, con la misma trazabilidad que deja SIAR.",
     },
   ],
 } as const;

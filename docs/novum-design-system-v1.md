@@ -128,46 +128,30 @@ Misma forma, mismo tamaño, misma posición en los tres productos. La diferencia
 
 ---
 
-## 6. Hero — "El sistema que conecta las decisiones"
+## 6. Hero — "Un solo aliado, todas las dimensiones"
+
+**Lo que representa, y es verdad del negocio:** productos de software independientes — SIAR, Presupuesto, Planeación, y más por venir — más los servicios de acompañamiento, convergen en **la entidad**, que es quien decide. **No representa dependencias de datos entre productos: no las hay.** (Sustituye la composición anterior, que ponía a SIAR en el centro y hacía parecer que presupuesto y planeación salían de él.)
 
 ### Composición (escritorio)
 
-Dos columnas. Izquierda (5/12): etiqueta, título display, subtítulo, dos botones, eslogan en pequeño. Derecha (7/12): la composición del sistema.
+Dos columnas (6/6 desde `xl`). Izquierda: etiqueta con regla, título display con la frase clave en morado-700, subtítulo, botones, eslogan. Derecha: SVG inline con viewBox `34 34 766 420`; la geometría vive en `src/components/systemGeometry.ts` y la comparte la marca de agua del CTA.
 
-La composición es un **SVG inline** de proporción 4:3, sobre una retícula de puntos de 24 px en `--neutral-100`. Estructura:
-
-```
-   CARTERA ─┐
-   DATOS  ──┼──▶  ( SIAR )  ──┬──▶  PRESUPUESTO  ─┐
-   MACRO  ──┘                 └──▶  PLANEACIÓN  ──┼──▶  ● DECISIÓN
-                                                   ┘
-```
-
-- **Nodos de entrada** (CARTERA, DATOS, MACRO): anillos de 1.5 px en `--purple-500`, diámetro 12 px, etiqueta a la izquierda en 12 px mayúsculas `--neutral-500`.
-- **SIAR:** el nodo central, el más grande (28 px), relleno `--purple-700`, etiqueta debajo en 13 px 600 `--purple-900`. Un anillo exterior tenue a 8 px en `--purple-100`.
-- **PRESUPUESTO y PLANEACIÓN:** anillos 16 px en `--purple-700`.
-- **DECISIÓN:** el único nodo verde, relleno `--green-500`, 20 px, etiqueta en `--green-700`.
-- **Conexiones:** curvas suaves (cubic bezier, nunca ángulos rectos), 1.25 px, `--purple-500` al 60 % de opacidad. Las que llegan a DECISIÓN se degradan a `--green-500` en el último tercio.
-- Sin flechas dibujadas. La dirección se lee por el flujo izquierda→derecha y por el motion.
-
-Debe leerse como un sistema, no como un organigrama. Si al verlo la reacción es "es un diagrama", hay que bajar contraste de líneas y subir la calidad del espaciado.
+- **Dos grupos de entrada** a la izquierda, con etiqueta de grupo en 11px mayúsculas morado-700: **SOFTWARE** (SIAR · PRESUPUESTO · PLANEACIÓN · MÁS MÓDULOS, este último con anillo punteado neutral-500) y **ACOMPAÑAMIENTO** (DIAGNÓSTICO · IMPLEMENTACIÓN · CAPACITACIÓN · CUMPLIMIENTO). Nodos: anillos r=6.5 en morado-500 sobre neutral-50; etiquetas 13.5px 600 neutral-700 a la izquierda del nodo.
+- **SU ENTIDAD**: nodo central, r=32 blanco con anillo morado-100, núcleo r=16 morado-700; campo radial morado (16 %) y dos anillos de campo (r=66 y r=98 punteado) en morado-100. Etiqueta 13px 700 morado-900.
+- **DECISIÓN**: único nodo verde, r=11 con anillo pulsante r=19 al 35 %; campo radial verde (22 %); etiqueta verde-700.
+- **Conexiones**: curvas cúbicas con tangentes horizontales, 1.5px, morado-500 al 55 %. La de salida degrada a verde en su último tramo.
 
 ### Móvil
 
-La composición baja debajo del texto y se simplifica a **cuatro nodos en vertical**: DATOS → SIAR → PRESUPUESTO · PLANEACIÓN → DECISIÓN. Alto máximo 320 px. Si no cabe con dignidad en 320 px de ancho, se muestra solo la franja SIAR → DECISIÓN.
+viewBox `0 0 320 370`: dos filas de tres nodos (SOFTWARE arriba, ACOMPAÑAMIENTO debajo) con etiquetas de 9.5px bajo cada nodo, que convergen hacia abajo en SU ENTIDAD (r=24), y de ahí en línea recta a DECISIÓN. Alto máximo 370.
 
 ### Motion del hero
 
-- Al cargar: las conexiones se **trazan** (`stroke-dashoffset`) de izquierda a derecha en 1 200 ms con `cubic-bezier(.2,.8,.2,1)`, en cascada de 120 ms por conexión; los nodos aparecen al llegar el trazo. Todo en CSS.
-- En reposo: el nodo DECISIÓN respira con una pulsación de opacidad del anillo exterior cada 4 s. Nada más se mueve.
-- **Con `prefers-reduced-motion: reduce`:** la composición aparece completa e inmóvil. El contenido es idéntico.
-- La composición está **visible en el primer fotograma** aunque falle el JavaScript: el estado inicial del SVG es el estado final; la animación solo se aplica si la clase de "listo" llega.
+Solo con `html.js` (lo pone `MotionRoot` tras montar): las conexiones se trazan con `stroke-dashoffset` en 1.3s, con retardo incremental de 80ms en orden de entrada; los grupos aparecen escalonados (0 y 0.25s); el centro a 0.7s y DECISIÓN a 1.5s; el anillo de DECISIÓN pulsa cada 4s a partir de 2.4s. **Sin JavaScript o con `prefers-reduced-motion`, la composición está completa e inmóvil desde el primer fotograma.**
 
 ### Fondo
 
-`--neutral-50`. Sin gradiente. La retícula de puntos y la composición son todo el fondo que el hero necesita.
-
----
+`--neutral-50` con **luz ambiental** (`glow-hero`: radial morado-500 al 11 % y verde-500 al 9 %, muy difusas) y la retícula de puntos enmascarada detrás de la composición. La luz es atmósfera, no color de sección: sigue sin haber gradientes de sección.
 
 ## 7. Tratamiento por sección — reglas anti-plantilla
 
@@ -227,7 +211,7 @@ La composición baja debajo del texto y se simplifica a **cuatro nodos en vertic
 
 ## 11. Lo que este sistema prohíbe explícitamente
 
-- Gradientes de fondo en secciones. (El único degradado permitido es el del último tercio de las líneas hacia DECISIÓN.)
+- Gradientes de color en secciones. (Se permiten: el degradado del último tramo de la línea hacia DECISIÓN, y la **luz ambiental** de baja opacidad de `glow-hero` y `glow-dark`, que es iluminación, no color de fondo.)
 - Más de una banda oscura.
 - Tarjetas con la misma sombra y el mismo radio repetidas en fila.
 - Verde `--green-500` como texto sobre fondo claro.

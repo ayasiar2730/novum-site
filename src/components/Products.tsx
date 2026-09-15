@@ -5,12 +5,18 @@ import { ProductFrame } from "@/components/ProductFrame";
 
 /**
  * SIAR a ancho completo con esqueleto de interfaz; después, la hoja de ruta
- * que conecta los tres módulos con el lenguaje de nodos del hero
- * (es una secuencia real, así que la línea que los une es legítima),
- * y Presupuesto / Planeación compactos debajo.
+ * (orden de salida de productos independientes — no dependencias de datos —
+ * con el lenguaje de nodos del hero), y Presupuesto / Planeación debajo.
  */
 
-function RoadmapNode({ status }: { status: ProductStatus }) {
+function RoadmapNode({ status }: { status: ProductStatus | "futuro" }) {
+  if (status === "futuro") {
+    return (
+      <span className="flex h-5 w-5 items-center justify-center">
+        <span className="h-3.5 w-3.5 rounded-full border-[1.5px] border-dashed border-neutral-500 bg-neutral-0" />
+      </span>
+    );
+  }
   if (status === "pruebas") {
     return (
       <span className="relative flex h-5 w-5 items-center justify-center">
@@ -35,9 +41,10 @@ function RoadmapNode({ status }: { status: ProductStatus }) {
 
 export function Products() {
   const { siar, others } = products;
-  const steps = [
-    { name: siar.name, status: siar.status },
-    ...others.map((p) => ({ name: p.name, status: p.status })),
+  const steps: { name: string; status: ProductStatus | "futuro"; note: string }[] = [
+    { name: siar.name, status: siar.status, note: statusLabel[siar.status] },
+    ...others.map((p) => ({ name: p.name, status: p.status, note: statusLabel[p.status] })),
+    { name: roadmap.next.name, status: "futuro", note: roadmap.next.note },
   ];
 
   return (
@@ -96,7 +103,7 @@ export function Products() {
               <p className="mt-4 text-body-sm text-neutral-700">{roadmap.intro}</p>
             </div>
             <ol
-              className="relative grid gap-6 sm:grid-cols-3 lg:col-span-8"
+              className="relative grid gap-6 sm:grid-cols-4 lg:col-span-8"
               aria-label="Estado de los módulos"
             >
               <span
@@ -107,7 +114,7 @@ export function Products() {
                 <li key={step.name} className="relative flex flex-col gap-3 sm:pr-6">
                   <RoadmapNode status={step.status} />
                   <p className="text-body-sm font-semibold text-neutral-950">{step.name}</p>
-                  <p className="text-small text-neutral-500">{statusLabel[step.status]}</p>
+                  <p className="text-small text-neutral-500">{step.note}</p>
                 </li>
               ))}
             </ol>
