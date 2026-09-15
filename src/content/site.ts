@@ -41,14 +41,22 @@ export const cta = {
 
 export const hero = {
   eyebrow: "Software y consultoría para el sector solidario",
+  titleAccent: "Gestión de riesgos, presupuesto y planeación",
   title: "Gestión de riesgos, presupuesto y planeación para cooperativas, fondos de empleados y mutuales.",
   subtitle:
     "Una plataforma integral y un equipo que conoce el sector, para que su entidad cumpla con la norma y decida con datos.",
+  facts: [
+    { label: "Sector", value: "Cooperativas, fondos de empleados y mutuales" },
+    { label: "Estándares", value: "Superintendencia Financiera · ISO 31000" },
+    { label: "Estado", value: "SIAR en pruebas con datos reales" },
+  ],
 } as const;
 
 export const problem = {
   eyebrow: "El problema",
   title: "Lo que vemos en las entidades del sector",
+  intro:
+    "Tres situaciones que se repiten en entidades pequeñas y medianas, y que ningún reporte trimestral resuelve por sí solo.",
   items: [
     {
       title: "Cierres a mano.",
@@ -112,6 +120,12 @@ export const products = {
       "Riesgo de crédito con segmentación de cartera, análisis de deterioro y mapas de riesgo. Comités de expertos con calificación individual y trazabilidad completa para auditoría. Indicadores macroeconómicos actualizados automáticamente y comparativo de su entidad frente al sector. El informe integral de riesgos se exporta con un clic.",
       "Construido sobre los estándares de la Superintendencia Financiera y la norma ISO 31000, para que su entidad esté por encima de lo que exige la Supersolidaria, no apenas al día.",
     ],
+    features: [
+      "Segmentación de cartera, análisis de deterioro y mapas de riesgo",
+      "Comités de expertos con calificación individual y trazabilidad para auditoría",
+      "Indicadores macroeconómicos automáticos y comparativo frente al sector",
+      "Informe integral de riesgos exportable con un clic",
+    ],
     roadmap: "Riesgo de crédito primero; liquidez, operativo, mercado y LA/FT en las siguientes fases.",
     frameCaption: "Captura del módulo SARC · Fase 1",
   },
@@ -127,6 +141,12 @@ export const products = {
       body: "Objetivos, indicadores y responsables en un solo lugar, con seguimiento periódico. Cierra el ciclo: lo que la entidad define en la planeación se mide en el presupuesto y se controla en los riesgos.",
     },
   ],
+} as const;
+
+export const roadmap = {
+  title: "Hoja de ruta",
+  intro:
+    "Un solo sistema que crece módulo a módulo. El orden es deliberado: los riesgos alimentan el presupuesto, y ambos la planeación.",
 } as const;
 
 export const statusLabel: Record<ProductStatus, string> = {

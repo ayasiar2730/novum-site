@@ -4,7 +4,7 @@ type Variant = "primary" | "secondary" | "onDark" | "onDarkSecondary";
 type Size = "md" | "sm";
 
 const base =
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg font-semibold transition-colors duration-200";
+  "group inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg font-semibold transition-[background-color,border-color,color,box-shadow,transform] duration-200 active:translate-y-px";
 
 const sizes: Record<Size, string> = {
   md: "h-12 px-5 text-small",
@@ -12,11 +12,35 @@ const sizes: Record<Size, string> = {
 };
 
 const variants: Record<Variant, string> = {
-  primary: "bg-purple-700 text-white hover:bg-purple-900",
-  secondary: "border border-neutral-300 text-neutral-900 hover:border-neutral-500",
-  onDark: "bg-green-500 text-purple-900 hover:bg-green-300",
-  onDarkSecondary: "border border-white/35 text-white hover:border-white/70",
+  primary:
+    "bg-purple-700 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_10px_24px_-10px_rgba(75,22,168,0.6)] hover:bg-purple-900 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_14px_28px_-10px_rgba(44,14,114,0.6)]",
+  secondary:
+    "border border-neutral-300 bg-neutral-0 text-neutral-900 hover:border-purple-500 hover:text-purple-900",
+  onDark:
+    "bg-green-500 text-purple-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_10px_24px_-10px_rgba(104,176,74,0.55)] hover:bg-green-300",
+  onDarkSecondary: "border border-white/30 text-white hover:border-white/70 hover:bg-white/5",
 };
+
+function Arrow() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      aria-hidden="true"
+      className="transition-transform duration-200 group-hover:translate-x-0.5"
+    >
+      <path
+        d="M3 8h9M8.5 4.5 12 8l-3.5 3.5"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
 
 export function ButtonLink({
   href,
@@ -24,6 +48,7 @@ export function ButtonLink({
   variant = "primary",
   size = "md",
   external = false,
+  arrow = false,
   className = "",
 }: {
   href: string;
@@ -31,12 +56,14 @@ export function ButtonLink({
   variant?: Variant;
   size?: Size;
   external?: boolean;
+  arrow?: boolean;
   className?: string;
 }) {
   const externalProps = external ? { target: "_blank", rel: "noopener noreferrer" } : {};
   return (
     <a href={href} className={`${base} ${sizes[size]} ${variants[variant]} ${className}`} {...externalProps}>
       {children}
+      {arrow ? <Arrow /> : null}
     </a>
   );
 }

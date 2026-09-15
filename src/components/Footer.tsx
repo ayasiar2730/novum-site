@@ -4,21 +4,21 @@ import { Logo } from "@/components/Logo";
 export function Footer() {
   return (
     <footer className="border-t border-neutral-100 bg-neutral-50">
-      <div className="container-site grid gap-10 py-12 md:grid-cols-12 md:py-16">
-        <div className="flex flex-col gap-4 md:col-span-5">
+      <div className="container-site grid gap-12 py-14 md:grid-cols-12 md:py-20">
+        <div className="flex flex-col gap-5 md:col-span-5">
           <Logo variant="mark" />
-          <p className="font-semibold text-neutral-950">{site.legalName}</p>
-          <p className="measure text-small text-neutral-700">{site.tagline}</p>
+          <p className="text-h3-sm md:text-h3 measure text-neutral-950">{site.tagline}</p>
+          <p className="text-small text-neutral-500">{site.legalName}</p>
         </div>
 
-        <nav aria-label="Pie de página" className="md:col-span-3">
-          <p className="mb-4 text-label uppercase text-neutral-500">Navegación</p>
+        <nav aria-label="Pie de página" className="md:col-span-2 md:col-start-7">
+          <p className="mb-3 text-label uppercase text-neutral-500">Navegación</p>
           <ul className="flex flex-col text-small">
             {nav.map((item) => (
               <li key={item.href}>
                 <a
                   href={item.href}
-                  className="flex min-h-11 items-center text-neutral-700 transition-colors [overflow-wrap:anywhere] hover:text-purple-900"
+                  className="flex min-h-11 items-center text-neutral-700 transition-colors hover:text-purple-900"
                 >
                   {item.label}
                 </a>
@@ -29,7 +29,7 @@ export function Footer() {
                 href={site.appUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex min-h-11 items-center text-neutral-700 transition-colors [overflow-wrap:anywhere] hover:text-purple-900"
+                className="flex min-h-11 items-center text-neutral-700 transition-colors hover:text-purple-900"
               >
                 {cta.app}
               </a>
@@ -38,7 +38,7 @@ export function Footer() {
         </nav>
 
         <div className="md:col-span-4">
-          <p className="mb-4 text-label uppercase text-neutral-500">Contacto</p>
+          <p className="mb-3 text-label uppercase text-neutral-500">Contacto</p>
           <ul className="flex flex-col text-small">
             {contact.emails.map((email) => (
               <li key={email}>

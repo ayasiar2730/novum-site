@@ -207,3 +207,123 @@
   background-image: radial-gradient(circle, var(--color-neutral-100) 1px, transparent 1.5px);
   background-size: 24px 24px;
 }
+
+/* ============================================================
+   Atmósfera — luz ambiental (no color): concepto "integración inteligente"
+   ============================================================ */
+
+@utility glow-hero {
+  background:
+    radial-gradient(55% 60% at 68% 42%, rgba(122, 56, 192, 0.11) 0%, rgba(122, 56, 192, 0) 70%),
+    radial-gradient(35% 40% at 88% 55%, rgba(104, 176, 74, 0.09) 0%, rgba(104, 176, 74, 0) 70%);
+}
+
+@utility glow-dark {
+  background:
+    radial-gradient(50% 70% at 80% 50%, rgba(104, 176, 74, 0.16) 0%, rgba(104, 176, 74, 0) 70%),
+    radial-gradient(40% 60% at 20% 100%, rgba(122, 56, 192, 0.35) 0%, rgba(122, 56, 192, 0) 70%);
+}
+
+/* ============================================================
+   Motion — solo cuando hay JavaScript (.js en <html>).
+   Sin JS, todo es visible e inmóvil. Con reduced-motion, igual.
+   ============================================================ */
+
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.js [data-reveal].in {
+  opacity: 1;
+  transform: none;
+}
+
+/* hero: trazado de conexiones y aparición de nodos */
+.js .hero-system [data-line] {
+  stroke-dasharray: 700;
+  stroke-dashoffset: 700;
+  animation: hero-draw 1.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.js .hero-system [data-line="2"] {
+  animation-delay: 0.1s;
+}
+.js .hero-system [data-line="3"] {
+  animation-delay: 0.2s;
+}
+.js .hero-system [data-line="4"] {
+  animation-delay: 0.55s;
+}
+.js .hero-system [data-line="5"] {
+  animation-delay: 0.65s;
+}
+.js .hero-system [data-line="6"] {
+  animation-delay: 1.05s;
+}
+.js .hero-system [data-line="7"] {
+  animation-delay: 1.15s;
+}
+
+.js .hero-system [data-node] {
+  opacity: 0;
+  animation: hero-appear 0.6s ease-out forwards;
+}
+.js .hero-system [data-node="inputs"] {
+  animation-delay: 0s;
+}
+.js .hero-system [data-node="siar"] {
+  animation-delay: 0.6s;
+}
+.js .hero-system [data-node="modules"] {
+  animation-delay: 1.1s;
+}
+.js .hero-system [data-node="decision"] {
+  animation-delay: 1.6s;
+}
+
+.hero-system [data-pulse] {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hero-pulse 4s ease-in-out 2.2s infinite;
+}
+
+@keyframes hero-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes hero-appear {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes hero-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.18);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .js .hero-system [data-line],
+  .js .hero-system [data-node] {
+    animation: none;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  .hero-system [data-pulse] {
+    animation: none;
+  }
+}
