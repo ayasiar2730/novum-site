@@ -197,8 +197,8 @@ Desde el primer commit:
 - `title`: "Novum Integral — Software y consultoría para el sector solidario". `description`: una frase de la declaración institucional, ≤ 155 caracteres.
 - `canonical`: `https://novumintegral.com/`. `www` redirige al canónico (Vercel lo hace al registrar ambos dominios); sin duplicidad.
 - `robots`: `index, follow`. **Prohibido `noindex` o `nofollow` en el sitio público.**
-- `robots.txt` permisivo con referencia al sitemap; `sitemap.xml` con la única URL de Fase 0.
-- Open Graph y Twitter: `og:title` "Novum Integral", `og:description` "Software y consultoría para el sector solidario.", `og:image` 1200 × 630 (provisional en Corte 1, de marca en Corte 2), `og:locale` `es_CO`.
+- `robots.txt` permisivo con referencia al sitemap; `sitemap.xml` con la única URL de Fase 0 y `lastModified` = `site.contentUpdatedAt` (fecha del último corte editorial, actualizada a mano; nunca la fecha del build).
+- Open Graph y Twitter: `og:title` "Novum Integral | Tecnología, riesgos y gestión para el sector solidario" (`site.ogTitle`), `og:description` "Software y consultoría para el sector solidario.", `og:image` 1200 × 630 (provisional en Corte 1, de marca en Corte 2), `og:locale` `es_CO`.
 - `theme-color` en `--purple-700`. `viewport` correcto. `manifest` en Corte 2.
 - HTML semántico: `header`, `nav`, `main`, `section` con `aria-labelledby`, `footer`. Un solo `h1`. Jerarquía sin saltos. `alt` descriptivo en toda imagen.
 
@@ -258,6 +258,7 @@ Objetivo: que Google, Bing y los sistemas generativos entiendan sin ambigüedad 
 
 ## 13. Accesibilidad — criterios de aceptación (WCAG 2.2 AA)
 
+- Enlace «Saltar al contenido» como primer elemento enfocable (oculto hasta recibir foco) hacia `<main id="contenido" tabindex="-1">`.
 - Navegación completa por teclado; foco visible con anillo `--purple-500` (2 px, desplazado 2 px).
 - Botones reales para acciones, enlaces reales para navegación.
 - Landmarks y jerarquía de encabezados correctos.

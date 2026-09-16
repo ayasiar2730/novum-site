@@ -16,11 +16,19 @@ export const site = {
   tagline: "Inteligencia que anticipa, análisis que transforma, decisiones que generan valor.",
   shortDescription: "Software y consultoría para el sector solidario.",
   footerLine: "Software y acompañamiento especializado para el sector solidario.",
+  /** Título para compartir (Open Graph / Twitter): más descriptivo que el nombre, coherente con el hero. */
+  ogTitle: "Novum Integral | Tecnología, riesgos y gestión para el sector solidario",
   metaDescription:
     "Empresa colombiana de software y consultoría para cooperativas, fondos de empleados y mutuales: gestión de riesgos, presupuesto y planeación estratégica.",
   institutional:
     "Novum Integral SAS es una empresa colombiana de software y consultoría especializada en el sector de economía solidaria: cooperativas de ahorro y crédito, fondos de empleados y asociaciones mutuales. Desarrollamos SIAR, un sistema integral de administración de riesgos, y productos independientes para presupuesto y planeación estratégica, y acompañamos a las entidades con diagnóstico, implementación, capacitación y servicios especializados como oficial de cumplimiento y gestor de riesgos. Somos un equipo especializado, con experiencia directa en el sector.",
   year: 2026,
+  /**
+   * Fecha del último corte editorial publicado (AAAA-MM-DD). Alimenta `lastModified`
+   * del sitemap de forma determinista: se actualiza a mano cuando cambia el contenido,
+   * nunca con la fecha del build.
+   */
+  contentUpdatedAt: "2026-09-16",
 } as const;
 
 export const contact = {
@@ -54,7 +62,7 @@ export const hero = {
     "Una plataforma integral y un equipo que conoce el sector, para que su entidad gestione sus riesgos con método y decida con datos.",
   facts: [
     { label: "Sector", value: "Cooperativas, fondos de empleados y mutuales" },
-    { label: "Estándares", value: "Superintendencia Financiera · ISO 31000" },
+    { label: "Referentes", value: "Superintendencia Financiera · ISO 31000" },
     { label: "Enfoque", value: "Tecnología y acompañamiento especializado" },
   ],
 } as const;

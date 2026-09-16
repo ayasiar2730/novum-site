@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <>
       <Header logo={<Logo variant="light" />} />
-      <main id="contenido" className="flex-1">
+      <main id="contenido" tabIndex={-1} className="flex-1 outline-none">
         <Hero />
         <Problem />
         <Products />
