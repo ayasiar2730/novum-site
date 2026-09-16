@@ -8,27 +8,33 @@ import { DESKTOP, inputPath, outputPath } from "@/components/systemGeometry";
 function Watermark() {
   const D = DESKTOP;
   const inputs = D.groups.flatMap((g) => g.nodes);
+  // El reveal va en el envoltorio: la marca de agua conserva su opacidad propia.
   return (
-    <svg
-      viewBox={D.viewBox}
+    <div
       aria-hidden="true"
-      className="pointer-events-none absolute -right-40 top-1/2 hidden h-[135%] w-auto -translate-y-1/2 opacity-[0.12] lg:block"
+      className="pointer-events-none absolute inset-0 hidden lg:block"
+      data-reveal="scale"
     >
-      <g fill="none" stroke="#ffffff" strokeWidth="1.25" strokeLinecap="round">
-        {inputs.map((n) => (
-          <path key={n.label} d={inputPath(n, D.center.x, D.center.y)} />
-        ))}
-        <path d={outputPath(D.center.x, D.center.y, D.output.x, D.output.y)} />
-        {inputs.map((n) => (
-          <circle key={n.label} cx={n.x} cy={n.y} r="6.5" />
-        ))}
-        <circle cx={D.center.x} cy={D.center.y} r="32" />
-        <circle cx={D.center.x} cy={D.center.y} r="66" strokeOpacity="0.5" />
-        <circle cx={D.output.x} cy={D.output.y} r="19" />
-      </g>
-      <circle cx={D.center.x} cy={D.center.y} r="16" fill="#ffffff" />
-      <circle cx={D.output.x} cy={D.output.y} r="11" fill="var(--color-green-500)" />
-    </svg>
+      <svg
+        viewBox={D.viewBox}
+        className="absolute -right-40 top-1/2 h-[135%] w-auto -translate-y-1/2 opacity-[0.12]"
+      >
+        <g fill="none" stroke="#ffffff" strokeWidth="1.25" strokeLinecap="round">
+          {inputs.map((n) => (
+            <path key={n.label} d={inputPath(n, D.center.x, D.center.y)} />
+          ))}
+          <path d={outputPath(D.center.x, D.center.y, D.output.x, D.output.y)} />
+          {inputs.map((n) => (
+            <circle key={n.label} cx={n.x} cy={n.y} r="6.5" />
+          ))}
+          <circle cx={D.center.x} cy={D.center.y} r="32" />
+          <circle cx={D.center.x} cy={D.center.y} r="66" strokeOpacity="0.5" />
+          <circle cx={D.output.x} cy={D.output.y} r="19" />
+        </g>
+        <circle cx={D.center.x} cy={D.center.y} r="16" fill="#ffffff" />
+        <circle cx={D.output.x} cy={D.output.y} r="11" fill="var(--color-green-500)" />
+      </svg>
+    </div>
   );
 }
 
@@ -36,7 +42,7 @@ export function FinalCta() {
   return (
     <section
       id="contacto"
-      className="relative overflow-hidden bg-purple-900 text-white"
+      className="relative overflow-hidden rounded-t-[2rem] bg-purple-900 text-white shadow-[0_-24px_48px_-32px_rgba(44,14,114,0.45)] md:rounded-t-[2.5rem]"
       aria-labelledby="contacto-title"
     >
       <div aria-hidden="true" className="glow-dark pointer-events-none absolute inset-0" />

@@ -157,7 +157,7 @@ export async function SectorIntelligence() {
   return (
     <section
       id={sector.id}
-      className="relative overflow-hidden border-t border-neutral-100"
+      className="relative overflow-hidden bg-neutral-0"
       aria-labelledby="inteligencia-title"
     >
       {snapshot?.origen === "fixture" ? <FixtureBanner /> : null}

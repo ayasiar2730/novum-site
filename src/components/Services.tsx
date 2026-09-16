@@ -4,11 +4,7 @@ import { SectionHeading } from "@/components/SectionHeading";
 /** Lista con divisores de 1 px (2 columnas en tablet, 3 en escritorio) y estado hover. Sin íconos, sin tarjetas. */
 export function Services() {
   return (
-    <section
-      id="servicios"
-      className="section-y border-t border-neutral-100 bg-neutral-0"
-      aria-labelledby="servicios-title"
-    >
+    <section id="servicios" className="section-y" aria-labelledby="servicios-title">
       <div className="container-site">
         <div data-reveal>
           <SectionHeading

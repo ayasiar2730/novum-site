@@ -5,6 +5,10 @@ import { DESKTOP, MOBILE, inputPath, mobilePath, outputPath } from "@/components
  * Productos independientes y servicios de acompañamiento convergen en la
  * entidad, que es quien decide. Geometría compartida en systemGeometry.ts.
  * La animación vive en globals.css y solo corre con <html class="js">.
+ *
+ * Fase A: cada nodo de entrada es un <g class="nodo"> enfocable que contiene su
+ * propia conexión; al pasar el cursor o recibir foco, el nodo crece y su línea
+ * gana intensidad (CSS en globals.css, sin JavaScript). La geometría no cambia.
  */
 
 const ARIA_LABEL =
@@ -125,15 +129,16 @@ function CenterNode({ x, y, text, r = 32 }: { x: number; y: number; text: string
 function OutputNode({ x, y, text, below = true }: { x: number; y: number; text: string; below?: boolean }) {
   return (
     <g data-node="decision">
+      {/* Halo estable en reposo (sin bucle); responde solo cuando un nodo está activo. */}
       <circle
         cx={x}
         cy={y}
         r="19"
         fill="none"
         stroke="var(--color-green-500)"
-        strokeOpacity="0.35"
+        strokeOpacity="0.45"
         strokeWidth="1.5"
-        data-pulse
+        data-halo
       />
       <circle cx={x} cy={y} r="11" fill="var(--color-green-500)" />
       <text
@@ -152,33 +157,20 @@ function OutputNode({ x, y, text, below = true }: { x: number; y: number; text: 
 export function HeroSystem() {
   const D = DESKTOP;
   const M = MOBILE;
-  const desktopInputs = D.groups.flatMap((g) => g.nodes);
-  const mobileInputs = M.rows.flatMap((r) => r.nodes);
-
   return (
     <>
       {/* ---------- escritorio / tablet ---------- */}
       <svg
         viewBox={D.viewBox}
-        role="img"
+        role="group"
         aria-label={ARIA_LABEL}
-        className="hero-system hidden h-auto w-full font-sans sm:block"
+        className="hero-system sistema-nodos hidden h-auto w-full font-sans sm:block"
         data-hero-system
       >
         <title>{ARIA_LABEL}</title>
         <Defs gradId="toDecision" x1={D.center.x + 32} x2={D.output.x - 12} />
         <Fields cx={D.center.x} cy={D.center.y} ox={D.output.x} oy={D.output.y} />
 
-        {/* conexiones de entrada → entidad */}
-        {desktopInputs.map((n, i) => (
-          <path
-            key={n.label}
-            d={inputPath(n, D.center.x, D.center.y)}
-            {...line}
-            data-line
-            style={{ animationDelay: `${i * 0.08}s` }}
-          />
-        ))}
         {/* entidad → decisión */}
         <path
           d={outputPath(D.center.x, D.center.y, D.output.x, D.output.y)}
@@ -186,17 +178,24 @@ export function HeroSystem() {
           stroke="url(#toDecision)"
           strokeOpacity={0.95}
           data-line
+          data-line-out
           style={{ animationDelay: "0.9s" }}
         />
 
-        {/* grupos de entrada */}
+        {/* grupos de entrada: cada nodo lleva su conexión → entidad */}
         {D.groups.map((g, gi) => (
           <g key={g.key} data-node={g.key} style={{ animationDelay: `${gi * 0.25}s` }}>
             <text x={g.labelAt.x} y={g.labelAt.y} textAnchor="end" {...groupLabel}>
               {g.label}
             </text>
-            {g.nodes.map((n) => (
-              <g key={n.label}>
+            {g.nodes.map((n, ni) => (
+              <g key={n.label} className="nodo" tabIndex={0} role="img" aria-label={`${g.label}: ${n.label}`}>
+                <path
+                  d={inputPath(n, D.center.x, D.center.y)}
+                  {...line}
+                  data-line
+                  style={{ animationDelay: `${(gi * 4 + ni) * 0.08}s` }}
+                />
                 <circle
                   cx={n.x}
                   cy={n.y}
@@ -205,6 +204,7 @@ export function HeroSystem() {
                   stroke={n.dashed ? "var(--color-neutral-500)" : "var(--color-purple-500)"}
                   strokeWidth="1.5"
                   strokeDasharray={n.dashed ? "2 2.5" : undefined}
+                  data-ring
                 />
                 <text
                   x={n.x - 18}
@@ -227,30 +227,22 @@ export function HeroSystem() {
       {/* ---------- móvil ---------- */}
       <svg
         viewBox={M.viewBox}
-        role="img"
+        role="group"
         aria-label={ARIA_LABEL}
-        className="hero-system mx-auto block h-auto w-full max-w-[320px] font-sans sm:hidden"
+        className="hero-system sistema-nodos mx-auto block h-auto w-full max-w-[320px] font-sans sm:hidden"
         data-hero-system-mobile
       >
         <title>{ARIA_LABEL}</title>
         <Defs gradId="toDecisionM" x1={M.center.y + 24} x2={M.output.y - 12} vertical />
         <Fields cx={M.center.x} cy={M.center.y} scale={0.55} />
 
-        {mobileInputs.map((n, i) => (
-          <path
-            key={n.label}
-            d={mobilePath(n, M.center.x, M.center.y)}
-            {...line}
-            data-line
-            style={{ animationDelay: `${i * 0.08}s` }}
-          />
-        ))}
         <path
           d={`M ${M.center.x} ${M.center.y + 24} L ${M.center.x} ${M.output.y - 12}`}
           {...line}
           stroke="url(#toDecisionM)"
           strokeOpacity={0.95}
           data-line
+          data-line-out
           style={{ animationDelay: "0.7s" }}
         />
 
@@ -259,8 +251,14 @@ export function HeroSystem() {
             <text x="160" y={r.y - 26} textAnchor="middle" {...groupLabel}>
               {r.label}
             </text>
-            {r.nodes.map((n) => (
-              <g key={n.label}>
+            {r.nodes.map((n, ni) => (
+              <g key={n.label} className="nodo" tabIndex={0} role="img" aria-label={`${r.label}: ${n.label}`}>
+                <path
+                  d={mobilePath(n, M.center.x, M.center.y)}
+                  {...line}
+                  data-line
+                  style={{ animationDelay: `${(ri * 3 + ni) * 0.08}s` }}
+                />
                 <circle
                   cx={n.x}
                   cy={n.y}
@@ -268,6 +266,7 @@ export function HeroSystem() {
                   fill="var(--color-neutral-50)"
                   stroke="var(--color-purple-500)"
                   strokeWidth="1.5"
+                  data-ring
                 />
                 <text x={n.x} y={n.y + 22} textAnchor="middle" {...label} fontSize="9.5" letterSpacing="0.8">
                   {n.label}

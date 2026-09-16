@@ -12,7 +12,7 @@ const showTeam = process.env.NEXT_PUBLIC_SHOW_TEAM === "true";
 
 export function About() {
   return (
-    <section id="nosotros" className="section-y border-t border-neutral-100" aria-labelledby="nosotros-title">
+    <section id="nosotros" className="section-y" aria-labelledby="nosotros-title">
       <div className="container-site grid gap-12 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-4" data-reveal>
           <SectionHeading id="nosotros-title" eyebrow={about.eyebrow} title={about.title} />
@@ -24,7 +24,7 @@ export function About() {
           </p>
           <p className="text-body measure text-neutral-700">{about.complement}</p>
 
-          {/* Capacidades: lista editorial con filos, no tarjetas */}
+          {/* Capacidades: lista editorial con nodos, sin filos ni tarjetas */}
           <div>
             <p className="flex items-center gap-3 text-label uppercase text-purple-700">
               <span aria-hidden="true" className="h-px w-6 bg-purple-500" />
@@ -34,7 +34,7 @@ export function About() {
               {about.capabilities.map((capability) => (
                 <li
                   key={capability}
-                  className="flex items-center gap-3 border-t border-neutral-100 py-4 text-body font-semibold text-neutral-950"
+                  className="flex items-center gap-3 py-3 text-body font-semibold text-neutral-950"
                 >
                   <span
                     aria-hidden="true"
