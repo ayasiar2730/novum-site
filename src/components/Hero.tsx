@@ -16,7 +16,7 @@ function Title() {
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden" aria-labelledby="hero-title">
+    <section id="inicio" className="relative overflow-hidden" aria-labelledby="hero-title">
       {/* luz ambiental: atmósfera, no color de fondo */}
       <div aria-hidden="true" className="glow-hero pointer-events-none absolute inset-0" />
 
@@ -49,31 +49,53 @@ export function Hero() {
 
         <div
           className="mx-auto w-full max-w-[640px] xl:col-span-6 xl:max-w-none"
-          data-reveal
+          data-reveal="scale"
           style={{ transitionDelay: "120ms" }}
         >
-          <div className="relative">
-            <div
-              aria-hidden="true"
-              className="bg-dotgrid absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,black_35%,transparent_75%)]"
-            />
-            <div className="relative px-2 py-4 md:px-4 md:py-6">
-              <HeroSystem />
-            </div>
+          <div className="relative px-2 py-4 md:px-4 md:py-6">
+            <HeroSystem />
           </div>
         </div>
       </div>
 
-      {/* franja de hechos — solo afirmaciones respaldadas por el documento */}
+      {/*
+        Cinta de hechos — solo afirmaciones respaldadas por el documento.
+        Se desplaza muy despacio (36 s por vuelta, CSS puro) y se detiene al pasar
+        el cursor o al recibir foco; en pantallas estrechas y con reduced-motion es
+        una fila estática. La copia duplicada solo cierra el bucle y es invisible
+        para tecnologías de apoyo.
+      */}
       <div className="container-wide relative" data-reveal style={{ transitionDelay: "200ms" }}>
-        <dl className="grid divide-y divide-neutral-100 border-y border-neutral-100 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-          {hero.facts.map((fact) => (
-            <div key={fact.label} className="flex flex-col gap-1 px-1 py-5 sm:px-6 sm:py-6">
-              <dt className="text-label uppercase text-neutral-500">{fact.label}</dt>
-              <dd className="text-small font-medium text-neutral-900">{fact.value}</dd>
-            </div>
-          ))}
-        </dl>
+        <div
+          className="cinta py-6 outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-4 focus-visible:ring-offset-neutral-50"
+          tabIndex={0}
+          role="region"
+          aria-label="Hechos de Novum: sector, referentes y enfoque"
+        >
+          <dl className="cinta-track">
+            {hero.facts.map((fact) => (
+              <div key={fact.label} className="flex items-center gap-4">
+                <span
+                  aria-hidden="true"
+                  className="h-2.5 w-2.5 shrink-0 rounded-full border-[1.5px] border-purple-500 bg-purple-100"
+                />
+                <dt className="text-label uppercase text-neutral-500">{fact.label}</dt>
+                <dd className="whitespace-nowrap text-small font-medium text-neutral-900">{fact.value}</dd>
+              </div>
+            ))}
+          </dl>
+          <div className="cinta-track cinta-clone" aria-hidden="true">
+            {hero.facts.map((fact) => (
+              <div key={fact.label} className="flex items-center gap-4">
+                <span className="h-2.5 w-2.5 shrink-0 rounded-full border-[1.5px] border-purple-500 bg-purple-100" />
+                <span className="text-label uppercase text-neutral-500">{fact.label}</span>
+                <span className="whitespace-nowrap text-small font-medium text-neutral-900">
+                  {fact.value}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -33,9 +33,9 @@ function SiarConstellation({ pillars }: { pillars: readonly string[] }) {
   return (
     <svg
       viewBox="-56 0 632 460"
-      role="img"
+      role="group"
       aria-label={ARIA}
-      className="mx-auto block h-auto w-full max-w-[520px] font-sans"
+      className="sistema-nodos mx-auto block h-auto w-full max-w-[520px] font-sans"
     >
       <title>{ARIA}</title>
       <defs>
@@ -56,19 +56,6 @@ function SiarConstellation({ pillars }: { pillars: readonly string[] }) {
         strokeDasharray="2 6"
       />
       <circle cx={cx} cy={cy} r={ring * 0.55} fill="none" stroke="var(--color-purple-100)" strokeWidth="1" />
-
-      {nodes.map((n) => (
-        <line
-          key={`l-${n.label}`}
-          x1={cx}
-          y1={cy}
-          x2={n.x}
-          y2={n.y}
-          stroke="var(--color-purple-500)"
-          strokeOpacity="0.35"
-          strokeWidth="1.25"
-        />
-      ))}
 
       <circle
         cx={cx}
@@ -91,8 +78,25 @@ function SiarConstellation({ pillars }: { pillars: readonly string[] }) {
         SIAR
       </text>
 
+      {/* Cada componente es un nodo enfocable con su línea al núcleo (respuesta visual, Fase A). */}
       {nodes.map((n) => (
-        <g key={n.label}>
+        <g
+          key={n.label}
+          className="nodo"
+          tabIndex={0}
+          role="img"
+          aria-label={`Componente de SIAR: ${n.label}`}
+        >
+          <line
+            x1={cx}
+            y1={cy}
+            x2={n.x}
+            y2={n.y}
+            stroke="var(--color-purple-500)"
+            strokeOpacity="0.35"
+            strokeWidth="1.25"
+            data-line
+          />
           <circle
             cx={n.x}
             cy={n.y}
@@ -100,6 +104,7 @@ function SiarConstellation({ pillars }: { pillars: readonly string[] }) {
             fill="var(--color-neutral-0)"
             stroke="var(--color-purple-500)"
             strokeWidth="1.5"
+            data-ring
           />
           <text
             x={n.lx}
@@ -122,11 +127,7 @@ export function Products() {
   const { siar, others } = products;
 
   return (
-    <section
-      id="soluciones"
-      className="section-y border-t border-neutral-100 bg-neutral-0"
-      aria-labelledby="soluciones-title"
-    >
+    <section id="soluciones" className="section-y" aria-labelledby="soluciones-title">
       <div className="container-site">
         <div data-reveal>
           <SectionHeading
@@ -153,15 +154,15 @@ export function Products() {
               {siar.basis}
             </p>
           </div>
-          <div className="min-w-0 lg:col-span-6" data-reveal style={{ transitionDelay: "120ms" }}>
-            <div className="bg-dotgrid [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_78%)] px-2 py-4 md:px-6 md:py-8">
+          <div className="min-w-0 lg:col-span-6" data-reveal="scale" style={{ transitionDelay: "120ms" }}>
+            <div className="px-2 py-4 md:px-6 md:py-8">
               <SiarConstellation pillars={siar.pillars} />
             </div>
           </div>
         </div>
 
         {/* Portafolio */}
-        <div className="mt-16 grid gap-10 border-t border-neutral-100 pt-10 md:grid-cols-3 md:gap-0 md:divide-x md:divide-neutral-100">
+        <div className="mt-20 grid gap-10 md:grid-cols-3 md:gap-0 md:divide-x md:divide-neutral-300/60">
           {others.map((product, i) => (
             <div
               key={product.name}
