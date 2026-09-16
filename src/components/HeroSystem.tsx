@@ -129,15 +129,16 @@ function CenterNode({ x, y, text, r = 32 }: { x: number; y: number; text: string
 function OutputNode({ x, y, text, below = true }: { x: number; y: number; text: string; below?: boolean }) {
   return (
     <g data-node="decision">
+      {/* Halo estable en reposo (sin bucle); responde solo cuando un nodo está activo. */}
       <circle
         cx={x}
         cy={y}
         r="19"
         fill="none"
         stroke="var(--color-green-500)"
-        strokeOpacity="0.35"
+        strokeOpacity="0.45"
         strokeWidth="1.5"
-        data-pulse
+        data-halo
       />
       <circle cx={x} cy={y} r="11" fill="var(--color-green-500)" />
       <text

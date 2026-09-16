@@ -404,10 +404,19 @@
   animation-delay: 1.5s;
 }
 
-.hero-system [data-pulse] {
+/* Halo de DECISIÓN: estable en reposo (ninguna animación perpetua); gana
+   presencia solo mientras un nodo relacionado está en hover o con foco. */
+.hero-system [data-halo] {
   transform-box: fill-box;
   transform-origin: center;
-  animation: hero-pulse 4s ease-in-out 2.4s infinite;
+  transition:
+    stroke-opacity 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.sistema-nodos:has(.nodo:hover) [data-halo],
+.sistema-nodos:has(.nodo:focus-visible) [data-halo] {
+  stroke-opacity: 0.8;
+  transform: scale(1.12);
 }
 
 @keyframes hero-draw {
@@ -418,17 +427,6 @@
 @keyframes hero-appear {
   to {
     opacity: 1;
-  }
-}
-@keyframes hero-pulse {
-  0%,
-  100% {
-    opacity: 0.35;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.18);
   }
 }
 
@@ -444,8 +442,12 @@
     stroke-dashoffset: 0;
     opacity: 1;
   }
-  .hero-system [data-pulse] {
-    animation: none;
+  .hero-system [data-halo] {
+    transition: none;
+  }
+  .sistema-nodos:has(.nodo:hover) [data-halo],
+  .sistema-nodos:has(.nodo:focus-visible) [data-halo] {
+    transform: none;
   }
   .nodo [data-line],
   .nodo [data-ring],
