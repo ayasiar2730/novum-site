@@ -101,7 +101,7 @@ Orden definitivo. Prevalece sobre cualquier otro listado.
 | 3 | El problema del sector | — | fase0 §5.2 |
 | 4 | Soluciones — SIAR principal + Presupuesto + Planeación estratégica + Más soluciones | `#soluciones` | fase0 §5.3 |
 | 5 | Por qué es distinto | — | fase0 §5.4 |
-| 6 | *(Bloque 2)* Inteligencia del sector | `#inteligencia` | pendiente |
+| 6 | Inteligencia del sector — versión editorial hasta tener snapshot aprobado (Bloque 2B.1 hecho; 2B.2 = integración con el snapshot real del motor sectorial de SIAR) | `#inteligencia` | fase0 §5.9 · `src/content/sector.ts` |
 | 7 | Acompañamiento | `#servicios` | fase0 §5.5 |
 | 8 | Nosotros — Experiencia que entiende el sector (institucional; perfiles en código, no públicos) | `#nosotros` | fase0 §5.6 |
 | 9 | CTA — demostración y contacto | `#contacto` | fase0 §5.7 |
@@ -116,8 +116,8 @@ Tratamiento visual de cada sección: `design-system §7`. En particular: **SIAR 
 ## 5. Header y navegación
 
 - Logo a la izquierda (componente `<Logo variant="light">`).
-- Navegación: **Soluciones** (`#soluciones`) · **Acompañamiento** (`#servicios`) · **Nosotros** (`#nosotros`) · **Contacto** (`#contacto`). *(Bloque 2 añade **Inteligencia**.)* Todas son anclas de la misma página; ninguna apunta a una sección que pueda estar oculta.
-- A la derecha: botón primario **"Agendar una demostración"** y enlace discreto **"Ingresar a la plataforma"** → `https://app.novumintegral.com` (`rel="noopener"`).
+- Navegación: **Soluciones** (`#soluciones`) · **Inteligencia** (`#inteligencia`) · **Acompañamiento** (`#servicios`) · **Nosotros** (`#nosotros`) · **Contacto** (`#contacto`). Todas son anclas de la misma página; ninguna apunta a una sección que pueda estar oculta.
+- A la derecha: botón primario **"Agende una demostración"** (trato de usted: única convención de CTA en toda la web) y enlace discreto **"Ingresar a la plataforma"** → `https://app.novumintegral.com` (`rel="noopener"`).
 - Sticky, transparente al inicio; al hacer scroll pasa a `--neutral-0` con borde inferior de 1 px (`design-system §9`).
 - Menú móvil accesible (§13). Header compacto; no un bloque gigante.
 
@@ -330,6 +330,10 @@ Breve, por secciones:
 **A. Implementado** · **B. SEO** · **C. Buscadores/IA: qué se hizo realmente** · **D. Accesibilidad: qué se validó** · **E. Rendimiento: qué se optimizó y métricas** · **F. Marca: qué assets se usaron y cuáles son provisionales** · **G. Pendientes que dependen de información externa** (SVG del logo, ciudad, perfiles incompletos, política de datos, LinkedIn) · **H. Riesgos: qué no debe pasar a producción todavía** (perfiles del equipo, OG provisional) · **I. Validación: resultados de build, lint, tipos, Lighthouse, axe** · **J. Contradicciones encontradas entre fuentes y cómo se resolvieron.**
 
 ---
+
+## 18-bis. Inteligencia del sector — regla de datos
+
+**Ninguna cifra sectorial se publica sin un snapshot aprobado y trazable.** La sección lee `src/data/sector/snapshot.json` en build (`src/lib/sector/source.ts`, solo servidor): si no existe o no cumple el contrato mínimo, devuelve `null` y la sección publica su versión editorial (sin KPI, gráficas, ceros, «sin datos» ni «próximamente»). La fixture sintética (`src/lib/sector/fixture.dev.ts`, «DEV ONLY · NO PUBLICAR · NO SOURCE OF TRUTH») solo se carga fuera de producción con la variable privada `SECTOR_FIXTURE=true`; no existe en Vercel. La documentación no debe decir que la inteligencia numérica está operativa mientras no haya snapshot. **Bloque 2B.1** (hecho): experiencia pública y contrato preparados. **Bloque 2B.2** (pendiente): integración con el snapshot real generado por el motor sectorial de SIAR — cifras validadas, KPI, historias reales, filtros, fuente, metodología y fecha de corte; solo entonces datos estructurados de dataset y cifras en metadata.
 
 ## 19. Prohibiciones finales
 

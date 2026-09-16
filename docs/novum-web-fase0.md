@@ -59,7 +59,7 @@ El sitio se publica por fases. Cada fase sale sola y no depende de la siguiente.
 ### Fase 0 — "Existimos" (esta semana)
 Una sola página en el dominio raíz, completa y bien hecha. Es el objeto de este documento.
 
-Secciones, en el orden en que aparecen en la página: posicionamiento → el problema → soluciones → por qué es distinto → *(Bloque 2: inteligencia del sector)* → acompañamiento → **nosotros** *(institucional, sin nombres; ver 5.6)* → contacto y demostración → pie de página *(con la declaración institucional)*.
+Secciones, en el orden en que aparecen en la página: posicionamiento → el problema → soluciones → por qué es distinto → **inteligencia del sector** *(5.9; editorial hasta tener snapshot aprobado)* → acompañamiento → **nosotros** *(institucional, sin nombres; ver 5.6)* → contacto y demostración → pie de página *(con la declaración institucional)*.
 
 *(La numeración 5.x de este documento agrupa el contenido; el orden en la página es el de esta lista y lo fija el Master Prompt v2.)*
 
@@ -103,7 +103,7 @@ Tres páginas, una por línea de producto, con una misma plantilla: para quién 
 
 **Eslogan (en el encabezado o como línea de cierre de la sección):** Inteligencia que anticipa, análisis que transforma, decisiones que generan valor.
 
-**Botón principal:** Agendar una demostración
+**Botón principal:** Agende una demostración
 **Botón secundario:** Escribir por WhatsApp
 
 **Enlace discreto en la barra superior:** Ingresar a la plataforma → `https://app.novumintegral.com`
@@ -213,7 +213,7 @@ Ingeniero de sistemas.
 
 **Texto:** Agende una demostración de 45 minutos. La hacemos con información anonimizada de una entidad real, para que vea cómo se comporta el sistema con datos como los suyos.
 
-**Botón principal:** Agendar una demostración
+**Botón principal:** Agende una demostración
 **Botón secundario:** Escribir por WhatsApp
 
 **Datos de contacto:**
@@ -233,6 +233,32 @@ Ingeniero de sistemas.
 - Política de tratamiento de datos personales *[pendiente de redactar]*
 - LinkedIn *[pendiente: la página de empresa aún no existe]*
 - © 2026 Novum Integral SAS
+
+---
+
+### 5.9 Inteligencia del sector *(Bloque 2)*
+
+**Eyebrow:** Inteligencia del sector
+**Título:** Datos públicos convertidos en información útil para tomar mejores decisiones.
+**Intro:** El análisis sectorial permite transformar información pública en contexto para comprender tendencias, comportamiento financiero y dinámicas del sector solidario.
+**Capacidad:** En Novum combinamos analítica, conocimiento sectorial y lectura financiera para convertir esa información en una herramienta útil para la gestión.
+*(Primero el valor del análisis, después la capacidad de Novum. No se afirma que una experiencia numérica esté operativa.)*
+
+**Regla:** ninguna cifra sectorial se publica sin un snapshot aprobado y trazable (`src/data/sector/snapshot.json`, contrato en `src/lib/sector/types.ts`). Sin snapshot, la sección publica solo su **versión editorial**: cabecera, los tres capítulos siguientes, la geometría propia de la sección, «Su entidad en contexto» y la fuente conceptual. Nunca KPI vacíos, gráficas, ceros, «sin datos» ni «próximamente». La fecha de corte solo aparece cuando la trae el snapshot.
+
+**Tres capítulos (versión editorial):**
+- **01 · Crecimiento y evolución.** ¿Cómo está cambiando el sector en el tiempo? El análisis entre cortes permite entender la evolución de activos, cartera, depósitos, patrimonio y otras variables relevantes.
+- **02 · Riesgo y calidad financiera.** ¿Qué señales permiten interpretar el comportamiento del riesgo? La lectura de indicadores de cartera, deterioro, cobertura y dispersión permite identificar comportamientos que requieren mayor contexto.
+- **03 · Estructura y concentración.** ¿Cómo está compuesto el sector? Tipo de entidad, territorio, tamaño y concentración ayudan a comprender dónde se encuentra la actividad y cómo se distribuye.
+
+**Con snapshot (Bloque 2B.2):** cuatro indicadores (entidades analizadas, activos, cartera, depósitos), tres historias con visualización, lectura ejecutiva (`insight`, redactada en la capa de datos: la UI nunca concluye), universo, metodología y fuente; corte y cobertura; rangos de tamaño en «Su entidad en contexto». La historia de riesgo no está acoplada a ICM: la métrica viaja en el snapshot.
+
+**Su entidad en contexto:**
+**Título:** No vea solamente el sector. Entienda su posición dentro de él.
+**Texto:** Una lectura sectorial adquiere mayor valor cuando permite contrastar los indicadores de una entidad con organizaciones comparables, su territorio y su tipo de organización. Esa es la dirección de la inteligencia analítica de Novum.
+**CTA:** Agende una demostración → el mismo botón (`cta.primary`) y el mismo destino que el resto del sitio. Sin NIT, sin buscador, sin formulario.
+
+**Fuente (siempre):** Fuente de información sectorial: Superintendencia de la Economía Solidaria. Análisis y procesamiento: Novum Integral.
 
 ---
 

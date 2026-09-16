@@ -34,13 +34,14 @@ export const contact = {
 
 export const nav = [
   { label: "Soluciones", href: "#soluciones" },
+  { label: "Inteligencia", href: "#inteligencia" },
   { label: "Acompañamiento", href: "#servicios" },
   { label: "Nosotros", href: "#nosotros" },
   { label: "Contacto", href: "#contacto" },
 ] as const;
 
 export const cta = {
-  primary: "Agendar una demostración",
+  primary: "Agende una demostración",
   secondary: "Escribir por WhatsApp",
   app: "Ingresar a la plataforma",
 } as const;

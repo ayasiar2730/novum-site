@@ -29,11 +29,24 @@ npm run format       # Prettier
 
 ## Variables de entorno
 
-| Variable                | Preview | Production | Efecto                                                                                                        |
-| ----------------------- | ------- | ---------- | ------------------------------------------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_SHOW_TEAM` | `true`  | `false`    | Muestra los perfiles individuales del equipo en `#nosotros`. La declaración institucional siempre es pública. |
+| Variable                | Preview | Production | Efecto                                                                                                                                                                                                                              |
+| ----------------------- | ------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_SHOW_TEAM` | `true`  | `false`    | Muestra los perfiles individuales del equipo en `#nosotros`. La declaración institucional siempre es pública.                                                                                                                       |
+| `SECTOR_FIXTURE`        | —       | —          | Solo desarrollo local (`SECTOR_FIXTURE=true`): carga la fixture sintética de «Inteligencia del sector» para revisar el layout. Variable privada del servidor; ignorada en producción por construcción. **No configurar en Vercel.** |
 
 Copiar `.env.example` a `.env.local` para desarrollo.
+
+### Fixture de «Inteligencia del sector» (solo desarrollo local)
+
+`SECTOR_FIXTURE=true` carga un snapshot **sintético** (`src/lib/sector/fixture.dev.ts`, «DEV ONLY · NO PUBLICAR · NO SOURCE OF TRUTH») para revisar el layout de la sección con datos. Es una variable privada del servidor: `src/lib/sector/source.ts` la ignora cuando `NODE_ENV` es `production`, así que **no debe añadirse a Vercel ni a producción**. Se pasa en la línea de comandos, no en `.env.example`:
+
+```bash
+SECTOR_FIXTURE=true npm run dev
+```
+
+```powershell
+$env:SECTOR_FIXTURE = "true"; npm run dev
+```
 
 ## Assets de marca
 
@@ -49,4 +62,5 @@ Vercel, proyecto propio conectado a este repositorio. Dominios `novumintegral.co
 - Una sola banda oscura (la sección de contacto). Sin gradientes de fondo. Sin tarjetas repetidas.
 - Verde `--color-green-500` nunca como texto sobre fondo claro.
 - No inventar clientes, cifras, certificaciones, testimonios ni URLs.
+- **Ninguna cifra sectorial se publica sin un snapshot aprobado y trazable** (`src/data/sector/snapshot.json`, contrato en `src/lib/sector/types.ts`). Sin snapshot, `#inteligencia` publica su versión editorial: sin KPI, gráficas, ceros, «sin datos» ni «próximamente». Bloque 2B.1 = experiencia y contrato preparados; 2B.2 = integración con el snapshot real del motor sectorial de SIAR.
 - **Sin estados internos de desarrollo en la web pública** (en desarrollo, en diseño, en pruebas, roadmap, fechas): son información de gestión, no comunicación comercial. Sin nombres ni perfiles de personas: la sección Nosotros es institucional.
