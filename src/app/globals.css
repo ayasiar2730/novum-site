@@ -284,6 +284,14 @@
   transform: scale(0.96);
   transition-duration: 0.6s;
 }
+/* "frag" (acto de tensión): cada módulo entra desplazado su propio --dx y
+   se alinea con los demás al llegar; sin JS o con reduced-motion ya está alineado. */
+@media (width >= 64rem) {
+  .js [data-reveal="frag"] {
+    transform: translateX(var(--dx, 0));
+    transition-duration: 0.7s;
+  }
+}
 .js [data-reveal].in {
   opacity: 1;
   transform: none;
@@ -388,6 +396,105 @@
   .cinta-clone {
     display: none;
   }
+}
+
+/* ------------------------------------------------------------
+   Ecosistema Novum (B1.2): estados por atributo data-on, sin JS de estilo.
+   La rama activa se enciende, el nodo crece, la constelación de SIAR solo
+   se despliega del todo cuando SIAR es la solución activa.
+   ------------------------------------------------------------ */
+.eco [data-branch] {
+  stroke: var(--color-purple-500);
+  stroke-opacity: 0.35;
+  stroke-width: 1.5;
+  transition:
+    stroke-opacity 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+    stroke-width 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+    stroke 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.eco [data-branch][data-on] {
+  stroke: var(--color-purple-700);
+  stroke-opacity: 1;
+  stroke-width: 2.25;
+}
+.eco [data-node] {
+  cursor: default;
+}
+.eco [data-node-ring] {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+    fill 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+    stroke 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.eco [data-node][data-on] [data-node-ring] {
+  transform: scale(1.14);
+  fill: var(--color-purple-100);
+  stroke: var(--color-purple-700);
+}
+.eco [data-constellation] {
+  opacity: 0.32;
+  transition: opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.eco [data-constellation][data-on] {
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------
+   Panel de criterio (B1.3): el tramo recorrido es sólido, el pendiente es
+   discontinuo; la estación activa está a plena presencia; DECISIÓN se
+   enciende cuando el criterio llega al final.
+   ------------------------------------------------------------ */
+.criterio [data-seg] {
+  stroke: var(--color-purple-500);
+  stroke-opacity: 0.35;
+  stroke-width: 1.5;
+  stroke-dasharray: 3 6;
+  transition:
+    stroke-opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+    stroke-width 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.criterio [data-seg][data-on],
+.criterio [data-seg][data-live] {
+  stroke: var(--color-purple-700);
+  stroke-opacity: 0.9;
+  stroke-width: 2;
+  stroke-dasharray: none;
+}
+.criterio [data-seg][data-live] {
+  stroke-opacity: 0.55;
+}
+.criterio [data-station] {
+  opacity: 0.4;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.criterio [data-station][data-on] {
+  opacity: 1;
+  transform: scale(1.06);
+}
+.criterio [data-station-ring] {
+  stroke-opacity: 0;
+  stroke-width: 1.5;
+  transition: stroke-opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.criterio [data-station][data-on] [data-station-ring] {
+  stroke-opacity: 0.5;
+}
+.criterio [data-decision] {
+  opacity: 0.45;
+  transition: opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.criterio [data-decision] [data-halo] {
+  stroke-opacity: 0.35;
+  stroke-width: 1.5;
+}
+.criterio[data-decided] [data-decision] {
+  opacity: 1;
 }
 
 /* Glifos de Diferenciadores a 80–112 px: el trazo no escala con el objeto. */
@@ -527,6 +634,19 @@
   }
   .hero-system .nodo:hover [data-tile],
   .hero-system .nodo:focus-visible [data-tile] {
+    transform: none;
+  }
+  .eco [data-branch],
+  .eco [data-node-ring],
+  .eco [data-constellation],
+  .criterio [data-seg],
+  .criterio [data-station],
+  .criterio [data-station-ring],
+  .criterio [data-decision] {
+    transition: none;
+  }
+  .eco [data-node][data-on] [data-node-ring],
+  .criterio [data-station][data-on] {
     transform: none;
   }
   .hero-system [data-halo] {
