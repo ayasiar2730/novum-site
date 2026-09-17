@@ -1,162 +1,267 @@
-import { DESKTOP, MOBILE, inputPath, mobilePath, outputPath } from "@/components/systemGeometry";
+import type { CSSProperties } from "react";
+import { DESK, GROUPS, MOB, deskLink, deskTileY, mobLink, type TileGroup } from "@/components/heroAssembly";
 
 /**
- * "Un solo aliado, todas las dimensiones" — composición del hero.
- * Productos independientes y servicios de acompañamiento convergen en la
- * entidad, que es quien decide. Geometría compartida en systemGeometry.ts.
- * La animación vive en globals.css y solo corre con <html class="js">.
+ * "Sistema que conecta" — el objeto visual del hero (B0).
  *
- * Fase A: cada nodo de entrada es un <g class="nodo"> enfocable que contiene su
- * propia conexión; al pasar el cursor o recibir foco, el nodo crece y su línea
- * gana intensidad (CSS en globals.css, sin JavaScript). La geometría no cambia.
+ * Una placa morada (el sistema, eco de la ficha del isotipo) sobre la que se
+ * ensamblan los módulos de SOFTWARE (rellenos) y los servicios de
+ * ACOMPAÑAMIENTO (delineados); todos convergen en el núcleo SU ENTIDAD y de
+ * ahí sale DECISIÓN, el único elemento verde, montado sobre el borde de la
+ * placa: el resultado sale del sistema hacia el mundo de la entidad.
+ *
+ * Cada módulo es un <g class="nodo"> enfocable que contiene su propia conexión;
+ * hover/focus lo eleva, intensifica su línea y hace responder al núcleo y a
+ * DECISIÓN (CSS en globals.css, sin JavaScript). Las animaciones de entrada son
+ * finitas; en reposo nada se mueve. Geometría en heroAssembly.ts.
  */
 
 const ARIA_LABEL =
   "Diagrama: el software de Novum — SIAR, presupuesto, planeación y más módulos — y el acompañamiento — diagnóstico, implementación, capacitación y cumplimiento — convergen en su entidad y en sus decisiones.";
 
-const line = {
+const linkStyle = {
   fill: "none",
-  stroke: "var(--color-purple-500)",
-  strokeOpacity: 0.55,
+  stroke: "#ffffff",
+  strokeOpacity: 0.34,
   strokeWidth: 1.5,
   strokeLinecap: "round" as const,
 };
 
-const label = {
-  fontSize: 13.5,
-  fontWeight: 600,
-  letterSpacing: 1.2,
-  fill: "var(--color-neutral-700)",
-};
-
-const groupLabel = {
+const caption = {
   fontSize: 11,
   fontWeight: 700,
-  letterSpacing: 2,
-  fill: "var(--color-purple-700)",
+  letterSpacing: 2.2,
+  fill: "var(--color-purple-100)",
+  fillOpacity: 0.72,
 };
 
-function Fields({
-  cx,
-  cy,
-  ox,
-  oy,
-  scale = 1,
+function Defs({ id, x1, y1, x2, y2 }: { id: string; x1: number; y1: number; x2: number; y2: number }) {
+  return (
+    <defs>
+      <linearGradient id={`${id}-plate`} x1="0" y1="1" x2="1" y2="0">
+        <stop offset="0" style={{ stopColor: "var(--color-purple-900)" }} />
+        <stop offset="0.55" style={{ stopColor: "var(--color-purple-900)" }} />
+        <stop offset="1" style={{ stopColor: "var(--color-purple-700)" }} />
+      </linearGradient>
+      <pattern id={`${id}-dots`} width="22" height="22" patternUnits="userSpaceOnUse">
+        <circle cx="1" cy="1" r="1" fill="#ffffff" fillOpacity="0.16" />
+      </pattern>
+      <radialGradient id={`${id}-maskGrad`} cx="0.62" cy="0.5" r="0.62">
+        <stop offset="0" stopColor="#ffffff" />
+        <stop offset="1" stopColor="#000000" />
+      </radialGradient>
+      <mask id={`${id}-mask`}>
+        <rect x="0" y="0" width="100%" height="100%" fill={`url(#${id}-maskGrad)`} />
+      </mask>
+      <radialGradient id={`${id}-field`} cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0" style={{ stopColor: "var(--color-purple-500)", stopOpacity: 0.5 }} />
+        <stop offset="1" style={{ stopColor: "var(--color-purple-500)", stopOpacity: 0 }} />
+      </radialGradient>
+      <linearGradient id={`${id}-out`} x1={x1} y1={y1} x2={x2} y2={y2} gradientUnits="userSpaceOnUse">
+        <stop offset="0" stopColor="#ffffff" />
+        <stop offset="1" style={{ stopColor: "var(--color-green-500)" }} />
+      </linearGradient>
+      <filter id={`${id}-lift`} x="-20%" y="-40%" width="140%" height="200%">
+        <feDropShadow dx="0" dy="6" stdDeviation="8" floodColor="#17141f" floodOpacity="0.28" />
+      </filter>
+    </defs>
+  );
+}
+
+function Plate({
+  id,
+  x,
+  y,
+  w,
+  h,
+  rx,
 }: {
-  cx: number;
-  cy: number;
-  ox?: number;
-  oy?: number;
-  scale?: number;
+  id: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  rx: number;
 }) {
   return (
     <>
-      <circle cx={cx} cy={cy} r={120 * scale} fill="url(#fieldPurple)" />
-      {ox !== undefined && oy !== undefined ? (
-        <circle cx={ox} cy={oy} r={70 * scale} fill="url(#fieldGreen)" />
-      ) : null}
-      <circle cx={cx} cy={cy} r={66 * scale} fill="none" stroke="var(--color-purple-100)" strokeWidth="1" />
-      <circle
-        cx={cx}
-        cy={cy}
-        r={98 * scale}
+      <rect x={x} y={y} width={w} height={h} rx={rx} fill={`url(#${id}-plate)`} data-plate />
+      <rect x={x} y={y} width={w} height={h} rx={rx} fill={`url(#${id}-dots)`} mask={`url(#${id}-mask)`} />
+      <rect
+        x={x + 0.5}
+        y={y + 0.5}
+        width={w - 1}
+        height={h - 1}
+        rx={rx}
         fill="none"
-        stroke="var(--color-purple-100)"
-        strokeWidth="1"
-        strokeDasharray="2 6"
+        stroke="#ffffff"
+        strokeOpacity="0.09"
       />
     </>
   );
 }
 
-function Defs({
-  gradId,
-  x1,
-  x2,
-  vertical = false,
+function TileShape({
+  x,
+  y,
+  w,
+  h,
+  rx,
+  group,
+  dashed,
 }: {
-  gradId: string;
-  x1: number;
-  x2: number;
-  vertical?: boolean;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  rx: number;
+  group: TileGroup["key"];
+  dashed?: boolean;
 }) {
-  const g = vertical ? { x1: 0, x2: 0, y1: x1, y2: x2 } : { x1, x2, y1: 0, y2: 0 };
+  if (dashed) {
+    return (
+      <rect
+        x={x}
+        y={y}
+        width={w}
+        height={h}
+        rx={rx}
+        fill="none"
+        stroke="var(--color-purple-100)"
+        strokeOpacity="0.55"
+        strokeWidth="1.25"
+        strokeDasharray="3 4"
+        data-tile
+      />
+    );
+  }
+  if (group === "software") {
+    return <rect x={x} y={y} width={w} height={h} rx={rx} fill="var(--color-purple-500)" data-tile />;
+  }
   return (
-    <defs>
-      <linearGradient id={gradId} {...g} gradientUnits="userSpaceOnUse">
-        <stop offset="0.45" style={{ stopColor: "var(--color-purple-500)" }} />
-        <stop offset="1" style={{ stopColor: "var(--color-green-500)" }} />
-      </linearGradient>
-      <radialGradient id="fieldPurple" cx="0.5" cy="0.5" r="0.5">
-        <stop offset="0" style={{ stopColor: "var(--color-purple-500)", stopOpacity: 0.16 }} />
-        <stop offset="1" style={{ stopColor: "var(--color-purple-500)", stopOpacity: 0 }} />
-      </radialGradient>
-      <radialGradient id="fieldGreen" cx="0.5" cy="0.5" r="0.5">
-        <stop offset="0" style={{ stopColor: "var(--color-green-500)", stopOpacity: 0.22 }} />
-        <stop offset="1" style={{ stopColor: "var(--color-green-500)", stopOpacity: 0 }} />
-      </radialGradient>
-    </defs>
+    <rect
+      x={x}
+      y={y}
+      width={w}
+      height={h}
+      rx={rx}
+      fill="#ffffff"
+      fillOpacity="0.06"
+      stroke="#ffffff"
+      strokeOpacity="0.34"
+      strokeWidth="1.25"
+      data-tile
+    />
   );
 }
 
-function CenterNode({ x, y, text, r = 32 }: { x: number; y: number; text: string; r?: number }) {
+function Core({
+  x,
+  y,
+  r,
+  label,
+  scale = 1,
+}: {
+  x: number;
+  y: number;
+  r: number;
+  label: string;
+  scale?: number;
+}) {
   return (
     <g data-node="center">
       <circle
         cx={x}
         cy={y}
-        r={r}
-        fill="var(--color-neutral-0)"
-        stroke="var(--color-purple-100)"
-        strokeWidth="2"
+        r={r * 2}
+        fill="none"
+        stroke="#ffffff"
+        strokeOpacity="0.12"
+        strokeDasharray="2 6"
       />
-      <circle cx={x} cy={y} r={r * 0.5} fill="var(--color-purple-700)" />
+      <circle cx={x} cy={y} r={r * 1.45} fill="none" stroke="#ffffff" strokeOpacity="0.26" data-core-ring />
+      <circle cx={x} cy={y} r={r} fill="#ffffff" />
+      <circle cx={x} cy={y} r={r * 0.39} fill="var(--color-purple-700)" />
       <text
         x={x}
-        y={y + r + 24}
+        y={y + r + 26 * scale}
         textAnchor="middle"
-        fontSize="13"
+        fontSize={12 * scale}
         fontWeight="700"
-        letterSpacing="2.2"
-        fill="var(--color-purple-900)"
+        letterSpacing={2.2 * scale}
+        fill="#ffffff"
+        fillOpacity="0.88"
       >
-        {text}
+        {label}
       </text>
     </g>
   );
 }
 
-function OutputNode({ x, y, text, below = true }: { x: number; y: number; text: string; below?: boolean }) {
+function Decision({
+  id,
+  x,
+  y,
+  w,
+  h,
+  rx,
+  label,
+  scale = 1,
+}: {
+  id: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  rx: number;
+  label: string;
+  scale?: number;
+}) {
+  const pad = 8;
   return (
     <g data-node="decision">
-      {/* Halo estable en reposo (sin bucle); responde solo cuando un nodo está activo. */}
-      <circle
-        cx={x}
-        cy={y}
-        r="19"
+      {/* Halo estable en reposo (sin bucle); responde solo cuando un módulo está activo. */}
+      <rect
+        x={x - pad}
+        y={y - pad}
+        width={w + pad * 2}
+        height={h + pad * 2}
+        rx={rx + pad * 0.6}
         fill="none"
         stroke="var(--color-green-500)"
         strokeOpacity="0.45"
         strokeWidth="1.5"
         data-halo
       />
-      <circle cx={x} cy={y} r="11" fill="var(--color-green-500)" />
+      <rect
+        x={x}
+        y={y}
+        width={w}
+        height={h}
+        rx={rx}
+        fill="var(--color-green-500)"
+        filter={`url(#${id}-lift)`}
+      />
       <text
-        x={below ? x : x + 24}
-        y={below ? y + 40 : y + 4}
-        textAnchor={below ? "middle" : "start"}
-        {...label}
-        fill="var(--color-green-700)"
+        x={x + w / 2}
+        y={y + h / 2 + 4.5 * scale}
+        textAnchor="middle"
+        fontSize={13 * scale}
+        fontWeight="700"
+        letterSpacing={2.2 * scale}
+        fill="var(--color-purple-900)"
       >
-        {text}
+        {label}
       </text>
     </g>
   );
 }
 
 export function HeroSystem() {
-  const D = DESKTOP;
-  const M = MOBILE;
+  const D = DESK;
+  const M = MOB;
+  let i = 0;
+  let j = 0;
   return (
     <>
       {/* ---------- escritorio / tablet ---------- */}
@@ -164,64 +269,72 @@ export function HeroSystem() {
         viewBox={D.viewBox}
         role="group"
         aria-label={ARIA_LABEL}
-        className="hero-system sistema-nodos hidden h-auto w-full font-sans sm:block"
+        className="hero-system sistema-nodos hidden h-auto w-full overflow-visible font-sans sm:block"
         data-hero-system
       >
         <title>{ARIA_LABEL}</title>
-        <Defs gradId="toDecision" x1={D.center.x + 32} x2={D.output.x - 12} />
-        <Fields cx={D.center.x} cy={D.center.y} ox={D.output.x} oy={D.output.y} />
+        <Defs id="d" x1={D.core.x + D.core.r} y1={D.core.y} x2={D.output.x} y2={D.core.y} />
+        <Plate id="d" {...D.plate} />
+        <circle cx={D.core.x} cy={D.core.y} r={150} fill="url(#d-field)" />
 
-        {/* entidad → decisión */}
-        <path
-          d={outputPath(D.center.x, D.center.y, D.output.x, D.output.y)}
-          {...line}
-          stroke="url(#toDecision)"
-          strokeOpacity={0.95}
-          data-line
-          data-line-out
-          style={{ animationDelay: "0.9s" }}
-        />
-
-        {/* grupos de entrada: cada nodo lleva su conexión → entidad */}
-        {D.groups.map((g, gi) => (
-          <g key={g.key} data-node={g.key} style={{ animationDelay: `${gi * 0.25}s` }}>
-            <text x={g.labelAt.x} y={g.labelAt.y} textAnchor="end" {...groupLabel}>
+        {GROUPS.map((g) => (
+          <g key={g.key} data-group={g.key}>
+            <text x={D.tile.x} y={D.groupTop[g.key]} {...caption}>
               {g.label}
             </text>
-            {g.nodes.map((n, ni) => (
-              <g key={n.label} className="nodo" tabIndex={0} role="img" aria-label={`${g.label}: ${n.label}`}>
-                <path
-                  d={inputPath(n, D.center.x, D.center.y)}
-                  {...line}
-                  data-line
-                  style={{ animationDelay: `${(gi * 4 + ni) * 0.08}s` }}
-                />
-                <circle
-                  cx={n.x}
-                  cy={n.y}
-                  r="6.5"
-                  fill="var(--color-neutral-50)"
-                  stroke={n.dashed ? "var(--color-neutral-500)" : "var(--color-purple-500)"}
-                  strokeWidth="1.5"
-                  strokeDasharray={n.dashed ? "2 2.5" : undefined}
-                  data-ring
-                />
-                <text
-                  x={n.x - 18}
-                  y={n.y + 4}
-                  textAnchor="end"
-                  {...label}
-                  fill={n.dashed ? "var(--color-neutral-500)" : label.fill}
+            {g.tiles.map((t, ti) => {
+              const y = deskTileY(g.key, ti);
+              const order = i++;
+              return (
+                <g
+                  key={t.label}
+                  className="nodo"
+                  tabIndex={0}
+                  role="img"
+                  aria-label={`${g.label}: ${t.label}`}
+                  data-tile-group
+                  style={{ "--i": order } as CSSProperties}
                 >
-                  {n.label}
-                </text>
-              </g>
-            ))}
+                  <path d={deskLink(y + D.tile.h / 2)} {...linkStyle} data-line />
+                  <TileShape
+                    x={D.tile.x}
+                    y={y}
+                    w={D.tile.w}
+                    h={D.tile.h}
+                    rx={D.tile.rx}
+                    group={g.key}
+                    dashed={t.dashed}
+                  />
+                  <text
+                    x={D.tile.x + 16}
+                    y={y + D.tile.h / 2 + 4.5}
+                    fontSize="12.5"
+                    fontWeight="600"
+                    letterSpacing="1.4"
+                    fill={t.dashed ? "var(--color-purple-100)" : "#ffffff"}
+                    fillOpacity={t.dashed ? 0.85 : g.key === "software" ? 1 : 0.92}
+                  >
+                    {t.label}
+                  </text>
+                </g>
+              );
+            })}
           </g>
         ))}
 
-        <CenterNode x={D.center.x} y={D.center.y} text={D.center.label} />
-        <OutputNode x={D.output.x} y={D.output.y} text={D.output.label} />
+        <Core x={D.core.x} y={D.core.y} r={D.core.r} label={D.core.label} />
+
+        {/* núcleo → decisión: la salida cruza el borde de la placa */}
+        <path
+          d={`M ${D.core.x + D.core.r} ${D.core.y} L ${D.output.x} ${D.core.y}`}
+          fill="none"
+          stroke="url(#d-out)"
+          strokeWidth="2"
+          strokeLinecap="round"
+          data-line
+          data-line-out
+        />
+        <Decision id="d" {...D.output} />
       </svg>
 
       {/* ---------- móvil ---------- */}
@@ -229,55 +342,73 @@ export function HeroSystem() {
         viewBox={M.viewBox}
         role="group"
         aria-label={ARIA_LABEL}
-        className="hero-system sistema-nodos mx-auto block h-auto w-full max-w-[320px] font-sans sm:hidden"
+        className="hero-system sistema-nodos mx-auto block h-auto w-full max-w-[342px] overflow-visible font-sans sm:hidden"
         data-hero-system-mobile
       >
         <title>{ARIA_LABEL}</title>
-        <Defs gradId="toDecisionM" x1={M.center.y + 24} x2={M.output.y - 12} vertical />
-        <Fields cx={M.center.x} cy={M.center.y} scale={0.55} />
+        <Defs id="m" x1={M.core.x} y1={M.core.y + M.core.r} x2={M.core.x} y2={M.output.y} />
+        <Plate id="m" {...M.plate} />
+        <circle cx={M.core.x} cy={M.core.y} r={110} fill="url(#m-field)" />
 
+        {GROUPS.map((g) => {
+          const x = M.columns[g.key];
+          return (
+            <g key={g.key} data-group={g.key}>
+              <text x={x} y={M.captionY} {...caption} fontSize="9.5" letterSpacing="1.8">
+                {g.label}
+              </text>
+              {g.tiles.map((t, ti) => {
+                const y = M.tile.top + ti * M.tile.step;
+                const order = j++;
+                return (
+                  <g
+                    key={t.label}
+                    className="nodo"
+                    tabIndex={0}
+                    role="img"
+                    aria-label={`${g.label}: ${t.label}`}
+                    data-tile-group
+                    style={{ "--i": order } as CSSProperties}
+                  >
+                    <path d={mobLink(x + M.tile.w / 2, y + M.tile.h)} {...linkStyle} data-line />
+                    <TileShape
+                      x={x}
+                      y={y}
+                      w={M.tile.w}
+                      h={M.tile.h}
+                      rx={M.tile.rx}
+                      group={g.key}
+                      dashed={t.dashed}
+                    />
+                    <text
+                      x={x + 12}
+                      y={y + M.tile.h / 2 + 3.5}
+                      fontSize="9.5"
+                      fontWeight="600"
+                      letterSpacing="0.9"
+                      fill={t.dashed ? "var(--color-purple-100)" : "#ffffff"}
+                      fillOpacity={t.dashed ? 0.85 : g.key === "software" ? 1 : 0.92}
+                    >
+                      {t.label}
+                    </text>
+                  </g>
+                );
+              })}
+            </g>
+          );
+        })}
+
+        <Core x={M.core.x} y={M.core.y} r={M.core.r} label={M.core.label} scale={0.85} />
         <path
-          d={`M ${M.center.x} ${M.center.y + 24} L ${M.center.x} ${M.output.y - 12}`}
-          {...line}
-          stroke="url(#toDecisionM)"
-          strokeOpacity={0.95}
+          d={`M ${M.core.x} ${M.core.y + M.core.r} L ${M.core.x} ${M.output.y}`}
+          fill="none"
+          stroke="url(#m-out)"
+          strokeWidth="2"
+          strokeLinecap="round"
           data-line
           data-line-out
-          style={{ animationDelay: "0.7s" }}
         />
-
-        {M.rows.map((r, ri) => (
-          <g key={r.key} data-node={r.key} style={{ animationDelay: `${ri * 0.25}s` }}>
-            <text x="160" y={r.y - 26} textAnchor="middle" {...groupLabel}>
-              {r.label}
-            </text>
-            {r.nodes.map((n, ni) => (
-              <g key={n.label} className="nodo" tabIndex={0} role="img" aria-label={`${r.label}: ${n.label}`}>
-                <path
-                  d={mobilePath(n, M.center.x, M.center.y)}
-                  {...line}
-                  data-line
-                  style={{ animationDelay: `${(ri * 3 + ni) * 0.08}s` }}
-                />
-                <circle
-                  cx={n.x}
-                  cy={n.y}
-                  r="6"
-                  fill="var(--color-neutral-50)"
-                  stroke="var(--color-purple-500)"
-                  strokeWidth="1.5"
-                  data-ring
-                />
-                <text x={n.x} y={n.y + 22} textAnchor="middle" {...label} fontSize="9.5" letterSpacing="0.8">
-                  {n.label}
-                </text>
-              </g>
-            ))}
-          </g>
-        ))}
-
-        <CenterNode x={M.center.x} y={M.center.y} text={M.center.label} r={24} />
-        <OutputNode x={M.output.x} y={M.output.y} text={M.output.label} below={false} />
+        <Decision id="m" {...M.output} scale={0.85} />
       </svg>
     </>
   );

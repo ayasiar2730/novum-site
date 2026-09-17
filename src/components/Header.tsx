@@ -5,15 +5,14 @@ import { cta, nav, site } from "@/content/site";
 import { demoLink } from "@/lib/links";
 import { ButtonLink } from "@/components/ButtonLink";
 
-/** Altura de la barra (h-16). Se usa como margen del observador del hero. */
-const BAR = 64;
-
 /**
- * Header premium (Fase A). Tres estados de superficie, ninguno con scroll handler:
- * - en la cima: liviano y transparente sobre el hero;
+ * Header (Fase A + B0). Tres estados de superficie, ninguno con scroll handler:
+ * - en la cima: liviano y transparente, parte del hero;
  * - desplazado dentro del hero: velo claro apenas perceptible;
- * - superado el hero: barra de vidrio sutil con sombra corta; el CTA principal
- *   entra aquí para no competir con el del hero.
+ * - superado el hero: barra clara con un desenfoque discreto y sombra corta;
+ *   el CTA principal entra aquí para no competir con el del hero.
+ * La marca es el imagotipo provisional (isotipo + wordmark) que llega por <Logo>;
+ * "Ingresar a la plataforma" es un botón secundario tintado, sin borde.
  * La sección activa se detecta con IntersectionObserver sobre una banda al
  * 40–45 % del alto de la ventana; el indicador es una línea que se desliza bajo
  * el enlace. Nunca se modifica la URL: los enlaces siguen siendo anclas normales.
@@ -25,6 +24,7 @@ export function Header({ logo }: { logo: ReactNode }) {
   const [marker, setMarker] = useState<{ left: number; width: number } | null>(null);
   const [open, setOpen] = useState(false);
   const sentinelRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
   const navRef = useRef<HTMLElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
@@ -44,8 +44,9 @@ export function Header({ logo }: { logo: ReactNode }) {
       observers.push(io);
     }
     if (hero) {
+      const bar = headerRef.current?.offsetHeight ?? 72;
       const io = new IntersectionObserver(([e]) => setPastHero(!e.isIntersecting), {
-        rootMargin: `-${BAR}px 0px 0px 0px`,
+        rootMargin: `-${bar}px 0px 0px 0px`,
       });
       io.observe(hero);
       observers.push(io);
@@ -126,9 +127,9 @@ export function Header({ logo }: { logo: ReactNode }) {
   const surface = open
     ? "bg-neutral-0 shadow-[0_1px_0_rgba(44,14,114,0.06)]"
     : pastHero
-      ? "bg-neutral-0/80 shadow-[0_1px_0_rgba(44,14,114,0.06),0_16px_32px_-28px_rgba(44,14,114,0.35)] backdrop-blur-md"
+      ? "bg-neutral-0/88 shadow-[0_1px_0_rgba(44,14,114,0.07),0_16px_32px_-28px_rgba(44,14,114,0.35)] backdrop-blur-sm"
       : scrolled
-        ? "bg-neutral-50/70 backdrop-blur-sm"
+        ? "bg-neutral-50/90 shadow-[0_1px_0_rgba(44,14,114,0.05)] backdrop-blur-md"
         : "bg-transparent";
 
   return (
@@ -139,9 +140,10 @@ export function Header({ logo }: { logo: ReactNode }) {
         className="pointer-events-none absolute left-0 top-0 h-2 w-px"
       />
       <header
+        ref={headerRef}
         className={`sticky top-0 z-50 transition-[background-color,box-shadow] duration-300 motion-reduce:transition-none ${surface}`}
       >
-        <div className="container-site flex h-16 items-center justify-between gap-6">
+        <div className="container-wide flex h-16 items-center justify-between gap-6 lg:h-[4.5rem]">
           <a href="#" aria-label={`${site.name} — inicio`} className="shrink-0">
             {logo}
           </a>
@@ -149,7 +151,7 @@ export function Header({ logo }: { logo: ReactNode }) {
           <nav
             ref={navRef}
             aria-label="Principal"
-            className="relative hidden h-16 items-center gap-6 lg:flex xl:gap-8"
+            className="relative hidden h-full items-center gap-6 lg:flex xl:gap-8"
           >
             {nav.map((item) => {
               const isActive = active === item.href;
@@ -181,20 +183,33 @@ export function Header({ logo }: { logo: ReactNode }) {
               href={site.appUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-nav text-neutral-500 transition-colors duration-200 hover:text-purple-900"
+              className="inline-flex h-10 items-center gap-2 rounded-lg bg-purple-100/70 px-3.5 text-small font-semibold text-purple-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] transition-[background-color,color] duration-200 hover:bg-purple-100"
             >
               {cta.app}
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path
+                  d="M3.5 10.5 10.5 3.5M5.5 3.5h5v5"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
             </a>
             {/* El CTA principal solo gana protagonismo cuando el hero (que ya lo tiene) queda atrás. */}
             <div
               inert={!pastHero}
-              className={`transition-[opacity,transform] duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:transition-none ${
-                pastHero ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-1 opacity-0"
+              className={`grid transition-[grid-template-columns,margin-left,opacity,transform] duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:transition-none ${
+                pastHero
+                  ? "ml-4 translate-y-0 opacity-100 [grid-template-columns:1fr]"
+                  : "pointer-events-none ml-0 -translate-y-1 opacity-0 [grid-template-columns:0fr]"
               }`}
             >
-              <ButtonLink href={demoLink} external size="sm">
-                {cta.primary}
-              </ButtonLink>
+              <div className="min-w-0 overflow-hidden">
+                <ButtonLink href={demoLink} external size="sm">
+                  {cta.primary}
+                </ButtonLink>
+              </div>
             </div>
           </div>
 
@@ -233,7 +248,7 @@ export function Header({ logo }: { logo: ReactNode }) {
             ref={panelRef}
             className="menu-movil max-h-[calc(100dvh-4rem)] overflow-y-auto bg-neutral-0 shadow-lift lg:hidden"
           >
-            <nav aria-label="Principal (móvil)" className="container-site flex flex-col gap-1 py-5">
+            <nav aria-label="Principal (móvil)" className="container-wide flex flex-col gap-1 py-5">
               {nav.map((item) => {
                 const isActive = active === item.href;
                 return (
