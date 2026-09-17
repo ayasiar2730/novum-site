@@ -14,7 +14,12 @@ const offsets = ["4.5rem", "0rem", "2.5rem"];
 
 export function Problem() {
   return (
-    <section className="overflow-x-clip bg-neutral-0 py-20 md:py-28" aria-labelledby="problema-title">
+    <section
+      className="relative overflow-x-clip bg-neutral-0 py-20 md:py-28"
+      aria-labelledby="problema-title"
+    >
+      {/* entrega al acto siguiente: la trama del sistema aparece progresivamente */}
+      <div aria-hidden="true" className="trama-entra pointer-events-none absolute inset-x-0 bottom-0 h-40" />
       <div className="container-site grid gap-14 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-4">
           <div className="lg:sticky lg:top-28" data-reveal>
@@ -28,10 +33,10 @@ export function Problem() {
         </div>
 
         <div className="relative lg:col-span-7 lg:col-start-6">
-          {/* estructura común: una conexión discontinua entre los tres módulos */}
+          {/* estructura común: la conexión discontinua entra desde el hero y recorre los tres módulos */}
           <div
             aria-hidden="true"
-            className="absolute bottom-6 left-[0.3125rem] top-6 hidden w-px border-l border-dashed border-purple-500/50 lg:block"
+            className="absolute bottom-6 left-[0.3125rem] top-[-7rem] hidden w-px border-l border-dashed border-purple-500/50 [mask-image:linear-gradient(180deg,transparent,black_35%)] lg:block"
             data-reveal
             style={{ transitionDelay: "520ms" }}
           />

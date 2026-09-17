@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
+import { useLectura } from "@/components/useLectura";
 
 export type Solution = {
   key: string;
@@ -50,10 +51,16 @@ export function Ecosystem({ solutions }: { solutions: Solution[] }) {
   const [active, setActive] = useState(solutions[0].key);
   const siar = solutions.find((s) => s.pillars);
   const pillars = siar?.pillars ?? [];
+  const listRef = useRef<HTMLOListElement>(null);
+  useLectura(
+    listRef,
+    ":scope > li",
+    useCallback((i: number) => setActive(solutions[i].key), [solutions]),
+  );
 
   return (
     <div className="grid gap-14 lg:grid-cols-12 lg:items-start lg:gap-8">
-      <ol className="relative flex flex-col gap-10 lg:col-span-5 lg:gap-11">
+      <ol ref={listRef} className="relative flex flex-col gap-10 lg:col-span-5 lg:gap-11">
         <span
           aria-hidden="true"
           className="absolute bottom-6 left-[0.3125rem] top-6 w-px bg-neutral-300/70"
@@ -87,7 +94,7 @@ export function Ecosystem({ solutions }: { solutions: Solution[] }) {
                     aria-pressed={on}
                     onFocus={() => setActive(s.key)}
                     onClick={() => setActive(s.key)}
-                    className={`rounded-sm text-left transition-colors duration-300 ${
+                    className={`-my-1 min-h-11 rounded-sm py-1 text-left transition-colors duration-300 ${
                       on ? "text-neutral-950" : "text-neutral-700 hover:text-neutral-950"
                     }`}
                   >
@@ -127,7 +134,7 @@ export function Ecosystem({ solutions }: { solutions: Solution[] }) {
       </ol>
 
       <div
-        className="hidden lg:sticky lg:top-24 lg:col-span-7 lg:block"
+        className="hidden lg:sticky lg:top-28 lg:col-span-7 lg:block"
         data-reveal="scale"
         style={{ transitionDelay: "120ms" }}
       >

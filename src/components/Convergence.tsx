@@ -7,10 +7,19 @@ export function Convergence() {
   const W = 1200;
   const H = 140;
   const target = { x: W / 2, y: H };
-  const origins = [80, 300, 480, 720, 900, 1120];
+  /* seis orígenes = los seis nodos de capacidades de Nosotros (rejilla de seis columnas) */
+  const origins = [0, 1, 2, 3, 4, 5].map((i) => (i * W) / 6 + 6);
   return (
-    <div aria-hidden="true" className="container-site relative z-[1] -mb-3 pt-4">
-      <svg viewBox={`0 0 ${W} ${H}`} className="block h-auto w-full overflow-visible" data-reveal="scale">
+    <div aria-hidden="true" className="container-site relative z-[1] -mb-3 lg:-mt-10">
+      <div className="mx-auto flex h-24 w-3 flex-col items-center lg:hidden">
+        <span className="w-px flex-1 bg-purple-500/40" />
+        <span className="h-3 w-3 rounded-full bg-green-500 ring-[6px] ring-green-500/25" />
+      </div>
+      <svg
+        viewBox={`0 0 ${W} ${H}`}
+        className="hidden h-auto w-full overflow-visible lg:block"
+        data-reveal="scale"
+      >
         <defs>
           <linearGradient id="convergencia" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" style={{ stopColor: "var(--color-purple-500)", stopOpacity: 0 }} />

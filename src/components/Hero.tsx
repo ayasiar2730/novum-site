@@ -51,7 +51,10 @@ export function Hero() {
             </ButtonLink>
           </div>
           <p className="flex items-start gap-3 pt-1 text-small text-neutral-500 md:pt-2">
-            <span aria-hidden="true" className="mt-[0.55em] h-1.5 w-1.5 shrink-0 rounded-full bg-green-500" />
+            <span
+              aria-hidden="true"
+              className="mt-[0.55em] h-1.5 w-1.5 shrink-0 rounded-full bg-purple-500"
+            />
             {site.tagline}
           </p>
         </div>

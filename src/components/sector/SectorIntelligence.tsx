@@ -60,7 +60,7 @@ function SectorMark({ className = "" }: { className?: string }) {
         if (n.tone === "fill")
           return <circle key={`${n.r}-${n.a}`} cx={p.x} cy={p.y} r="5" fill="var(--color-purple-700)" />;
         if (n.tone === "accent")
-          return <circle key={`${n.r}-${n.a}`} cx={p.x} cy={p.y} r="6" fill="var(--color-green-500)" />;
+          return <circle key={`${n.r}-${n.a}`} cx={p.x} cy={p.y} r="6" fill="var(--color-purple-500)" />;
         return (
           <circle
             key={`${n.r}-${n.a}`}
@@ -93,11 +93,11 @@ function FixtureBanner() {
  * recorre. Cuando llegue el snapshot, ConDatos ocupa este mismo lugar con la
  * misma cabecera y columna de contexto: nada de esto se destruye.
  */
-const sangria = ["lg:pl-0", "lg:pl-24", "lg:pl-10"];
+const sangria = ["lg:pl-0", "lg:pl-16", "lg:pl-8"];
 
 function Editorial() {
   return (
-    <div className="relative mt-4 flex flex-col gap-16 lg:gap-20">
+    <div className="relative mt-2 flex flex-col gap-14 lg:gap-16">
       {/* línea de lectura: recorre los tres capítulos, como la conexión del sistema */}
       <span
         aria-hidden="true"
@@ -116,7 +116,7 @@ function Editorial() {
             className="absolute left-0 top-[2.1rem] hidden h-3 w-3 rounded-[3px] border-[1.5px] border-purple-500 bg-neutral-0 lg:block"
           />
           <div className="flex items-start gap-5 md:col-span-5 md:flex-col md:gap-1 md:pl-8">
-            <p className="tnum text-[3.5rem] font-bold leading-none tracking-[-0.03em] text-purple-100 md:text-[5.5rem]">
+            <p className="tnum text-[3.5rem] font-bold leading-none tracking-[-0.03em] text-purple-100 md:text-[5rem]">
               <span className="sr-only">Capítulo </span>
               {c.numero}
             </p>
@@ -177,8 +177,10 @@ export async function SectorIntelligence() {
       aria-labelledby="inteligencia-title"
     >
       {snapshot?.origen === "fixture" ? <FixtureBanner /> : null}
-      <div className="container-site relative py-24 md:py-32">
-        <SectorMark className="pointer-events-none absolute -right-44 -top-24 hidden h-[460px] w-[460px] opacity-60 lg:block" />
+      {/* entrega desde el sistema: la trama se disuelve en el observatorio */}
+      <div aria-hidden="true" className="trama-sale pointer-events-none absolute inset-x-0 top-0 h-40" />
+      <div className="container-site relative py-20 md:py-24">
+        <SectorMark className="pointer-events-none absolute -top-20 right-[-11rem] hidden h-[340px] w-[340px] opacity-60 lg:block" />
 
         {snapshot ? (
           <>
@@ -218,11 +220,11 @@ export async function SectorIntelligence() {
           </div>
         )}
 
-        <div className="mt-16 md:mt-20">
+        <div className="mt-14 md:mt-16">
           <SectorContext rangos={rangos} />
         </div>
 
-        <div className="mt-14 border-t border-neutral-100 pt-6" data-reveal>
+        <div className="mt-12 border-t border-neutral-100 pt-6" data-reveal>
           <SectorSource cabecera={cabecera} />
         </div>
       </div>

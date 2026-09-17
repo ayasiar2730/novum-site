@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useLectura } from "@/components/useLectura";
 import { criterioGlyphs } from "@/components/criterioGlyphs";
 
 export type CriterioItem = { stage: string; title: string; body: string };
@@ -30,10 +31,12 @@ function segment(a: { x: number; y: number }, b: { x: number; y: number }) {
 export function Criterio({ items }: { items: CriterioItem[] }) {
   const [active, setActive] = useState(0);
   const decided = active === items.length - 1;
+  const listRef = useRef<HTMLOListElement>(null);
+  useLectura(listRef, ":scope > li", setActive);
 
   return (
     <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
-      <ol className="relative flex flex-col gap-11 lg:col-span-6 lg:gap-12">
+      <ol ref={listRef} className="relative flex flex-col gap-11 lg:col-span-6 lg:gap-12">
         {/* espina: el criterio es una secuencia, no cuatro bloques */}
         <span
           aria-hidden="true"
@@ -65,7 +68,7 @@ export function Criterio({ items }: { items: CriterioItem[] }) {
                 }`}
               />
               <div className="flex flex-col gap-2.5">
-                <span className={`text-label uppercase ${on ? "text-purple-700" : "text-neutral-500"}`}>
+                <span className={`text-label uppercase ${on ? "text-purple-700" : "text-neutral-700"}`}>
                   {item.stage}
                 </span>
                 <h3 className="text-h2-sm md:text-h2">
@@ -74,7 +77,7 @@ export function Criterio({ items }: { items: CriterioItem[] }) {
                     aria-pressed={on}
                     onFocus={() => setActive(i)}
                     onClick={() => setActive(i)}
-                    className={`rounded-sm text-left transition-colors duration-300 ${
+                    className={`-my-1 min-h-11 rounded-sm py-1 text-left transition-colors duration-300 ${
                       on ? "text-purple-900" : "text-neutral-700 hover:text-purple-900"
                     }`}
                   >

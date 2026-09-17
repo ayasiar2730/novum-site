@@ -220,15 +220,28 @@
 @utility surface-sistema {
   background-color: var(--color-neutral-100);
   background-image:
-    linear-gradient(180deg, var(--color-neutral-0) 0, transparent 40px),
-    linear-gradient(0deg, var(--color-neutral-0) 0, transparent 40px),
     radial-gradient(circle, rgba(122, 56, 192, 0.14) 1px, transparent 1.6px),
+    linear-gradient(180deg, var(--color-neutral-0) 0, transparent 10rem),
+    linear-gradient(0deg, var(--color-neutral-0) 0, transparent 10rem),
     linear-gradient(180deg, var(--color-neutral-100) 0%, var(--color-purple-100) 100%);
   background-size:
-    100% 100%,
-    100% 100%,
     24px 24px,
+    100% 100%,
+    100% 100%,
     100% 100%;
+}
+
+/* Trama que entra o sale: franja de retícula que se funde con el acto vecino
+   (B2: entrega Problema → Sistema y Sistema → Inteligencia). */
+@utility trama-entra {
+  background-image: radial-gradient(circle, rgba(122, 56, 192, 0.14) 1px, transparent 1.6px);
+  background-size: 24px 24px;
+  mask-image: linear-gradient(180deg, transparent, black);
+}
+@utility trama-sale {
+  background-image: radial-gradient(circle, rgba(122, 56, 192, 0.14) 1px, transparent 1.6px);
+  background-size: 24px 24px;
+  mask-image: linear-gradient(180deg, black, transparent);
 }
 
 /* ============================================================
@@ -261,7 +274,8 @@
 
 @utility glow-dark {
   background:
-    radial-gradient(50% 70% at 80% 50%, rgba(104, 176, 74, 0.16) 0%, rgba(104, 176, 74, 0) 70%),
+    radial-gradient(26% 30% at 50% 0%, rgba(104, 176, 74, 0.22) 0%, rgba(104, 176, 74, 0) 70%),
+    radial-gradient(50% 70% at 80% 50%, rgba(104, 176, 74, 0.12) 0%, rgba(104, 176, 74, 0) 70%),
     radial-gradient(40% 60% at 20% 100%, rgba(122, 56, 192, 0.35) 0%, rgba(122, 56, 192, 0) 70%);
 }
 
@@ -277,19 +291,19 @@
   opacity: 0;
   transform: translateY(12px);
   transition:
-    opacity 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
-    transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    opacity 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .js [data-reveal="scale"] {
-  transform: scale(0.96);
-  transition-duration: 0.6s;
+  transform: scale(0.97);
+  transition-duration: 0.55s;
 }
 /* "frag" (acto de tensión): cada módulo entra desplazado su propio --dx y
    se alinea con los demás al llegar; sin JS o con reduced-motion ya está alineado. */
 @media (width >= 64rem) {
   .js [data-reveal="frag"] {
     transform: translateX(var(--dx, 0));
-    transition-duration: 0.7s;
+    transition-duration: 0.55s;
   }
 }
 .js [data-reveal].in {
@@ -307,36 +321,15 @@
   outline: none;
   cursor: default;
 }
-.nodo [data-line],
-.nodo [data-ring] {
+.nodo [data-line] {
   transition:
     stroke-opacity 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
-    stroke-width 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
-    stroke 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
-    fill 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
-    transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-.nodo [data-ring] {
-  transform-box: fill-box;
-  transform-origin: center;
-}
-.nodo text {
-  transition: fill 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    stroke-width 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .nodo:hover [data-line],
 .nodo:focus-visible [data-line] {
   stroke-opacity: 1;
   stroke-width: 2.25;
-}
-.nodo:hover [data-ring],
-.nodo:focus-visible [data-ring] {
-  transform: scale(1.35);
-  fill: var(--color-purple-100);
-  stroke: var(--color-purple-700);
-}
-.sistema-nodos:not(.hero-system) .nodo:hover text,
-.sistema-nodos:not(.hero-system) .nodo:focus-visible text {
-  fill: var(--color-purple-900);
 }
 /* La salida hacia DECISIÓN responde cuando cualquier nodo está activo. */
 .sistema-nodos [data-line-out] {
@@ -421,15 +414,13 @@
   cursor: default;
 }
 .eco [data-node-ring] {
-  transform-box: fill-box;
-  transform-origin: center;
   transition:
-    transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+    stroke-width 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
     fill 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
     stroke 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .eco [data-node][data-on] [data-node-ring] {
-  transform: scale(1.14);
+  stroke-width: 2.5;
   fill: var(--color-purple-100);
   stroke: var(--color-purple-700);
 }
@@ -452,8 +443,8 @@
   stroke-width: 1.5;
   stroke-dasharray: 3 6;
   transition:
-    stroke-opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
-    stroke-width 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    stroke-opacity 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+    stroke-width 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .criterio [data-seg][data-on],
 .criterio [data-seg][data-live] {
@@ -466,41 +457,68 @@
   stroke-opacity: 0.55;
 }
 .criterio [data-station] {
-  opacity: 0.4;
-  transform-box: fill-box;
-  transform-origin: center;
-  transition:
-    opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
-    transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  opacity: 0.28;
+  transition: opacity 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .criterio [data-station][data-on] {
   opacity: 1;
-  transform: scale(1.06);
 }
 .criterio [data-station-ring] {
   stroke-opacity: 0;
   stroke-width: 1.5;
-  transition: stroke-opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition:
+    stroke-opacity 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+    stroke-width 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .criterio [data-station][data-on] [data-station-ring] {
-  stroke-opacity: 0.5;
+  stroke-opacity: 0.7;
+  stroke-width: 2;
 }
 .criterio [data-decision] {
-  opacity: 0.45;
-  transition: opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  opacity: 0.4;
+  transition: opacity 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .criterio [data-decision] [data-halo] {
   stroke-opacity: 0.35;
   stroke-width: 1.5;
+  transition:
+    stroke-opacity 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+    stroke-width 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .criterio[data-decided] [data-decision] {
   opacity: 1;
+}
+.criterio[data-decided] [data-decision] [data-halo] {
+  stroke-opacity: 0.8;
+  stroke-width: 2.25;
 }
 
 /* Glifos de Diferenciadores a 80–112 px: el trazo no escala con el objeto. */
 .glifo svg [stroke] {
   vector-effect: non-scaling-stroke;
   stroke-width: 1.75;
+}
+
+/* Progreso del recorrido (B2): una línea de 2 px bajo el header que crece con
+   el scroll del documento. Animación ligada al scroll: no se mueve sola y no
+   necesita JavaScript; donde no exista soporte, simplemente no aparece. */
+.progreso {
+  transform: scaleX(0);
+  transform-origin: left;
+}
+@supports (animation-timeline: scroll()) {
+  .progreso {
+    animation: progreso linear both;
+    animation-timeline: scroll(root block);
+  }
+}
+@keyframes progreso {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
 }
 
 /* Menú móvil: entra deslizándose 8 px, 200 ms. */
@@ -554,17 +572,14 @@
   transform-box: fill-box;
   transition:
     transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
-    filter 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
-    stroke-opacity 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    stroke-opacity 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+    stroke-width 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .hero-system .nodo:hover [data-tile],
 .hero-system .nodo:focus-visible [data-tile] {
   transform: translateX(4px);
-  filter: brightness(1.14);
-  stroke-opacity: 0.9;
-}
-.hero-system .nodo:focus-visible [data-tile] {
   stroke: #ffffff;
+  stroke-opacity: 0.9;
   stroke-width: 1.5;
 }
 [data-hero-system-mobile] .nodo:hover [data-tile],
@@ -582,16 +597,14 @@
 /* Halo de DECISIÓN: estable en reposo (ninguna animación perpetua); gana
    presencia solo mientras un nodo relacionado está en hover o con foco. */
 .hero-system [data-halo] {
-  transform-box: fill-box;
-  transform-origin: center;
   transition:
     stroke-opacity 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
-    transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    stroke-width 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .sistema-nodos:has(.nodo:hover) [data-halo],
 .sistema-nodos:has(.nodo:focus-visible) [data-halo] {
   stroke-opacity: 0.85;
-  transform: scale(1.06);
+  stroke-width: 2.25;
 }
 
 @keyframes hero-draw {
@@ -642,25 +655,21 @@
   .criterio [data-seg],
   .criterio [data-station],
   .criterio [data-station-ring],
-  .criterio [data-decision] {
+  .criterio [data-decision],
+  .criterio [data-decision] [data-halo] {
     transition: none;
-  }
-  .eco [data-node][data-on] [data-node-ring],
-  .criterio [data-station][data-on] {
-    transform: none;
   }
   .hero-system [data-halo] {
     transition: none;
   }
-  .sistema-nodos:has(.nodo:hover) [data-halo],
-  .sistema-nodos:has(.nodo:focus-visible) [data-halo] {
-    transform: none;
-  }
   .nodo [data-line],
-  .nodo [data-ring],
-  .nodo text,
   .sistema-nodos [data-line-out] {
     transition: none;
+  }
+  .progreso {
+    animation: none;
+    transform: scaleX(1);
+    opacity: 0;
   }
   .cinta {
     mask-image: none;

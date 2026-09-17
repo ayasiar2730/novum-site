@@ -22,7 +22,7 @@ export function About() {
             <h2 id="nosotros-title" className="text-h1-sm md:text-h1 text-neutral-950">
               {about.title}
             </h2>
-            <p className="border-l-2 border-green-500 pl-6 text-h3-sm font-medium leading-[1.45] text-neutral-950 md:pl-8 md:text-[1.625rem] md:leading-[1.4]">
+            <p className="border-l-2 border-purple-500 pl-6 text-h3-sm font-medium leading-[1.45] text-neutral-950 md:pl-8 md:text-[1.625rem] md:leading-[1.4]">
               {about.base}
             </p>
           </div>
@@ -33,11 +33,11 @@ export function About() {
 
         {/* Capacidades: seis nodos sobre una misma línea */}
         <div className="mt-12 md:mt-14" data-reveal style={{ transitionDelay: "80ms" }}>
-          <p className="text-label uppercase text-neutral-500">{about.capabilitiesLabel}</p>
-          <ul className="relative mt-5 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-3 lg:flex lg:justify-between lg:gap-0">
+          <p className="text-label uppercase text-purple-700">{about.capabilitiesLabel}</p>
+          <ul className="relative mt-5 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-3 lg:grid-cols-6 lg:gap-x-0">
             <span
               aria-hidden="true"
-              className="absolute left-[0.3125rem] right-[0.3125rem] top-[0.3125rem] hidden h-px bg-purple-500/40 lg:block"
+              className="absolute left-[0.3125rem] right-[16.6667%] top-[0.3125rem] hidden h-px bg-purple-500/40 lg:block"
             />
             {about.capabilities.map((capability) => (
               <li

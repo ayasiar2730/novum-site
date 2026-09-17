@@ -143,6 +143,13 @@ export function Header({ logo }: { logo: ReactNode }) {
         ref={headerRef}
         className={`sticky top-0 z-50 transition-[background-color,box-shadow] duration-300 motion-reduce:transition-none ${surface}`}
       >
+        {/* progreso del recorrido: hairline ligado al scroll; aparece cuando el hero queda atrás */}
+        <span
+          aria-hidden="true"
+          className={`progreso absolute bottom-0 left-0 h-0.5 w-full bg-purple-500 transition-opacity duration-300 motion-reduce:transition-none ${
+            pastHero && !open ? "opacity-100" : "opacity-0"
+          }`}
+        />
         <div className="container-wide flex h-16 items-center justify-between gap-6 lg:h-[4.5rem]">
           <a href="#" aria-label={`${site.name} — inicio`} className="shrink-0">
             {logo}

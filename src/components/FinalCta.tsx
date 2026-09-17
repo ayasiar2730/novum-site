@@ -75,7 +75,7 @@ export function FinalCta() {
             style={{ transitionDelay: "100ms" }}
           >
             <div>
-              <p className="mb-2 text-label uppercase text-green-300">Correo</p>
+              <p className="mb-2 text-label uppercase text-purple-100/75">Correo</p>
               <ul className="flex flex-col">
                 {contact.emails.map((email) => (
                   <li key={email}>
@@ -90,7 +90,7 @@ export function FinalCta() {
               </ul>
             </div>
             <div>
-              <p className="mb-2 text-label uppercase text-green-300">WhatsApp</p>
+              <p className="mb-2 text-label uppercase text-purple-100/75">WhatsApp</p>
               <ul className="flex flex-col">
                 {contact.whatsapp.map((w) => (
                   <li key={w.number}>
