@@ -1,11 +1,16 @@
+import { existsSync } from "node:fs";
+import path from "node:path";
 import { contact, site } from "@/content/site";
 
 /**
  * Datos estructurados. Solo lo que representa contenido visible en la página.
  * Sin sameAs (no hay LinkedIn aún), sin address (ciudad pendiente),
- * sin foundingDate (sociedad en constitución), sin logo (el SVG oficial aún no
- * existe en public/brand/ y apuntar a un 404 es peor que omitirlo). No inventar.
+ * sin foundingDate (sociedad en constitución). El logo solo se declara cuando
+ * public/brand/logo.svg existe de verdad: apuntar a un 404 es peor que omitirlo.
+ * No inventar.
  */
+const hasLogo = existsSync(path.join(process.cwd(), "public", "brand", "logo.svg"));
+
 const graph = {
   "@context": "https://schema.org",
   "@graph": [
@@ -15,6 +20,7 @@ const graph = {
       name: site.legalName,
       alternateName: site.name,
       url: `${site.url}/`,
+      ...(hasLogo ? { logo: `${site.url}/brand/logo.svg` } : {}),
       description: site.institutional,
       email: contact.emails[0],
       telephone: `+${contact.whatsapp[0].number}`,

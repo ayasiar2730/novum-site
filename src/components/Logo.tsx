@@ -1,4 +1,4 @@
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import Image from "next/image";
 import { site } from "@/content/site";
@@ -6,36 +6,54 @@ import { site } from "@/content/site";
 type Variant = "light" | "dark" | "mark";
 
 /**
- * Rutas canónicas del logo (docs/NOVUM-WEB-MASTER-PROMPT-v2.md §9 y public/brand/README.md).
- * Para cada pieza se prefiere el SVG y, si no existe, el PNG provisional. Reemplazar
- * PNG → SVG es cambiar archivos: el layout lo fija la altura en CSS, no el archivo.
- * Sobre fondo oscuro no hay versión del logo todavía: se mantiene el marcador tipográfico.
+ * Marca (Brand Master v1, public/brand/README.md). Para cada pieza se prefiere
+ * el SVG definitivo y, mientras no exista, el PNG provisional; reemplazar uno
+ * por otro es cambiar archivos: el tamaño lo fija la altura en CSS y el ancho
+ * sigue la proporción intrínseca del archivo, así que nada se deforma.
+ *
+ *  - light: logo.svg (imagotipo horizontal) o, si no existe, isotipo + wordmark.
+ *  - dark:  logo-dark.svg sobre superficies morado oscuro; sin él, marcador tipográfico.
+ *  - mark:  isotipo solo.
+ *
  * Nunca se recrea el logo en código.
  */
 const candidates = {
   logo: ["logo.svg", "logo.png"],
+  logoDark: ["logo-dark.svg", "logo-dark.png"],
   isotipo: ["isotipo.svg", "isotipo.png"],
   wordmark: ["wordmark.svg", "wordmark.png"],
 } as const;
 
-/** Dimensiones intrínsecas de los PNG provisionales (relación de aspecto para evitar saltos de layout). */
-const intrinsic: Record<string, { width: number; height: number }> = {
+/** Dimensiones intrínsecas de los PNG provisionales (proporción para evitar saltos de layout). */
+const intrinsicPng: Record<string, { width: number; height: number }> = {
   "isotipo.png": { width: 939, height: 904 },
   "wordmark.png": { width: 1119, height: 343 },
 };
 
+const brandDir = () => path.join(process.cwd(), "public", "brand");
+
 function pick(files: readonly string[]) {
-  return files.find((f) => existsSync(path.join(process.cwd(), "public", "brand", f))) ?? null;
+  return files.find((f) => existsSync(path.join(brandDir(), f))) ?? null;
+}
+
+/** Proporción del archivo: el viewBox del SVG o la tabla de los PNG. */
+function dims(file: string) {
+  if (file.endsWith(".svg")) {
+    const svg = readFileSync(path.join(brandDir(), file), "utf8");
+    const m = svg.match(/viewBox\s*=\s*"[\s,]*[-\d.]+[\s,]+[-\d.]+[\s,]+([\d.]+)[\s,]+([\d.]+)/i);
+    if (m) return { width: Math.round(Number(m[1])), height: Math.round(Number(m[2])) };
+  }
+  return intrinsicPng[file] ?? { width: 160, height: 40 };
 }
 
 function Asset({ file, className, sizes }: { file: string; className: string; sizes: string }) {
-  const dims = intrinsic[file] ?? { width: 160, height: 40 };
+  const d = dims(file);
   return (
     <Image
       src={`/brand/${file}`}
       alt=""
-      width={dims.width}
-      height={dims.height}
+      width={d.width}
+      height={d.height}
       priority
       sizes={sizes}
       unoptimized={file.endsWith(".svg")}
@@ -48,6 +66,7 @@ export function Logo({ variant = "light", className = "" }: { variant?: Variant;
   const isotipo = pick(candidates.isotipo);
   const wordmark = pick(candidates.wordmark);
   const logo = pick(candidates.logo);
+  const logoDark = pick(candidates.logoDark);
 
   if (variant === "mark" && isotipo) {
     return (
@@ -57,16 +76,24 @@ export function Logo({ variant = "light", className = "" }: { variant?: Variant;
     );
   }
 
+  if (variant === "dark" && logoDark) {
+    return (
+      <span role="img" aria-label={site.name} className={`inline-flex ${className}`}>
+        <Asset file={logoDark} className="h-9 w-auto lg:h-10" sizes="180px" />
+      </span>
+    );
+  }
+
   if (variant === "light" && logo) {
     return (
       <span role="img" aria-label={site.name} className={`inline-flex ${className}`}>
-        <Asset file={logo} className="h-10 w-auto" sizes="200px" />
+        <Asset file={logo} className="h-9 w-auto lg:h-10" sizes="180px" />
       </span>
     );
   }
 
   if (variant === "light" && isotipo && wordmark) {
-    // Imagotipo horizontal: isotipo + «novúm INTEGRAL», sin eslogan.
+    // Imagotipo horizontal compuesto: isotipo + «novúm INTEGRAL», sin eslogan.
     return (
       <span role="img" aria-label={site.name} className={`inline-flex items-center gap-2.5 ${className}`}>
         <Asset file={isotipo} className="h-9 w-auto lg:h-10" sizes="40px" />

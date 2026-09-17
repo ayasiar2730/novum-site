@@ -5,7 +5,7 @@ Antes de tocar código, lee `docs/NOVUM-WEB-MASTER-PROMPT-v2.md` (jerarquía de 
 - El contenido visible vive en `src/content/site.ts`; los tokens en `src/app/globals.css`. No hardcodear textos ni colores en componentes.
 - Sitio público e indexable: nunca `noindex`; nunca copiar configuración de la aplicación `app.novumintegral.com`.
 - Los perfiles del equipo se controlan con `NEXT_PUBLIC_SHOW_TEAM`; la declaración institucional de `#nosotros` es siempre pública.
-- No recrear el logo en código: `<Logo>` lee `public/brand/*.svg`. El JSON-LD no lleva `logo` hasta que exista `public/brand/logo.svg`.
+- No recrear el logo en código: `<Logo>` lee `public/brand/*.svg` (SVG > PNG). El JSON-LD declara `Organization.logo` solo si existe `public/brand/logo.svg`; favicon, iconos y OG se derivan únicamente de `isotipo.svg` / `logo-dark.svg` (ver `public/brand/README.md`).
 - Al publicar un cambio de contenido, actualizar `site.contentUpdatedAt` (alimenta `lastModified` del sitemap; nunca `new Date()`).
 - Los estados internos de producto (en desarrollo, en diseño, en pruebas, roadmap) y los perfiles individuales del equipo **no se muestran en la web pública**. `StatusTag` y los perfiles se conservan en código para preview o usos futuros con razón de producto.
 - No agregar dependencias sin justificarlo. Sin librerías de animación: el motion es CSS. Sin librerías de gráficas: las visualizaciones de `#inteligencia` son SVG + CSS.

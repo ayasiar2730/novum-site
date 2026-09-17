@@ -50,7 +50,7 @@ $env:SECTOR_FIXTURE = "true"; npm run dev
 
 ## Assets de marca
 
-Rutas canónicas en `public/brand/` (ver `public/brand/README.md`). El componente `<Logo>` detecta el SVG oficial automáticamente; mientras no exista muestra un marcador tipográfico. **No recrear el logo en código.**
+Rutas canónicas en `public/brand/` (ver `public/brand/README.md`). `<Logo>` prefiere el SVG definitivo (`logo.svg`, `logo-dark.svg`, `isotipo.svg`, `wordmark.svg`) y cae al PNG provisional mientras no exista; favicon, iconos y OG se derivan solo del isotipo. **No recrear el logo en código.**
 
 ## Despliegue
 
