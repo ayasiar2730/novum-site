@@ -87,33 +87,49 @@ function FixtureBanner() {
 }
 
 /**
- * Versión editorial: sin snapshot no hay cifras, solo el marco analítico.
- * Móvil: capítulos apilados; tablet: cada capítulo en dos columnas (título |
- * pregunta y texto); escritorio: los tres capítulos en columnas.
+ * Versión editorial (B1.4): sin snapshot no hay cifras, solo el marco
+ * analítico, compuesto como un reportaje del observatorio: numeración
+ * editorial grande, capítulos asimétricos y una línea de lectura que los
+ * recorre. Cuando llegue el snapshot, ConDatos ocupa este mismo lugar con la
+ * misma cabecera y columna de contexto: nada de esto se destruye.
  */
+const sangria = ["lg:pl-0", "lg:pl-24", "lg:pl-10"];
+
 function Editorial() {
   return (
-    <div className="mt-16 divide-y divide-neutral-100 border-t border-neutral-100 lg:grid lg:grid-cols-3 lg:gap-10 lg:divide-y-0 lg:pt-10">
+    <div className="relative mt-4 flex flex-col gap-16 lg:gap-20">
+      {/* línea de lectura: recorre los tres capítulos, como la conexión del sistema */}
+      <span
+        aria-hidden="true"
+        className="absolute bottom-10 left-[0.3125rem] top-10 hidden w-px bg-neutral-300/70 lg:block"
+      />
       {sector.capitulos.map((c, i) => (
         <article
           key={c.numero}
-          className="grid gap-4 py-8 md:grid-cols-12 md:gap-8 lg:block lg:space-y-4 lg:py-0"
+          className={`relative grid gap-5 md:grid-cols-12 md:gap-8 ${sangria[i]}`}
           aria-labelledby={`capitulo-${c.numero}`}
           data-reveal
           style={{ transitionDelay: `${i * 60}ms` }}
         >
-          <div className="flex flex-col gap-3 md:col-span-5">
-            <p className="flex items-center gap-3 text-label uppercase text-purple-700">
-              <span aria-hidden="true" className="h-px w-6 bg-purple-500" />
-              <span className="tnum">{c.numero}</span>
+          <span
+            aria-hidden="true"
+            className="absolute left-0 top-[2.1rem] hidden h-3 w-3 rounded-[3px] border-[1.5px] border-purple-500 bg-neutral-0 lg:block"
+          />
+          <div className="flex items-start gap-5 md:col-span-5 md:flex-col md:gap-1 md:pl-8">
+            <p className="tnum text-[3.5rem] font-bold leading-none tracking-[-0.03em] text-purple-100 md:text-[5.5rem]">
+              <span className="sr-only">Capítulo </span>
+              {c.numero}
             </p>
-            <h3 id={`capitulo-${c.numero}`} className="text-h3 md:text-h2-sm text-neutral-950">
+            <h3
+              id={`capitulo-${c.numero}`}
+              className="text-h3 md:text-h2-sm text-neutral-950 md:-mt-3 md:max-w-[14rem]"
+            >
               {c.titulo}
             </h3>
           </div>
-          <div className="flex flex-col gap-3 md:col-span-7">
-            <p className="text-lead text-purple-900">{c.pregunta}</p>
-            <p className="text-body-sm text-neutral-700">{c.texto}</p>
+          <div className="flex flex-col gap-3 md:col-span-7 md:pt-4">
+            <p className="text-lead max-w-[30rem] text-purple-900">{c.pregunta}</p>
+            <p className="text-body-sm max-w-[30rem] text-neutral-700">{c.texto}</p>
           </div>
         </article>
       ))}
@@ -161,22 +177,46 @@ export async function SectorIntelligence() {
       aria-labelledby="inteligencia-title"
     >
       {snapshot?.origen === "fixture" ? <FixtureBanner /> : null}
-      <div className="container-site section-y relative">
-        <SectorMark className="pointer-events-none absolute -right-24 top-16 hidden h-[420px] w-[420px] lg:block" />
+      <div className="container-site relative py-24 md:py-32">
+        <SectorMark className="pointer-events-none absolute -right-44 -top-24 hidden h-[460px] w-[460px] opacity-60 lg:block" />
 
-        <div className="relative grid gap-8 lg:grid-cols-12" data-reveal>
-          <div className="lg:col-span-8">
-            <SectionHeading
-              id="inteligencia-title"
-              eyebrow={sector.eyebrow}
-              title={sector.title}
-              intro={sector.intro}
-            />
+        {snapshot ? (
+          <>
+            {/* con snapshot: cabecera a lo ancho y la versión con datos completa (2B.2 la compondrá) */}
+            <div className="relative grid gap-8 lg:grid-cols-12" data-reveal>
+              <div className="lg:col-span-8">
+                <SectionHeading
+                  id="inteligencia-title"
+                  eyebrow={sector.eyebrow}
+                  title={sector.title}
+                  intro={sector.intro}
+                />
+              </div>
+              <p className="text-body measure text-neutral-900 lg:col-span-8">{sector.capacidad}</p>
+            </div>
+            <ConDatos snapshot={snapshot} />
+          </>
+        ) : (
+          /* observatorio: columna de contexto (cómo piensa Novum) y, al lado, los capítulos */
+          <div className="relative grid gap-14 lg:grid-cols-12 lg:gap-8">
+            <div className="lg:col-span-4">
+              <div className="flex flex-col gap-8 lg:sticky lg:top-28" data-reveal>
+                <SectionHeading
+                  id="inteligencia-title"
+                  eyebrow={sector.eyebrow}
+                  title={sector.title}
+                  intro={sector.intro}
+                />
+                <p className="border-l-2 border-purple-500 pl-5 text-body text-neutral-900">
+                  {sector.capacidad}
+                </p>
+              </div>
+            </div>
+            <div className="lg:col-span-7 lg:col-start-6">
+              <Editorial />
+            </div>
           </div>
-          <p className="text-body measure text-neutral-900 lg:col-span-8">{sector.capacidad}</p>
-        </div>
-
-        {snapshot ? <ConDatos snapshot={snapshot} /> : <Editorial />}
+        )}
 
         <div className="mt-16 md:mt-20">
           <SectorContext rangos={rangos} />
