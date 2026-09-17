@@ -50,7 +50,7 @@ $env:SECTOR_FIXTURE = "true"; npm run dev
 
 ## Assets de marca
 
-Rutas canónicas en `public/brand/` (ver `public/brand/README.md`). `<Logo>` prefiere el SVG definitivo (`logo.svg`, `logo-dark.svg`, `isotipo.svg`, `wordmark.svg`) y cae al PNG provisional mientras no exista; favicon, iconos y OG se derivan solo del isotipo. **No recrear el logo en código.**
+Rutas canónicas en `public/brand/` (ver `public/brand/README.md`). El master operativo es el PNG aprobado (`logo.png`, `isotipo.png`, `wordmark.png`); `<Logo>` preferiría un SVG con color real si existiera. Favicon, iconos y OG se derivan solo del isotipo. **No recrear el logo en código.**
 
 ## Despliegue
 

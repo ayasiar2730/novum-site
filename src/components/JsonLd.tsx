@@ -6,10 +6,13 @@ import { contact, site } from "@/content/site";
  * Datos estructurados. Solo lo que representa contenido visible en la página.
  * Sin sameAs (no hay LinkedIn aún), sin address (ciudad pendiente),
  * sin foundingDate (sociedad en constitución). El logo solo se declara cuando
- * public/brand/logo.svg existe de verdad: apuntar a un 404 es peor que omitirlo.
+ * public/brand/logo.svg o logo.png existe de verdad: apuntar a un 404 es peor
+ * que omitirlo.
  * No inventar.
  */
-const hasLogo = existsSync(path.join(process.cwd(), "public", "brand", "logo.svg"));
+const logoFile = ["logo.svg", "logo.png"].find((f) =>
+  existsSync(path.join(process.cwd(), "public", "brand", f)),
+);
 
 const graph = {
   "@context": "https://schema.org",
@@ -20,7 +23,7 @@ const graph = {
       name: site.legalName,
       alternateName: site.name,
       url: `${site.url}/`,
-      ...(hasLogo ? { logo: `${site.url}/brand/logo.svg` } : {}),
+      ...(logoFile ? { logo: `${site.url}/brand/${logoFile}` } : {}),
       description: site.institutional,
       email: contact.emails[0],
       telephone: `+${contact.whatsapp[0].number}`,

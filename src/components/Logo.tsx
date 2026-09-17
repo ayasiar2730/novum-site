@@ -6,13 +6,13 @@ import { site } from "@/content/site";
 type Variant = "light" | "dark" | "mark";
 
 /**
- * Marca (Brand Master v1, public/brand/README.md). Para cada pieza se prefiere
- * el SVG definitivo y, mientras no exista, el PNG provisional; reemplazar uno
- * por otro es cambiar archivos: el tamaño lo fija la altura en CSS y el ancho
- * sigue la proporción intrínseca del archivo, así que nada se deforma.
+ * Marca (Brand Master operativo v1, public/brand/README.md). El master es el
+ * PNG aprobado; si algún día existe un SVG con color real se prefiere con solo
+ * dejarlo en la carpeta. El tamaño lo fija la altura en CSS y el ancho sigue la
+ * proporción intrínseca del archivo, así que nada se deforma.
  *
- *  - light: logo.svg (imagotipo horizontal) o, si no existe, isotipo + wordmark.
- *  - dark:  logo-dark.svg sobre superficies morado oscuro; sin él, marcador tipográfico.
+ *  - light: logo (imagotipo horizontal) o, si no existe, isotipo + wordmark.
+ *  - dark:  logo-dark sobre superficies morado oscuro; sin él, marcador tipográfico.
  *  - mark:  isotipo solo.
  *
  * Nunca se recrea el logo en código.
@@ -24,26 +24,27 @@ const candidates = {
   wordmark: ["wordmark.svg", "wordmark.png"],
 } as const;
 
-/** Dimensiones intrínsecas de los PNG provisionales (proporción para evitar saltos de layout). */
-const intrinsicPng: Record<string, { width: number; height: number }> = {
-  "isotipo.png": { width: 939, height: 904 },
-  "wordmark.png": { width: 1119, height: 343 },
-};
-
 const brandDir = () => path.join(process.cwd(), "public", "brand");
 
 function pick(files: readonly string[]) {
   return files.find((f) => existsSync(path.join(brandDir(), f))) ?? null;
 }
 
-/** Proporción del archivo: el viewBox del SVG o la tabla de los PNG. */
+/** Proporción intrínseca: el viewBox del SVG o la cabecera IHDR del PNG (evita saltos de layout). */
 function dims(file: string) {
+  const full = path.join(brandDir(), file);
   if (file.endsWith(".svg")) {
-    const svg = readFileSync(path.join(brandDir(), file), "utf8");
+    const svg = readFileSync(full, "utf8");
     const m = svg.match(/viewBox\s*=\s*"[\s,]*[-\d.]+[\s,]+[-\d.]+[\s,]+([\d.]+)[\s,]+([\d.]+)/i);
     if (m) return { width: Math.round(Number(m[1])), height: Math.round(Number(m[2])) };
   }
-  return intrinsicPng[file] ?? { width: 160, height: 40 };
+  if (file.endsWith(".png")) {
+    const head = readFileSync(full).subarray(0, 24);
+    if (head.toString("ascii", 12, 16) === "IHDR") {
+      return { width: head.readUInt32BE(16), height: head.readUInt32BE(20) };
+    }
+  }
+  return { width: 160, height: 40 };
 }
 
 function Asset({ file, className, sizes }: { file: string; className: string; sizes: string }) {
