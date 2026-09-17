@@ -505,6 +505,49 @@
   stroke-width: 2.25;
 }
 
+/* ------------------------------------------------------------
+   Red de acompañamiento (B1.5): estados por atributo data-on. El nodo activo
+   se rellena y su conexión con el núcleo se enciende; etiqueta en morado.
+   ------------------------------------------------------------ */
+.red [data-link] {
+  stroke: var(--color-purple-500);
+  stroke-opacity: 0.3;
+  stroke-width: 1.5;
+  transition:
+    stroke-opacity 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+    stroke-width 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+    stroke 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.red [data-link][data-on] {
+  stroke: var(--color-purple-700);
+  stroke-opacity: 1;
+  stroke-width: 2.25;
+}
+.red [data-node] {
+  cursor: default;
+}
+.red [data-node-ring] {
+  fill: var(--color-neutral-0);
+  stroke: var(--color-purple-500);
+  stroke-width: 1.5;
+  transition:
+    fill 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+    stroke 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+    stroke-width 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.red [data-node][data-on] [data-node-ring] {
+  fill: var(--color-purple-500);
+  stroke: var(--color-purple-700);
+  stroke-width: 2.5;
+}
+.red [data-node] text {
+  fill: var(--color-neutral-700);
+  transition: fill 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.red [data-node][data-on] text {
+  fill: var(--color-purple-900);
+}
+
 /* Glifos de Diferenciadores a 80–112 px: el trazo no escala con el objeto. */
 .glifo svg [stroke] {
   vector-effect: non-scaling-stroke;
@@ -664,6 +707,9 @@
   .eco [data-branch],
   .eco [data-node-ring],
   .eco [data-constellation],
+  .red [data-link],
+  .red [data-node-ring],
+  .red [data-node] text,
   .criterio [data-seg],
   .criterio [data-station],
   .criterio [data-station-ring],

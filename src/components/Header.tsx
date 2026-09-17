@@ -14,8 +14,9 @@ import { ButtonLink } from "@/components/ButtonLink";
  * La marca es el imagotipo provisional (isotipo + wordmark) que llega por <Logo>;
  * "Ingresar a la plataforma" es un botón secundario tintado, sin borde.
  * La sección activa se detecta con IntersectionObserver sobre una banda al
- * 40–45 % del alto de la ventana; el indicador es una línea que se desliza bajo
- * el enlace. Nunca se modifica la URL: los enlaces siguen siendo anclas normales.
+ * 40–45 % del alto de la ventana; el indicador es una píldora morada que se
+ * desliza detrás del enlace activo y responde de inmediato al clic. Nunca se
+ * modifica la URL: los enlaces siguen siendo anclas normales.
  */
 export function Header({ logo }: { logo: ReactNode }) {
   const [scrolled, setScrolled] = useState(false);
@@ -28,6 +29,8 @@ export function Header({ logo }: { logo: ReactNode }) {
   const navRef = useRef<HTMLElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
+  /** Tras un clic en el menú, el observador espera a que termine el desplazamiento para no encadenar saltos. */
+  const lockUntil = useRef(0);
 
   // Superficie: el centinela (8 px en la cima del documento) dice si hay
   // desplazamiento; el hero, observado con el margen de la barra, dice si ya
@@ -64,6 +67,7 @@ export function Header({ logo }: { logo: ReactNode }) {
     if (sections.length === 0) return;
 
     const pick = () => {
+      if (Date.now() < lockUntil.current) return;
       const limit = window.innerHeight * 0.45;
       let current: string | null = null;
       for (const el of sections) {
@@ -124,6 +128,11 @@ export function Header({ logo }: { logo: ReactNode }) {
     };
   }, [open]);
 
+  const go = (href: string) => {
+    lockUntil.current = Date.now() + 900;
+    setActive(href);
+  };
+
   const surface = open
     ? "bg-neutral-0 shadow-hairline"
     : pastHero
@@ -158,7 +167,7 @@ export function Header({ logo }: { logo: ReactNode }) {
           <nav
             ref={navRef}
             aria-label="Principal"
-            className="relative hidden h-full items-center gap-6 lg:flex xl:gap-8"
+            className="relative hidden h-full items-center gap-1 lg:flex xl:gap-2"
           >
             {nav.map((item) => {
               const isActive = active === item.href;
@@ -167,18 +176,19 @@ export function Header({ logo }: { logo: ReactNode }) {
                   key={item.href}
                   href={item.href}
                   aria-current={isActive ? "location" : undefined}
-                  className={`flex h-full items-center text-nav transition-colors duration-200 hover:text-purple-900 ${
-                    isActive ? "text-purple-900" : "text-neutral-700"
+                  onClick={() => go(item.href)}
+                  className={`relative z-[1] flex h-11 items-center rounded-md px-3.5 text-nav transition-colors duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:transition-none ${
+                    isActive ? "text-white" : "text-neutral-700 hover:text-purple-900"
                   }`}
                 >
                   {item.label}
                 </a>
               );
             })}
-            {/* Indicador de sección activa: una línea que se desliza bajo el enlace. */}
+            {/* Indicador de sección activa: una píldora morada que se desliza detrás del enlace activo. */}
             <span
               aria-hidden="true"
-              className={`absolute bottom-0 h-0.5 rounded-full bg-purple-500 transition-[left,width,opacity] duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:transition-none ${
+              className={`absolute top-1/2 h-11 -translate-y-1/2 rounded-md bg-purple-700 shadow-button transition-[left,width,opacity] duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:transition-none ${
                 marker ? "opacity-100" : "opacity-0"
               }`}
               style={marker ? { left: marker.left, width: marker.width } : { left: 0, width: 0 }}
@@ -262,16 +272,21 @@ export function Header({ logo }: { logo: ReactNode }) {
                   <a
                     key={item.href}
                     href={item.href}
-                    onClick={() => setOpen(false)}
+                    onClick={() => {
+                      go(item.href);
+                      setOpen(false);
+                    }}
                     aria-current={isActive ? "location" : undefined}
                     className={`-mx-3 flex min-h-14 items-center gap-4 rounded-md px-3 text-lead font-semibold transition-colors duration-200 ${
-                      isActive ? "bg-purple-100/70 text-purple-900" : "text-neutral-900 hover:bg-neutral-50"
+                      isActive
+                        ? "bg-purple-700 text-white shadow-button"
+                        : "text-neutral-900 hover:bg-neutral-50"
                     }`}
                   >
                     <span
                       aria-hidden="true"
                       className={`h-3 w-3 shrink-0 rounded-sm border-[1.5px] ${
-                        isActive ? "border-purple-700 bg-purple-500" : "border-purple-500 bg-purple-100"
+                        isActive ? "border-white bg-white/90" : "border-purple-500 bg-purple-100"
                       }`}
                     />
                     {item.label}
