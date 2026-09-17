@@ -10,15 +10,15 @@ export function ProductFrame({ caption }: { caption: string }) {
       {/* capa trasera: profundidad */}
       <div
         aria-hidden="true"
-        className="absolute inset-x-6 -bottom-3 top-6 rounded-xl border border-neutral-100 bg-neutral-0/70"
+        className="absolute inset-x-6 -bottom-3 top-6 rounded-lg border border-neutral-100 bg-neutral-0/70"
       />
       <div
         aria-hidden="true"
-        className="absolute inset-x-3 -bottom-1.5 top-3 rounded-xl border border-neutral-100 bg-neutral-0/90"
+        className="absolute inset-x-3 -bottom-1.5 top-3 rounded-lg border border-neutral-100 bg-neutral-0/90"
       />
 
       {/* capa frontal: la interfaz */}
-      <div className="shadow-lift relative overflow-hidden rounded-xl border border-neutral-100 bg-neutral-0">
+      <div className="shadow-lift relative overflow-hidden rounded-lg border border-neutral-100 bg-neutral-0">
         {/* barra de ventana */}
         <div className="flex h-9 items-center gap-1.5 border-b border-neutral-100 bg-neutral-50 px-3">
           <span className="h-2 w-2 rounded-full bg-neutral-300" />

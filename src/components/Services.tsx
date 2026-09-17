@@ -43,7 +43,7 @@ export function Services() {
                 >
                   <span
                     aria-hidden="true"
-                    className="relative z-[1] mt-[0.3rem] h-4 w-4 shrink-0 rounded-[3px] border-[1.5px] border-purple-500 bg-neutral-0 transition-colors duration-200 group-focus-within:bg-purple-500 group-hover:bg-purple-500 lg:absolute lg:left-0 lg:top-[1.7rem] lg:mt-0"
+                    className="relative z-[1] mt-[0.3rem] h-4 w-4 shrink-0 rounded-sm border-[1.5px] border-purple-500 bg-neutral-0 transition-colors duration-200 group-focus-within:bg-purple-500 group-hover:bg-purple-500 lg:absolute lg:left-0 lg:top-[1.7rem] lg:mt-0"
                   />
                   <div className="relative flex flex-col gap-3">
                     <h3 className="text-h3-sm md:text-h3 text-neutral-950 transition-colors duration-200 group-focus-within:text-purple-900 group-hover:text-purple-900">

@@ -125,11 +125,11 @@ export function Header({ logo }: { logo: ReactNode }) {
   }, [open]);
 
   const surface = open
-    ? "bg-neutral-0 shadow-[0_1px_0_rgba(44,14,114,0.06)]"
+    ? "bg-neutral-0 shadow-hairline"
     : pastHero
-      ? "bg-neutral-0/88 shadow-[0_1px_0_rgba(44,14,114,0.07),0_16px_32px_-28px_rgba(44,14,114,0.35)] backdrop-blur-sm"
+      ? "bg-neutral-0/88 shadow-lift backdrop-blur-sm"
       : scrolled
-        ? "bg-neutral-50/90 shadow-[0_1px_0_rgba(44,14,114,0.05)] backdrop-blur-md"
+        ? "bg-neutral-50/90 shadow-hairline backdrop-blur-md"
         : "bg-transparent";
 
   return (
@@ -151,7 +151,7 @@ export function Header({ logo }: { logo: ReactNode }) {
           }`}
         />
         <div className="container-wide flex h-16 items-center justify-between gap-6 lg:h-[4.5rem]">
-          <a href="#" aria-label={`${site.name} — inicio`} className="shrink-0">
+          <a href="#" aria-label={`${site.name} — inicio`} className="flex min-h-11 shrink-0 items-center">
             {logo}
           </a>
 
@@ -167,7 +167,7 @@ export function Header({ logo }: { logo: ReactNode }) {
                   key={item.href}
                   href={item.href}
                   aria-current={isActive ? "location" : undefined}
-                  className={`text-nav transition-colors duration-200 hover:text-purple-900 ${
+                  className={`flex h-full items-center text-nav transition-colors duration-200 hover:text-purple-900 ${
                     isActive ? "text-purple-900" : "text-neutral-700"
                   }`}
                 >
@@ -190,7 +190,7 @@ export function Header({ logo }: { logo: ReactNode }) {
               href={site.appUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-10 items-center gap-2 rounded-lg bg-purple-100/70 px-3.5 text-small font-semibold text-purple-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] transition-[background-color,color] duration-200 hover:bg-purple-100"
+              className="inline-flex h-11 items-center gap-2 rounded-md bg-purple-100/70 px-3.5 text-small font-semibold text-purple-900 transition-[background-color,color] duration-200 hover:bg-purple-100"
             >
               {cta.app}
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -223,7 +223,7 @@ export function Header({ logo }: { logo: ReactNode }) {
           <button
             ref={toggleRef}
             type="button"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-neutral-900 lg:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-md text-neutral-900 lg:hidden"
             aria-expanded={open}
             aria-controls="menu-movil"
             onClick={() => setOpen((v) => !v)}
@@ -264,13 +264,13 @@ export function Header({ logo }: { logo: ReactNode }) {
                     href={item.href}
                     onClick={() => setOpen(false)}
                     aria-current={isActive ? "location" : undefined}
-                    className={`-mx-3 flex min-h-14 items-center gap-4 rounded-lg px-3 text-lead font-semibold transition-colors duration-200 ${
+                    className={`-mx-3 flex min-h-14 items-center gap-4 rounded-md px-3 text-lead font-semibold transition-colors duration-200 ${
                       isActive ? "bg-purple-100/70 text-purple-900" : "text-neutral-900 hover:bg-neutral-50"
                     }`}
                   >
                     <span
                       aria-hidden="true"
-                      className={`h-2.5 w-2.5 shrink-0 rounded-full border-[1.5px] ${
+                      className={`h-3 w-3 shrink-0 rounded-sm border-[1.5px] ${
                         isActive ? "border-purple-700 bg-purple-500" : "border-purple-500 bg-purple-100"
                       }`}
                     />
@@ -282,7 +282,7 @@ export function Header({ logo }: { logo: ReactNode }) {
                 href={site.appUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="-mx-3 mt-3 flex min-h-12 items-center rounded-lg px-3 text-body text-neutral-500 transition-colors duration-200 hover:text-purple-900"
+                className="-mx-3 mt-3 flex min-h-12 items-center rounded-md px-3 text-body text-neutral-700 transition-colors duration-200 hover:text-purple-900"
               >
                 {cta.app}
               </a>

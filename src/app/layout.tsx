@@ -48,7 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Primer elemento enfocable: invisible hasta recibir foco (WCAG 2.4.1). */}
         <a
           href="#contenido"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-purple-900 focus:px-4 focus:py-3 focus:text-small focus:font-semibold focus:text-white focus:shadow-lift"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-purple-900 focus:px-4 focus:py-3 focus:text-small focus:font-semibold focus:text-white focus:shadow-lift"
         >
           Saltar al contenido
         </a>

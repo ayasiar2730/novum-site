@@ -78,7 +78,7 @@ export function Ecosystem({ solutions }: { solutions: Solution[] }) {
             >
               <span
                 aria-hidden="true"
-                className={`relative z-[1] mt-[0.5em] h-3 w-3 shrink-0 rounded-[3px] border-[1.5px] transition-colors duration-300 ${
+                className={`relative z-[1] mt-[0.5em] h-3 w-3 shrink-0 rounded-sm border-[1.5px] transition-colors duration-300 ${
                   s.open ? "border-dashed" : ""
                 } ${on ? "border-purple-700 bg-purple-500" : "border-purple-500 bg-neutral-0"}`}
               />

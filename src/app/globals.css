@@ -38,8 +38,20 @@
   --color-transparent: transparent;
   --color-current: currentColor;
 
-  /* --- sombra única (teñida de morado) --- */
+  /* --- radios: tres tamaños y no más ---
+     sm = marcadores de módulo · md = botones, chips, enlaces · lg = módulos y paneles · xl = banda de cierre */
+  --radius-sm: 0.1875rem; /* 3 */
+  --radius-md: 0.5rem; /* 8 */
+  --radius-lg: 1rem; /* 16 */
+  --radius-xl: 2.5rem; /* 40 */
+
+  /* --- sombras: elevación (lift), hairline de superficie, banda de cierre y botones; el foco usa outline --- */
   --shadow-lift: 0 1px 2px rgba(23, 20, 31, 0.06), 0 8px 24px rgba(44, 14, 114, 0.08);
+  --shadow-hairline: 0 1px 0 rgba(44, 14, 114, 0.07);
+  --shadow-band: 0 -24px 48px -32px rgba(44, 14, 114, 0.45);
+  --shadow-button: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 10px 24px -10px rgba(75, 22, 168, 0.6);
+  --shadow-button-hover: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 14px 28px -10px rgba(44, 14, 114, 0.6);
+  --shadow-button-result: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 10px 24px -10px rgba(104, 176, 74, 0.55);
 
   /* --- escala tipográfica --- */
   --text-display: 3.5rem; /* 56 */

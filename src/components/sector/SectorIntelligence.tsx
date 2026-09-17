@@ -113,12 +113,12 @@ function Editorial() {
         >
           <span
             aria-hidden="true"
-            className="absolute left-0 top-[2.1rem] hidden h-3 w-3 rounded-[3px] border-[1.5px] border-purple-500 bg-neutral-0 lg:block"
+            className="absolute left-0 top-[2.1rem] hidden h-3 w-3 rounded-sm border-[1.5px] border-purple-500 bg-neutral-0 lg:block"
           />
           <div className="flex items-start gap-5 md:col-span-5 md:flex-col md:gap-1 md:pl-8">
             <p className="tnum text-[3.5rem] font-bold leading-none tracking-[-0.03em] text-purple-100 md:text-[5rem]">
-              <span className="sr-only">Capítulo </span>
-              {c.numero}
+              <span className="sr-only">Capítulo {c.numero}</span>
+              <span aria-hidden="true">{c.numero}</span>
             </p>
             <h3
               id={`capitulo-${c.numero}`}

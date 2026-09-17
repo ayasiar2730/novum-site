@@ -42,7 +42,7 @@ export function FinalCta() {
   return (
     <section
       id="contacto"
-      className="relative overflow-hidden rounded-t-[2rem] bg-purple-900 text-white shadow-[0_-24px_48px_-32px_rgba(44,14,114,0.45)] md:rounded-t-[2.5rem]"
+      className="relative overflow-hidden rounded-t-xl bg-purple-900 text-white shadow-band"
       aria-labelledby="contacto-title"
     >
       <div aria-hidden="true" className="glow-dark pointer-events-none absolute inset-0" />

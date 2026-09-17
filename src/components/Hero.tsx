@@ -88,9 +88,9 @@ export function Hero() {
               <div key={fact.label} className="flex items-center gap-4">
                 <span
                   aria-hidden="true"
-                  className="h-2.5 w-2.5 shrink-0 rounded-full border-[1.5px] border-purple-500 bg-purple-100"
+                  className="h-3 w-3 shrink-0 rounded-sm border-[1.5px] border-purple-500 bg-purple-100"
                 />
-                <dt className="text-label uppercase text-neutral-500">{fact.label}</dt>
+                <dt className="text-label uppercase text-neutral-700">{fact.label}</dt>
                 <dd className="whitespace-nowrap text-small font-medium text-neutral-900">{fact.value}</dd>
               </div>
             ))}
@@ -98,8 +98,8 @@ export function Hero() {
           <div className="cinta-track cinta-clone" aria-hidden="true">
             {hero.facts.map((fact) => (
               <div key={fact.label} className="flex items-center gap-4">
-                <span className="h-2.5 w-2.5 shrink-0 rounded-full border-[1.5px] border-purple-500 bg-purple-100" />
-                <span className="text-label uppercase text-neutral-500">{fact.label}</span>
+                <span className="h-3 w-3 shrink-0 rounded-sm border-[1.5px] border-purple-500 bg-purple-100" />
+                <span className="text-label uppercase text-neutral-700">{fact.label}</span>
                 <span className="whitespace-nowrap text-small font-medium text-neutral-900">
                   {fact.value}
                 </span>

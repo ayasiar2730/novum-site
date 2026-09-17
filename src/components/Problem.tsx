@@ -50,7 +50,7 @@ export function Problem() {
               >
                 <span
                   aria-hidden="true"
-                  className="mt-[0.45em] hidden h-3 w-3 shrink-0 rounded-[3px] border-[1.5px] border-purple-500 bg-neutral-0 lg:block"
+                  className="mt-[0.45em] hidden h-3 w-3 shrink-0 rounded-sm border-[1.5px] border-purple-500 bg-neutral-0 lg:block"
                 />
                 <div className="grid gap-3 md:grid-cols-12 md:gap-6">
                   <h3 className="text-h2-sm md:text-h2 text-purple-900 md:col-span-5">{item.title}</h3>

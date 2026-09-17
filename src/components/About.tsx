@@ -46,7 +46,7 @@ export function About() {
               >
                 <span
                   aria-hidden="true"
-                  className="relative z-[1] h-3 w-3 shrink-0 rounded-[3px] border-[1.5px] border-purple-500 bg-purple-100"
+                  className="relative z-[1] h-3 w-3 shrink-0 rounded-sm border-[1.5px] border-purple-500 bg-purple-100"
                 />
                 {capability}
               </li>

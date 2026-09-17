@@ -4,20 +4,18 @@ type Variant = "primary" | "secondary" | "onDark" | "onDarkSecondary";
 type Size = "md" | "sm";
 
 const base =
-  "group inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg font-semibold transition-[background-color,border-color,color,box-shadow,transform] duration-200 active:translate-y-px";
+  "group inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-semibold transition-[background-color,border-color,color,box-shadow,transform] duration-200 active:translate-y-px";
 
 const sizes: Record<Size, string> = {
   md: "h-12 px-5 text-small",
-  sm: "h-10 px-4 text-small",
+  sm: "h-11 px-4 text-small",
 };
 
 const variants: Record<Variant, string> = {
-  primary:
-    "bg-purple-700 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_10px_24px_-10px_rgba(75,22,168,0.6)] hover:bg-purple-900 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_14px_28px_-10px_rgba(44,14,114,0.6)]",
+  primary: "bg-purple-700 text-white shadow-button hover:bg-purple-900 hover:shadow-button-hover",
   secondary:
     "border border-neutral-300 bg-neutral-0 text-neutral-900 hover:border-purple-500 hover:text-purple-900",
-  onDark:
-    "bg-green-500 text-purple-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_10px_24px_-10px_rgba(104,176,74,0.55)] hover:bg-green-300",
+  onDark: "bg-green-500 text-purple-900 shadow-button-result hover:bg-green-300",
   onDarkSecondary: "border border-white/30 text-white hover:border-white/70 hover:bg-white/5",
 };
 

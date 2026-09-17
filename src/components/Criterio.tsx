@@ -55,7 +55,7 @@ export function Criterio({ items }: { items: CriterioItem[] }) {
               {/* móvil / tablet: glifo al lado; escritorio: nodo de la espina */}
               <span
                 aria-hidden="true"
-                className={`glifo relative z-[1] flex h-12 w-12 items-center justify-center rounded-xl bg-neutral-0 text-purple-500 transition-opacity duration-300 [&>svg]:h-10 [&>svg]:w-10 lg:hidden ${
+                className={`glifo relative z-[1] flex h-12 w-12 items-center justify-center rounded-lg bg-neutral-0 text-purple-500 transition-opacity duration-300 [&>svg]:h-10 [&>svg]:w-10 lg:hidden ${
                   on ? "opacity-100" : "opacity-70"
                 }`}
               >
@@ -63,7 +63,7 @@ export function Criterio({ items }: { items: CriterioItem[] }) {
               </span>
               <span
                 aria-hidden="true"
-                className={`mt-[0.55em] hidden h-3 w-3 shrink-0 rounded-[3px] border-[1.5px] transition-colors duration-300 lg:block ${
+                className={`mt-[0.55em] hidden h-3 w-3 shrink-0 rounded-sm border-[1.5px] transition-colors duration-300 lg:block ${
                   on ? "border-purple-700 bg-purple-500" : "border-purple-500 bg-neutral-0"
                 }`}
               />
