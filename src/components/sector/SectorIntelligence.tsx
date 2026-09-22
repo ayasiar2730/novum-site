@@ -1,18 +1,21 @@
 import { sector } from "@/content/sector";
 import { getSectorSnapshot } from "@/lib/sector/source";
 import { selectCabecera, selectContexto, selectHistorias, selectKpis } from "@/lib/sector/select";
-import type { SectorSnapshot } from "@/lib/sector/types";
+import { participacion } from "@/lib/sector/format";
+import { esV2, type SectorSnapshot } from "@/lib/sector/types";
 import { SectionHeading } from "@/components/SectionHeading";
 import { SectorKpis } from "@/components/sector/SectorKpis";
 import { SectorStory } from "@/components/sector/SectorStory";
 import { SectorContext } from "@/components/sector/SectorContext";
 import { SectorSource } from "@/components/sector/SectorSource";
+import { Informe } from "@/components/sector/informe/Informe";
 
 /**
  * «Inteligencia del sector» (Bloque 2). Server Component: lee el snapshot en
- * build/servidor (source.ts) y decide entre dos versiones:
- *  - con snapshot aprobado: KPIs, tres historias con visualización y lectura,
- *    rangos de contexto, corte y cobertura;
+ * build/servidor (source.ts) y decide entre tres versiones:
+ *  - snapshot v2 (Observatorio): informe sectorial ejecutivo — portada,
+ *    resumen, capítulos por datos, metodología — y «Su entidad en contexto»;
+ *  - snapshot v1: KPIs, tres historias con visualización y lectura;
  *  - sin snapshot: versión editorial — narrativa, tres capítulos, geometría
  *    propia, «Su entidad en contexto» y fuente conceptual. Nada de KPI vacíos,
  *    gráficas, ceros, «sin datos» ni «próximamente».
@@ -166,9 +169,23 @@ function ConDatos({ snapshot }: { snapshot: SectorSnapshot }) {
 }
 
 export async function SectorIntelligence() {
-  const snapshot = await getSectorSnapshot();
+  const cualquiera = await getSectorSnapshot();
+  const v2 = cualquiera && esV2(cualquiera) ? cualquiera : null;
+  const snapshot: SectorSnapshot | null = cualquiera && !esV2(cualquiera) ? cualquiera : null;
   const cabecera = snapshot ? selectCabecera(snapshot) : null;
-  const rangos = snapshot ? selectContexto(snapshot) : null;
+  const rangos = v2
+    ? v2.contexto && v2.contexto.rangos.length
+      ? v2.contexto.rangos.map((r) => ({
+          etiqueta: r.etiqueta,
+          entidades: participacion(r.participacionEntidades),
+          activo: participacion(r.participacionActivo),
+          pctEntidades: r.participacionEntidades * 100,
+          pctActivo: r.participacionActivo * 100,
+        }))
+      : null
+    : snapshot
+      ? selectContexto(snapshot)
+      : null;
 
   return (
     <section
@@ -176,15 +193,17 @@ export async function SectorIntelligence() {
       className="relative overflow-hidden bg-neutral-0"
       aria-labelledby="inteligencia-title"
     >
-      {snapshot?.origen === "fixture" ? <FixtureBanner /> : null}
+      {cualquiera?.origen === "fixture" ? <FixtureBanner /> : null}
       {/* entrega desde el sistema: la trama se disuelve en el observatorio */}
       <div aria-hidden="true" className="trama-sale pointer-events-none absolute inset-x-0 top-0 h-40" />
       <div className="container-site relative py-20 md:py-24">
         <SectorMark className="pointer-events-none absolute -top-20 right-[-11rem] hidden h-[340px] w-[340px] opacity-60 lg:block" />
 
-        {snapshot ? (
+        {v2 ? (
+          <Informe snapshot={v2} titleId="inteligencia-title" />
+        ) : snapshot ? (
           <>
-            {/* con snapshot: cabecera a lo ancho y la versión con datos completa (2B.2 la compondrá) */}
+            {/* snapshot v1: cabecera a lo ancho y la versión con datos completa */}
             <div className="relative grid gap-8 lg:grid-cols-12" data-reveal>
               <div className="lg:col-span-8">
                 <SectionHeading
@@ -224,9 +243,11 @@ export async function SectorIntelligence() {
           <SectorContext rangos={rangos} />
         </div>
 
-        <div className="mt-12 border-t border-neutral-100 pt-6" data-reveal>
-          <SectorSource cabecera={cabecera} />
-        </div>
+        {v2 ? null : (
+          <div className="mt-12 border-t border-neutral-100 pt-6" data-reveal>
+            <SectorSource cabecera={cabecera} />
+          </div>
+        )}
       </div>
     </section>
   );
