@@ -30,7 +30,7 @@ export function Header({ logo }: { logo: ReactNode }) {
   const panelRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
   /** Tras un clic en el menú, el observador espera a que termine el desplazamiento para no encadenar saltos. */
-  const lockUntil = useRef(0);
+  const locked = useRef(false);
 
   // Superficie: el centinela (8 px en la cima del documento) dice si hay
   // desplazamiento; el hero, observado con el margen de la barra, dice si ya
@@ -67,7 +67,7 @@ export function Header({ logo }: { logo: ReactNode }) {
     if (sections.length === 0) return;
 
     const pick = () => {
-      if (Date.now() < lockUntil.current) return;
+      if (locked.current) return;
       const limit = window.innerHeight * 0.45;
       let current: string | null = null;
       for (const el of sections) {
@@ -129,7 +129,10 @@ export function Header({ logo }: { logo: ReactNode }) {
   }, [open]);
 
   const go = (href: string) => {
-    lockUntil.current = Date.now() + 900;
+    locked.current = true;
+    window.setTimeout(() => {
+      locked.current = false;
+    }, 900);
     setActive(href);
   };
 
