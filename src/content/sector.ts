@@ -70,6 +70,85 @@ export const sector = {
     /** El botón reutiliza `cta.primary` de site.ts: un solo texto y un solo destino de demostración en toda la web. */
   },
 
+  /**
+   * Etiquetas del Observatorio (contrato v2). Son rótulos de interfaz, no copy
+   * comercial ni cifras: los números y las lecturas llegan en el snapshot.
+   */
+  informe: {
+    titulo: "Informe sectorial",
+    cortePrefijo: "Corte",
+    indiceLabel: "Contenido",
+    resumenLabel: "Resumen ejecutivo",
+    resumenIntro:
+      "Los hallazgos principales del corte. El dato sale del motor sectorial; la lectura es de Novum.",
+    datoLabel: "Dato del corte",
+    lecturaLabel: "Lectura Novum",
+    verCapitulo: "Ver capítulo",
+    fotoLabel: "Fotografía del sector",
+    fotoNota:
+      "Con un solo corte procesado, este informe describe cómo está compuesto y cómo se comporta el sector en la fecha de corte. La evolución aparecerá cuando exista un segundo corte comparable.",
+    dimension: {
+      pregunta: "¿Qué tamaño tiene el sector en este corte?",
+      secundariasLabel: "Otras magnitudes del corte",
+      respectoLabel: "respecto de la cifra principal",
+    },
+    riesgo: {
+      pregunta: "¿Cómo se comporta el riesgo de cartera?",
+      ponderadoLabel: "Indicador del sector",
+      ponderadoNota:
+        "Fórmula de la metodología aplicada a las sumas del universo (ponderado), no promedio de indicadores.",
+      distribucionLabel: "Distribución entre entidades",
+      medianaLabel: "Mediana",
+      mediaLabel: "Media",
+      p25Label: "P25",
+      p75Label: "P75",
+      nLabel: "entidades con dato",
+      sinDenominador: "Sin denominador en este corte",
+      otrosLabel: "Otros indicadores del corte",
+      direccion: {
+        menor_es_mejor: "Menor es mejor",
+        mayor_es_mejor: "Mayor es mejor",
+        neutro: "Sin dirección",
+      },
+    },
+    estructura: {
+      pregunta: "¿Cómo está compuesto el sector?",
+      entidadesLabel: "entidades",
+      participacionLabel: "participación",
+      concentracionLabel: "Concentración",
+    },
+    evolucion: {
+      pregunta: "¿Cómo cambia el sector entre cortes comparables?",
+      baseLabel: "Corte base",
+      actualLabel: "Corte actual",
+      variacionLabel: "Variación",
+      comparablesLabel: "Entidades comparables",
+      criterioLabel: "Criterio de comparabilidad",
+      exclusionesLabel: "Exclusiones",
+      serieLabel: "Serie",
+    },
+    metodologia: {
+      label: "Metodología y fuentes",
+      pregunta: "¿De dónde salen estas cifras y qué no dicen?",
+      fuenteDatosLabel: "Fuente de datos",
+      procesamientoLabel: "Procesamiento y análisis",
+      fechaCorteLabel: "Fecha de corte",
+      fechaProcesamientoLabel: "Fecha de procesamiento",
+      metodologiaLabel: "Metodología",
+      evaluadorLabel: "Evaluador",
+      universoLabel: "Universo y cobertura",
+      exclusionesLabel: "Exclusiones",
+      definicionesLabel: "Definiciones",
+      formulaLabel: "Fórmula",
+      unidadLabel: "Unidad",
+      comparabilidadLabel: "Criterio de comparabilidad",
+      limitacionesLabel: "Limitaciones",
+      privacidadLabel: "Privacidad",
+      privacidadTexto:
+        "Solo se publican agregados. Ninguna categoría con menos de {k} entidades se muestra por separado; no se publican nombres, NIT ni cifras de una entidad identificable.",
+    },
+  },
+
   /** Solo aparece con la fixture de desarrollo (source.ts); nunca en producción. */
   fixtureBanner: "FIXTURE DE DESARROLLO — valores sintéticos, no publicar",
 } as const;
