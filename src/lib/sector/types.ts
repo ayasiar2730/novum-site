@@ -134,3 +134,198 @@ export interface SectorSnapshot {
   /** Dimensiones con datos disponibles para filtrar (2B.2). Sin datos por dimensión, se omite. */
   filtros?: { dimensiones: DimensionFiltro[] };
 }
+
+/* =============================================================================
+   SectorSnapshot v2 — el artefacto público del Observatorio Novum
+   ---------------------------------------------------------------------------
+   Lo genera SIAR (job `sector-snapshot`, sobre las funciones agregadas de la
+   0195) y novum-site solo lo lee. Es el ÚNICO dato que la web necesita del
+   motor sectorial. Principios, además de los de la v1:
+   - agregados por segmento con k-anonimato: ninguna categoría publicada tiene
+     menos de `metodologia.minEntidadesPorCategoria` entidades; nunca NIT,
+     nombre ni cifra de una entidad identificable;
+   - las claves de cifras e indicadores son las de la versión de metodología
+     (`cartera_bruta`, `icm`…) y viajan con etiqueta, definición y unidad: la
+     web no conoce el vocabulario del motor;
+   - el DATO (motor) y la LECTURA NOVUM (`lectura`) viajan en campos distintos y
+     la UI los identifica como cosas distintas;
+   - `cortes` trae todos los cortes con cifras (el actual primero). Con uno, la
+     web publica la fotografía del sector; con dos y `evolucion` válida, la
+     comparación; con tres o más y `evolucion.series`, la serie. Lo decide el
+     dato, no una bandera.
+   ==========================================================================*/
+
+export type Direccion = "menor_es_mejor" | "mayor_es_mejor" | "neutro";
+
+export interface FuenteV2 {
+  /** Quién publica los datos de origen (Supersolidaria). */
+  datos: { entidad: string; url?: string; descripcion?: string; publicadoEl?: string };
+  /** Quién procesa, calcula y escribe la lectura (Novum Integral). */
+  procesamiento: { entidad: string; descripcion?: string };
+}
+
+export interface CorteV2 {
+  /** Identificador estable, p. ej. "2026-07". */
+  id: string;
+  /** "Julio 2026". */
+  etiqueta: string;
+  /** AAAA-MM-DD. */
+  fechaCorte: string;
+  estado: "completo" | "parcial";
+  /** Qué significa esa cobertura, en palabras. */
+  cobertura: string;
+  /** Entidades presentes en el archivo oficial del corte. */
+  nReportantes: number;
+  /** Entidades que entran al universo de la metodología. */
+  nUniverso: number;
+  /** ISO: cuándo lo procesó el motor. */
+  procesadoEl: string;
+}
+
+export interface Definicion {
+  clave: string;
+  etiqueta: string;
+  definicion: string;
+  unidad: Unidad;
+  /** Fórmula legible ("cartera vencida / cartera bruta"), opcional. */
+  formula?: string;
+  direccion?: Direccion;
+}
+
+export interface MetodologiaV2 {
+  codigo: string;
+  version: string;
+  nombre: string;
+  descripcion: string;
+  /** Versión del evaluador del motor, para trazabilidad. */
+  evaluador?: string;
+  universo: { definicion: string; criterio: string };
+  exclusiones: string[];
+  definiciones: Definicion[];
+  comparabilidad: { criterio: string; descripcion: string };
+  limitaciones: string[];
+  /** k-anonimato: mínimo de entidades por categoría publicada (≥ 3). */
+  minEntidadesPorCategoria: number;
+}
+
+export type Clasificacion = "dimension" | "evolucion" | "riesgo" | "estructura" | "concentracion";
+export type CapituloId = "dimension" | "riesgo" | "estructura" | "evolucion";
+
+export interface Cifra {
+  clave: string;
+  etiqueta: string;
+  valor: number;
+  unidad: Unidad;
+  definicion?: string;
+  nota?: string;
+}
+
+/** Un hallazgo del resumen ejecutivo: el dato sale del motor; `lectura` es la Lectura Novum. */
+export interface Hallazgo {
+  id: string;
+  clasificacion: Clasificacion;
+  capitulo: CapituloId;
+  titulo: string;
+  cifra: Cifra;
+  lectura: string;
+  universo: { nEntidades: number; descripcion: string };
+}
+
+/** Distribución de un indicador entre entidades, solo sobre valores no nulos. */
+export interface Distribucion {
+  n: number;
+  media: number;
+  mediana: number;
+  p25: number;
+  p75: number;
+  min?: number;
+  max?: number;
+}
+
+export interface IndicadorRiesgo {
+  clave: string;
+  etiqueta: string;
+  definicion: string;
+  unidad: Unidad;
+  /** El indicador del SECTOR: la fórmula de la versión sobre las sumas. null = sin denominador. */
+  ponderado: number | null;
+  distribucion?: Distribucion;
+  direccion?: Direccion;
+  nota?: string;
+}
+
+export interface CategoriaSegmento {
+  etiqueta: string;
+  entidades: number;
+  /** Suma de la medida en la categoría. */
+  valor: number;
+  /** Participación 0–1 de la categoría en la medida. */
+  participacion: number;
+}
+
+export interface Segmentacion {
+  /** "tipo" | "nivel" | "departamento" | "tamano" | otra que el motor defina. */
+  clave: string;
+  etiqueta: string;
+  medida: { clave: string; etiqueta: string; unidad: Unidad };
+  categorias: CategoriaSegmento[];
+  /** Concentración ya calculada (p. ej. "las 10 mayores entidades"), agregada y anónima. */
+  concentracion?: { descripcion: string; entidades: number; participacion: number };
+  nota?: string;
+}
+
+export interface Variacion {
+  clave: string;
+  etiqueta: string;
+  unidad: Unidad;
+  actual: number;
+  base: number;
+  /** Variación ya calculada por el motor sobre el universo comparable. */
+  variacion: number;
+  variacionUnidad: "pct" | "pp";
+}
+
+export interface SerieTemporal {
+  clave: string;
+  etiqueta: string;
+  unidad: Unidad;
+  puntos: Array<{ corteId: string; etiqueta: string; y: number }>;
+}
+
+/** Solo existe cuando hay dos o más cortes comparables bajo un criterio declarado. */
+export interface Evolucion {
+  base: { corteId: string; etiqueta: string; fechaCorte: string };
+  nActual: number;
+  nBase: number;
+  /** Entidades presentes en ambos cortes según `criterio`. */
+  nComparables: number;
+  criterio: string;
+  exclusiones: string[];
+  variaciones: Variacion[];
+  /** Con tres o más cortes comparables: la serie completa. */
+  series?: SerieTemporal[];
+  lectura?: string;
+}
+
+export interface SectorSnapshotV2 {
+  version: 2;
+  generadoEl: string;
+  origen: "siar" | "fixture";
+  fuente: FuenteV2;
+  metodologia: MetodologiaV2;
+  /** Todos los cortes con cifras, del más reciente al más antiguo. `cortes[0]` es el actual. */
+  cortes: CorteV2[];
+  /** 3–5 hallazgos del corte actual. */
+  hallazgos: Hallazgo[];
+  dimension: { cifras: Cifra[]; principal?: string };
+  riesgo: { indicadores: IndicadorRiesgo[]; principal?: string };
+  estructura: { segmentaciones: Segmentacion[] };
+  evolucion?: Evolucion | null;
+  contexto?: Contexto;
+}
+
+export type SectorSnapshotAny = SectorSnapshot | SectorSnapshotV2;
+
+export function esV2(s: SectorSnapshotAny): s is SectorSnapshotV2 {
+  return s.version === 2;
+}
