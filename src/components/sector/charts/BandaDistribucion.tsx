@@ -5,7 +5,9 @@ import type { DistribucionVM } from "@/lib/sector/selectV2";
  * completa va de mínimo a máximo, el rango intercuartílico (P25–P75) es la
  * banda morada, la mediana un trazo y el indicador del sector (ponderado) un
  * nodo. Todo en una sola línea; los valores van en HTML alrededor para que el
- * texto no se encoja con el viewBox. Sin color por «bueno/malo».
+ * texto no se encoja con el viewBox. Sin color por «bueno/malo». Los extremos
+ * solo se rotulan si son el mínimo y el máximo observados: un límite de escala
+ * no es un dato y no se escribe.
  */
 export function BandaDistribucion({
   d,
@@ -62,10 +64,10 @@ export function BandaDistribucion({
           />
         ) : null}
       </div>
-      {compacta ? null : (
+      {compacta || d.escala.min === null || d.escala.max === null ? null : (
         <figcaption className="flex justify-between text-label uppercase text-neutral-700">
-          <span className="tnum">{d.escala.min}</span>
-          <span className="tnum">{d.escala.max}</span>
+          <span className="tnum">Mín. {d.escala.min}</span>
+          <span className="tnum">Máx. {d.escala.max}</span>
         </figcaption>
       )}
     </figure>

@@ -168,8 +168,19 @@ export interface DistribucionVM {
   mediana: string;
   p25: string;
   p75: string;
-  /** Posiciones 0–100 sobre [min,max] (o [0, max]) para dibujar la banda p25–p75, la mediana y el ponderado. */
-  escala: { p25: number; mediana: number; p75: number; ponderado: number | null; min: string; max: string };
+  /**
+   * Posiciones 0–100 para dibujar la banda p25–p75, la mediana y el ponderado.
+   * `min`/`max` son el mínimo y el máximo OBSERVADOS, solo si el snapshot los
+   * trae; si no, null: los límites de la escala no se rotulan (no son datos).
+   */
+  escala: {
+    p25: number;
+    mediana: number;
+    p75: number;
+    ponderado: number | null;
+    min: string | null;
+    max: string | null;
+  };
 }
 
 export interface IndicadorVM {
@@ -198,8 +209,8 @@ function escalar(d: Distribucion, ponderado: number | null, unidad: Unidad): Dis
       mediana: pos(d.mediana),
       p75: pos(d.p75),
       ponderado: ponderado === null ? null : pos(ponderado),
-      min: corto(lo, unidad),
-      max: corto(hi, unidad),
+      min: d.min !== undefined ? corto(d.min, unidad) : null,
+      max: d.max !== undefined ? corto(d.max, unidad) : null,
     },
   };
 }
