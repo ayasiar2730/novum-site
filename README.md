@@ -49,6 +49,10 @@ SECTOR_FIXTURE=true npm run dev
 $env:SECTOR_FIXTURE = "true"; npm run dev
 ```
 
+## Informe sectorial en PDF
+
+El informe ejecutivo de un corte se genera desde el mismo `SectorSnapshot v2` que lee el sitio, sin rehacerlo a mano: `node --import ./scripts/_ts.mjs scripts/informe-sectorial.mjs --capturas` (salida en `.informes/`, ignorada por git). Requiere Chrome o Edge instalados. Arquitectura, comprobaciones y decisiones en `docs/informe-sectorial-pdf.md`.
+
 ## Assets de marca
 
 Rutas canónicas en `public/brand/` (ver `public/brand/README.md`). El master operativo es el PNG aprobado (`logo.png`, `isotipo.png`, `wordmark.png`); `<Logo>` preferiría un SVG con color real si existiera. Favicon, iconos y OG se derivan solo del isotipo. **No recrear el logo en código.**
