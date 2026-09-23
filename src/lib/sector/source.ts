@@ -26,8 +26,8 @@ function esObjeto(v: unknown): v is Record<string, unknown> {
 const numeroFinito = (x: unknown): x is number => typeof x === "number" && Number.isFinite(x);
 const texto = (x: unknown): x is string => typeof x === "string" && x.trim().length > 0;
 
-/** Validación estructural mínima del v2 + k-anonimato: lo suficiente para no publicar vacíos ni entidades. */
-function validarV2(v: unknown): v is SectorSnapshotV2 {
+/** Validación estructural mínima del v2 + k-anonimato: lo suficiente para no publicar vacíos ni entidades. También la usa el generador del informe en PDF. */
+export function validarV2(v: unknown): v is SectorSnapshotV2 {
   if (!esObjeto(v) || v.version !== 2) return false;
   if (v.origen !== "siar" && v.origen !== "fixture") return false;
   if (!esObjeto(v.fuente) || !esObjeto(v.fuente.datos) || !esObjeto(v.fuente.procesamiento)) return false;

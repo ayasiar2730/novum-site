@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# informes sectoriales generados (scripts/informe-sectorial.mjs): se revisan antes de publicarse
+/.informes/
