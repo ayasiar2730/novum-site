@@ -1,0 +1,534 @@
+{
+  "version": 2,
+  "generadoEl": "2026-09-23T01:59:36.656Z",
+  "origen": "siar",
+  "fuente": {
+    "datos": {
+      "entidad": "Superintendencia de la Economía Solidaria",
+      "url": "https://www.supersolidaria.gov.co/",
+      "descripcion": "Archivos oficiales del corte publicados por la Supersolidaria: cuentas principales por entidad y catálogo de cuentas a seis dígitos."
+    },
+    "procesamiento": {
+      "entidad": "Novum Integral",
+      "descripcion": "Motor sectorial de SIAR (procesador 1.2.1, evaluador 1.1.0): lectura de los archivos oficiales, evaluación de la metodología versionada y agregación anónima (ninguna categoría con menos de 5 entidades). Las cifras son del motor; la lectura es de Novum."
+    }
+  },
+  "metodologia": {
+    "codigo": "v2-2026-09",
+    "version": "1.0.0",
+    "nombre": "Metodología de cartera v2 (septiembre 2026)",
+    "descripcion": "Cartera bruta = capital de todas las modalidades de crédito del grupo 14 (vivienda, consumo, microcrédito, comercial, empleados y productivos) en las cinco categorías de riesgo. Cartera vencida = capital calificado en B, C, D o E de las mismas modalidades: capital contra capital, sin mezclar intereses ni pagos por cuenta, que se miden aparte. La cartera con libranza entra completa en numerador y denominador. Se añaden cobertura (deterioro sobre cartera vencida), cartera neta, mora por temporalidad (grupo 84) y participación de la libranza.",
+    "evaluador": "1.1.0",
+    "universo": {
+      "definicion": "Todas las entidades reportantes del corte, de cualquier tipo, con Cartera bruta > 0.",
+      "criterio": "Cartera bruta > 0"
+    },
+    "exclusiones": [
+      "36 entidades reportantes que no cumplen el criterio del universo (sin cartera bruta en el corte).",
+      "Categorías con menos de 5 entidades o en las que una sola entidad reúne, o puede reunir, 50 % o más de la cartera: se agrupan en «Otros» o la segmentación se omite."
+    ],
+    "definiciones": [
+      {
+        "clave": "cartera_bruta",
+        "etiqueta": "Cartera bruta",
+        "definicion": "Capital de todas las modalidades del grupo 14, en las cinco categorías.",
+        "unidad": "cop"
+      },
+      {
+        "clave": "cartera_vencida",
+        "etiqueta": "Cartera vencida",
+        "definicion": "Capital calificado en B, C, D o E.",
+        "unidad": "cop",
+        "direccion": "menor_es_mejor"
+      },
+      {
+        "clave": "cartera_cde",
+        "etiqueta": "Cartera en C–E",
+        "definicion": "Capital calificado en C, D o E.",
+        "unidad": "cop",
+        "direccion": "menor_es_mejor"
+      },
+      {
+        "clave": "cartera_neta",
+        "etiqueta": "Cartera neta",
+        "definicion": "Cartera bruta menos el deterioro total de capital.",
+        "unidad": "cop"
+      },
+      {
+        "clave": "deterioro_total_capital",
+        "etiqueta": "Deterioro total de capital",
+        "definicion": "Deterioro individual de capital más el general.",
+        "unidad": "cop"
+      },
+      {
+        "clave": "asociados",
+        "etiqueta": "Asociados",
+        "definicion": "Suma de los asociados reportados en cuentas principales por las entidades del universo.",
+        "unidad": "n"
+      },
+      {
+        "clave": "icm",
+        "etiqueta": "ICM",
+        "definicion": "Indicador de cartera en mora: qué parte del capital está calificada en B–E.",
+        "unidad": "pct",
+        "formula": "Cartera vencida / Cartera bruta",
+        "direccion": "menor_es_mejor"
+      },
+      {
+        "clave": "icv",
+        "etiqueta": "ICV",
+        "definicion": "Qué parte del capital está en las categorías de mayor riesgo (C, D, E).",
+        "unidad": "pct",
+        "formula": "Cartera en C–E / Cartera bruta",
+        "direccion": "menor_es_mejor"
+      },
+      {
+        "clave": "icm_30",
+        "etiqueta": "Mora > 30 días / clasificado",
+        "definicion": "Por días de mora (grupo 84), no por calificación.",
+        "unidad": "pct",
+        "formula": "Mora mayor a 30 días / Capital clasificado por días de mora",
+        "direccion": "menor_es_mejor"
+      },
+      {
+        "clave": "icm_90",
+        "etiqueta": "Mora > 90 días / clasificado",
+        "definicion": "Por días de mora (grupo 84), no por calificación.",
+        "unidad": "pct",
+        "formula": "Mora mayor a 90 días / Capital clasificado por días de mora",
+        "direccion": "menor_es_mejor"
+      },
+      {
+        "clave": "icm_180",
+        "etiqueta": "Mora > 180 días / clasificado",
+        "definicion": "Por días de mora (grupo 84), no por calificación.",
+        "unidad": "pct",
+        "formula": "Mora mayor a 180 días / Capital clasificado por días de mora",
+        "direccion": "menor_es_mejor"
+      },
+      {
+        "clave": "cobertura",
+        "etiqueta": "Cobertura",
+        "definicion": "Deterioro total de capital sobre cartera vencida: cuánto de lo vencido está provisionado.",
+        "unidad": "pct",
+        "formula": "|Deterioro total de capital| / Cartera vencida",
+        "direccion": "mayor_es_mejor"
+      },
+      {
+        "clave": "participacion_libranza",
+        "etiqueta": "Participación de la libranza",
+        "definicion": "Cartera con libranza sobre cartera bruta.",
+        "unidad": "pct",
+        "formula": "Cartera con libranza / Cartera bruta"
+      },
+      {
+        "clave": "intereses_vencidos_sobre_cartera",
+        "etiqueta": "Intereses vencidos / cartera bruta",
+        "definicion": "Fórmula de la metodología: Intereses vencidos / Cartera bruta.",
+        "unidad": "pct",
+        "formula": "Intereses vencidos / Cartera bruta",
+        "direccion": "menor_es_mejor"
+      }
+    ],
+    "comparabilidad": {
+      "criterio": "Un solo corte con cifras: sin comparación temporal.",
+      "descripcion": "Este informe es la fotografía del corte. Una comparación entre cortes solo se publicará sobre las entidades presentes en ambos bajo la misma metodología, declarando cuántas son."
+    },
+    "limitaciones": [
+      "Corte parcial. Corte mensual: reportan 386 entidades, en su gran mayoría de nivel 1 de supervisión. No representa a todo el sector solidario: el corte de marzo de 2026 reunió 1.467 entidades reportantes.",
+      "Los indicadores se calculan con el capital de cartera del grupo 14 y la mora por días del grupo 84; no incluyen activos, depósitos ni patrimonio.",
+      "El indicador del sector es la fórmula aplicada a las sumas del universo (ponderado), no el promedio de los indicadores de las entidades.",
+      "Los indicadores siguen la metodología de Novum descrita en esta sección y pueden diferir de los que publique la Supersolidaria con otra definición."
+    ],
+    "minEntidadesPorCategoria": 5
+  },
+  "cortes": [
+    {
+      "id": "2026-07",
+      "etiqueta": "Julio 2026",
+      "fechaCorte": "2026-07-31",
+      "estado": "parcial",
+      "cobertura": "Corte mensual: reportan 386 entidades, en su gran mayoría de nivel 1 de supervisión. No representa a todo el sector solidario: el corte de marzo de 2026 reunió 1.467 entidades reportantes.",
+      "nReportantes": 386,
+      "nUniverso": 350,
+      "procesadoEl": "2026-09-22T01:27:28.219+00:00"
+    }
+  ],
+  "hallazgos": [
+    {
+      "id": "h1-dimension",
+      "clasificacion": "dimension",
+      "capitulo": "dimension",
+      "titulo": "Una fotografía de 350 entidades, no de todo el sector",
+      "cifra": {
+        "clave": "cartera_bruta",
+        "etiqueta": "Cartera bruta",
+        "valor": 32581152971420.03,
+        "unidad": "cop",
+        "definicion": "Capital de todas las modalidades del grupo 14, en las cinco categorías."
+      },
+      "lectura": "Julio es un corte mensual: reportan sobre todo las entidades de nivel 1 de supervisión, el grupo de mayor tamaño. Las 350 que tienen cartera suman 32,6 billones de pesos en capital de crédito. Leemos estas cifras como el comportamiento de ese grupo, no como el del sector solidario en su conjunto.",
+      "universo": {
+        "nEntidades": 350,
+        "descripcion": "incluidas en el universo de análisis del corte de julio 2026 (parcial)"
+      }
+    },
+    {
+      "id": "h2-riesgo",
+      "clasificacion": "riesgo",
+      "capitulo": "riesgo",
+      "titulo": "El ICM agregado del corte es 7,1 %; la mediana entre entidades es 5,5 %",
+      "cifra": {
+        "clave": "icm",
+        "etiqueta": "ICM",
+        "valor": 0.07066901715632741,
+        "unidad": "pct",
+        "definicion": "Indicador de cartera en mora: qué parte del capital está calificada en B–E."
+      },
+      "lectura": "La diferencia entre el indicador agregado y la mediana evidencia que el comportamiento no es homogéneo entre las entidades del universo analizado.",
+      "universo": {
+        "nEntidades": 350,
+        "descripcion": "con dato del indicador en el universo de análisis del corte de julio 2026 (parcial)"
+      }
+    },
+    {
+      "id": "h3-cobertura",
+      "clasificacion": "riesgo",
+      "capitulo": "riesgo",
+      "titulo": "El deterioro constituido equivale a 85,9 % de la cartera vencida",
+      "cifra": {
+        "clave": "cobertura",
+        "etiqueta": "Cobertura",
+        "valor": 0.8586416078344711,
+        "unidad": "pct",
+        "definicion": "Deterioro total de capital sobre cartera vencida: cuánto de lo vencido está provisionado."
+      },
+      "lectura": "Por cada 100 pesos de capital calificado en B a E hay 85,9 pesos de deterioro de capital. Cerca de tres cuartas partes de ese capital vencido está en C, D o E. Entre entidades el rango es amplio: la mitad central va de 58,8 % a 114,7 %. Es una medida contable de provisión, no una evaluación de su suficiencia.",
+      "universo": {
+        "nEntidades": 341,
+        "descripcion": "con cartera vencida en el universo de análisis del corte de julio 2026 (parcial)"
+      }
+    },
+    {
+      "id": "h4-estructura",
+      "clasificacion": "estructura",
+      "capitulo": "estructura",
+      "titulo": "Las especializadas de ahorro y crédito reúnen 58 % de la cartera",
+      "cifra": {
+        "clave": "tipo_mayor_participacion",
+        "etiqueta": "Participación de «Especializada de ahorro y crédito» en la cartera bruta",
+        "valor": 0.5818112359892922,
+        "unidad": "pct"
+      },
+      "lectura": "Son 148 de las 350 entidades del universo y concentran 58,2 % del capital de crédito; los fondos de empleados, con 102 entidades, 25,4 %. En este corte, lo que muestran las cifras agregadas refleja sobre todo a las cooperativas especializadas.",
+      "universo": {
+        "nEntidades": 350,
+        "descripcion": "incluidas en el universo de análisis del corte de julio 2026 (parcial)"
+      }
+    },
+    {
+      "id": "h5-territorio",
+      "clasificacion": "concentracion",
+      "capitulo": "estructura",
+      "titulo": "Tres departamentos concentran 71 % de la cartera",
+      "cifra": {
+        "clave": "departamentos_top3",
+        "etiqueta": "Participación de los tres departamentos con más cartera bruta",
+        "valor": 0.7073770470209739,
+        "unidad": "pct"
+      },
+      "lectura": "Bogotá, Antioquia y Santander reúnen 70,7 % del capital de crédito del universo, con 223 de las 350 entidades. Los departamentos con pocas entidades, o en los que una sola reúne o puede reunir la mitad de la cartera, se agrupan para no exponer cifras individuales.",
+      "universo": {
+        "nEntidades": 350,
+        "descripcion": "incluidas en el universo de análisis del corte de julio 2026 (parcial)"
+      }
+    }
+  ],
+  "dimension": {
+    "cifras": [
+      {
+        "clave": "cartera_bruta",
+        "etiqueta": "Cartera bruta",
+        "valor": 32581152971420.03,
+        "unidad": "cop",
+        "definicion": "Capital de todas las modalidades del grupo 14, en las cinco categorías."
+      },
+      {
+        "clave": "cartera_vencida",
+        "etiqueta": "Cartera vencida",
+        "valor": 2302478058310.21,
+        "unidad": "cop",
+        "definicion": "Capital calificado en B, C, D o E."
+      },
+      {
+        "clave": "cartera_cde",
+        "etiqueta": "Cartera en C–E",
+        "valor": 1731861804409.9,
+        "unidad": "cop",
+        "definicion": "Capital calificado en C, D o E."
+      },
+      {
+        "clave": "cartera_neta",
+        "etiqueta": "Cartera neta",
+        "valor": 30604149509428.96,
+        "unidad": "cop",
+        "definicion": "Cartera bruta menos el deterioro total de capital."
+      },
+      {
+        "clave": "deterioro_total_capital",
+        "etiqueta": "Deterioro total de capital",
+        "valor": 1977003461991.0698,
+        "unidad": "cop",
+        "definicion": "Deterioro individual de capital más el general.",
+        "nota": "Saldo acreedor en el PUC; se publica en positivo."
+      },
+      {
+        "clave": "asociados",
+        "etiqueta": "Asociados",
+        "valor": 5906527,
+        "unidad": "n",
+        "definicion": "Suma de los asociados reportados en cuentas principales por las entidades del universo."
+      }
+    ],
+    "principal": "cartera_bruta"
+  },
+  "riesgo": {
+    "indicadores": [
+      {
+        "clave": "icm",
+        "etiqueta": "ICM",
+        "definicion": "Indicador de cartera en mora: qué parte del capital está calificada en B–E.",
+        "unidad": "pct",
+        "ponderado": 0.07066901715632741,
+        "distribucion": {
+          "n": 350,
+          "media": 0.07056135948218653,
+          "mediana": 0.0553337387547328,
+          "p25": 0.0284646093238681,
+          "p75": 0.0892019964924189
+        },
+        "direccion": "menor_es_mejor",
+        "nota": "Fórmula: Cartera vencida / Cartera bruta."
+      },
+      {
+        "clave": "icv",
+        "etiqueta": "ICV",
+        "definicion": "Qué parte del capital está en las categorías de mayor riesgo (C, D, E).",
+        "unidad": "pct",
+        "ponderado": 0.05315532590050074,
+        "distribucion": {
+          "n": 350,
+          "media": 0.05143325142224345,
+          "mediana": 0.0404273253913262,
+          "p25": 0.0188447627579273,
+          "p75": 0.0623330819326603
+        },
+        "direccion": "menor_es_mejor",
+        "nota": "Fórmula: Cartera en C–E / Cartera bruta."
+      },
+      {
+        "clave": "icm_30",
+        "etiqueta": "Mora > 30 días / clasificado",
+        "definicion": "Por días de mora (grupo 84), no por calificación.",
+        "unidad": "pct",
+        "ponderado": 0.05318805688125071,
+        "distribucion": {
+          "n": 341,
+          "media": 0.05758421453235494,
+          "mediana": 0.041182725264137,
+          "p25": 0.0175555202737512,
+          "p75": 0.0648236221469238
+        },
+        "direccion": "menor_es_mejor",
+        "nota": "Por días de mora (grupo 84), no por calificación. En las modalidades sin un tramo que empiece exactamente en 30 días se suma desde el tramo siguiente, lo que subestima el indicador. Fórmula: Mora mayor a 30 días / Capital clasificado por días de mora."
+      },
+      {
+        "clave": "icm_90",
+        "etiqueta": "Mora > 90 días / clasificado",
+        "definicion": "Por días de mora (grupo 84), no por calificación.",
+        "unidad": "pct",
+        "ponderado": 0.03812195535879108,
+        "distribucion": {
+          "n": 341,
+          "media": 0.03827282014216078,
+          "mediana": 0.0257231938234074,
+          "p25": 0.00864433198979031,
+          "p75": 0.0440608731439979
+        },
+        "direccion": "menor_es_mejor",
+        "nota": "Por días de mora (grupo 84), no por calificación. En las modalidades sin un tramo que empiece exactamente en 90 días se suma desde el tramo siguiente, lo que subestima el indicador. Fórmula: Mora mayor a 90 días / Capital clasificado por días de mora."
+      },
+      {
+        "clave": "icm_180",
+        "etiqueta": "Mora > 180 días / clasificado",
+        "definicion": "Por días de mora (grupo 84), no por calificación.",
+        "unidad": "pct",
+        "ponderado": 0.023664992140795513,
+        "distribucion": {
+          "n": 341,
+          "media": 0.02325711437857786,
+          "mediana": 0.0153772069182165,
+          "p25": 0.0043775909391985,
+          "p75": 0.0311576233264603
+        },
+        "direccion": "menor_es_mejor",
+        "nota": "Por días de mora (grupo 84), no por calificación. En las modalidades sin un tramo que empiece exactamente en 180 días se suma desde el tramo siguiente, lo que subestima el indicador. Fórmula: Mora mayor a 180 días / Capital clasificado por días de mora."
+      },
+      {
+        "clave": "cobertura",
+        "etiqueta": "Cobertura",
+        "definicion": "Deterioro total de capital sobre cartera vencida: cuánto de lo vencido está provisionado.",
+        "unidad": "pct",
+        "ponderado": 0.8586416078344711,
+        "distribucion": {
+          "n": 341,
+          "media": 1.4385431863580784,
+          "mediana": 0.778744330372051,
+          "p25": 0.587954756544955,
+          "p75": 1.14700395200507
+        },
+        "direccion": "mayor_es_mejor",
+        "nota": "Fórmula: |Deterioro total de capital| / Cartera vencida."
+      },
+      {
+        "clave": "participacion_libranza",
+        "etiqueta": "Participación de la libranza",
+        "definicion": "Cartera con libranza sobre cartera bruta.",
+        "unidad": "pct",
+        "ponderado": 0.47501309023503924,
+        "distribucion": {
+          "n": 350,
+          "media": 0.4521276575708275,
+          "mediana": 0.477150415241142,
+          "p25": 0.0351800548555203,
+          "p75": 0.814988132098226
+        },
+        "nota": "Fórmula: Cartera con libranza / Cartera bruta."
+      },
+      {
+        "clave": "intereses_vencidos_sobre_cartera",
+        "etiqueta": "Intereses vencidos / cartera bruta",
+        "definicion": "Fórmula de la metodología: Intereses vencidos / Cartera bruta.",
+        "unidad": "pct",
+        "ponderado": 0.0034035009289530654,
+        "distribucion": {
+          "n": 350,
+          "media": 0.0033594730654142113,
+          "mediana": 0.00165595001300798,
+          "p25": 0.00056837006596614,
+          "p75": 0.00345069583201347
+        },
+        "direccion": "menor_es_mejor",
+        "nota": "Fórmula: Intereses vencidos / Cartera bruta."
+      }
+    ],
+    "principal": "icm"
+  },
+  "estructura": {
+    "segmentaciones": [
+      {
+        "clave": "tipo",
+        "etiqueta": "Por tipo de organización",
+        "medida": {
+          "clave": "cartera_bruta",
+          "etiqueta": "Cartera bruta",
+          "unidad": "cop"
+        },
+        "categorias": [
+          {
+            "etiqueta": "Especializada de ahorro y crédito",
+            "entidades": 148,
+            "valor": 18956080880258.09,
+            "participacion": 0.5818112359892922
+          },
+          {
+            "etiqueta": "Fondos de empleados",
+            "entidades": 102,
+            "valor": 8289753988441.45,
+            "participacion": 0.25443402803188603
+          },
+          {
+            "etiqueta": "Multiactiva sin sección de ahorro",
+            "entidades": 39,
+            "valor": 2369231088227.52,
+            "participacion": 0.0727178405965496
+          },
+          {
+            "etiqueta": "Asociaciones mutuales",
+            "entidades": 26,
+            "valor": 258294881117.64,
+            "participacion": 0.007927739124033288
+          },
+          {
+            "etiqueta": "Otros tipos de organización",
+            "entidades": 35,
+            "valor": 2707792133375.334,
+            "participacion": 0.08310915625823896
+          }
+        ],
+        "nota": "Se agrupan en «Otros tipos de organización» las categorías con menos de 5 entidades o en las que una sola entidad reúne, o puede reunir, la mitad o más de la cartera."
+      },
+      {
+        "clave": "departamento",
+        "etiqueta": "Por departamento",
+        "medida": {
+          "clave": "cartera_bruta",
+          "etiqueta": "Cartera bruta",
+          "unidad": "cop"
+        },
+        "categorias": [
+          {
+            "etiqueta": "Bogotá D.C.",
+            "entidades": 108,
+            "valor": 11592459176209.89,
+            "participacion": 0.35580260730425095
+          },
+          {
+            "etiqueta": "Antioquia",
+            "entidades": 84,
+            "valor": 6777494821540.43,
+            "participacion": 0.2080188760503842
+          },
+          {
+            "etiqueta": "Santander",
+            "entidades": 31,
+            "valor": 4677205779711.41,
+            "participacion": 0.14355556366633876
+          },
+          {
+            "etiqueta": "Valle del Cauca",
+            "entidades": 34,
+            "valor": 2835294826601.37,
+            "participacion": 0.08702254426319632
+          },
+          {
+            "etiqueta": "Cundinamarca",
+            "entidades": 9,
+            "valor": 623839943809.08,
+            "participacion": 0.019147264197688404
+          },
+          {
+            "etiqueta": "Atlántico",
+            "entidades": 10,
+            "valor": 460581722631.34,
+            "participacion": 0.014136446400020259
+          },
+          {
+            "etiqueta": "Caldas",
+            "entidades": 12,
+            "valor": 427676204574.11,
+            "participacion": 0.013126490795131304
+          },
+          {
+            "etiqueta": "Otros departamentos",
+            "entidades": 62,
+            "valor": 5186600496342.399,
+            "participacion": 0.15919020732298977
+          }
+        ],
+        "nota": "Se agrupan en «Otros departamentos» las categorías con menos de 5 entidades o en las que una sola entidad reúne, o puede reunir, la mitad o más de la cartera."
+      }
+    ]
+  },
+  "evolucion": null
+}
