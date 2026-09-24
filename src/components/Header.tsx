@@ -1,27 +1,32 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { cta, nav, site } from "@/content/site";
 import { demoLink } from "@/lib/links";
 import { ButtonLink } from "@/components/ButtonLink";
 
 /**
- * Header (Fase A + B0). Tres estados de superficie, ninguno con scroll handler:
- * - en la cima: liviano y transparente, parte del hero;
+ * Header (Fase A + B0; multipágina en la fase 2). Vive en el layout, así que
+ * persiste entre páginas. Tres estados de superficie, ninguno con scroll handler:
+ * - en la cima del Home: liviano y transparente, parte del hero;
  * - desplazado dentro del hero: velo claro apenas perceptible;
- * - superado el hero: barra clara con un desenfoque discreto y sombra corta;
- *   el CTA principal entra aquí para no competir con el del hero.
- * La marca es el imagotipo provisional (isotipo + wordmark) que llega por <Logo>;
- * "Ingresar a la plataforma" es un botón secundario tintado, sin borde.
- * La sección activa se detecta con IntersectionObserver sobre una banda al
- * 40–45 % del alto de la ventana; el indicador es una píldora morada que se
- * desliza detrás del enlace activo y responde de inmediato al clic. Nunca se
- * modifica la URL: los enlaces siguen siendo anclas normales.
+ * - superado el hero (o en cualquier página interna, que no tiene hero): barra
+ *   clara con un desenfoque discreto y sombra corta; el CTA principal entra aquí
+ *   para no competir con el del hero.
+ * La marca es el imagotipo que llega por <Logo>; "Ingresar a la plataforma" es un
+ * botón secundario tintado, sin borde. La página activa sale de la ruta; el
+ * indicador es una píldora morada que se desliza detrás del enlace activo.
  */
 export function Header({ logo }: { logo: ReactNode }) {
+  const pathname = usePathname() ?? "/";
+  const esInicio = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
-  const [pastHero, setPastHero] = useState(false);
-  const [active, setActive] = useState<string | null>(null);
+  const [pastHeroObservado, setPastHero] = useState(false);
+  const pastHero = esInicio ? pastHeroObservado : true;
+  const active =
+    nav.find((item) => pathname === item.href || pathname.startsWith(`${item.href}/`))?.href ?? null;
   const [marker, setMarker] = useState<{ left: number; width: number } | null>(null);
   const [open, setOpen] = useState(false);
   const sentinelRef = useRef<HTMLDivElement>(null);
@@ -29,12 +34,10 @@ export function Header({ logo }: { logo: ReactNode }) {
   const navRef = useRef<HTMLElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
-  /** Tras un clic en el menú, el observador espera a que termine el desplazamiento para no encadenar saltos. */
-  const locked = useRef(false);
 
   // Superficie: el centinela (8 px en la cima del documento) dice si hay
-  // desplazamiento; el hero, observado con el margen de la barra, dice si ya
-  // quedó atrás.
+  // desplazamiento; el hero del Home, observado con el margen de la barra, dice
+  // si ya quedó atrás. Se vuelve a enganchar en cada página.
   useEffect(() => {
     if (typeof IntersectionObserver === "undefined") return;
     const sentinel = sentinelRef.current;
@@ -55,31 +58,7 @@ export function Header({ logo }: { logo: ReactNode }) {
       observers.push(io);
     }
     return () => observers.forEach((io) => io.disconnect());
-  }, []);
-
-  // Sección activa: la última cuyo inicio ya cruzó el 45 % del alto de la
-  // ventana. El observador solo despierta cuando un borde cruza la banda.
-  useEffect(() => {
-    if (typeof IntersectionObserver === "undefined") return;
-    const sections = nav
-      .map((item) => document.getElementById(item.href.slice(1)))
-      .filter((el): el is HTMLElement => el !== null);
-    if (sections.length === 0) return;
-
-    const pick = () => {
-      if (locked.current) return;
-      const limit = window.innerHeight * 0.45;
-      let current: string | null = null;
-      for (const el of sections) {
-        if (el.getBoundingClientRect().top <= limit) current = `#${el.id}`;
-      }
-      setActive(current);
-    };
-    const io = new IntersectionObserver(pick, { rootMargin: "-40% 0px -55% 0px" });
-    sections.forEach((el) => io.observe(el));
-    pick();
-    return () => io.disconnect();
-  }, []);
+  }, [pathname]);
 
   // Indicador: se mide sobre el enlace activo; se vuelve a medir si la barra cambia de tamaño.
   useEffect(() => {
@@ -128,14 +107,6 @@ export function Header({ logo }: { logo: ReactNode }) {
     };
   }, [open]);
 
-  const go = (href: string) => {
-    locked.current = true;
-    window.setTimeout(() => {
-      locked.current = false;
-    }, 900);
-    setActive(href);
-  };
-
   const surface = open
     ? "bg-neutral-0 shadow-hairline"
     : pastHero
@@ -163,9 +134,9 @@ export function Header({ logo }: { logo: ReactNode }) {
           }`}
         />
         <div className="container-wide flex h-16 items-center justify-between gap-6 lg:h-[4.5rem]">
-          <a href="#" aria-label={`${site.name} — inicio`} className="flex min-h-11 shrink-0 items-center">
+          <Link href="/" aria-label={`${site.name} — inicio`} className="flex min-h-11 shrink-0 items-center">
             {logo}
-          </a>
+          </Link>
 
           <nav
             ref={navRef}
@@ -175,17 +146,16 @@ export function Header({ logo }: { logo: ReactNode }) {
             {nav.map((item) => {
               const isActive = active === item.href;
               return (
-                <a
+                <Link
                   key={item.href}
                   href={item.href}
-                  aria-current={isActive ? "location" : undefined}
-                  onClick={() => go(item.href)}
+                  aria-current={isActive ? "page" : undefined}
                   className={`relative z-[1] flex h-11 items-center rounded-md px-3.5 text-nav transition-colors duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:transition-none ${
                     isActive ? "text-white" : "text-neutral-700 hover:text-purple-900"
                   }`}
                 >
                   {item.label}
-                </a>
+                </Link>
               );
             })}
             {/* Indicador de sección activa: una píldora morada que se desliza detrás del enlace activo. */}
@@ -272,14 +242,11 @@ export function Header({ logo }: { logo: ReactNode }) {
               {nav.map((item) => {
                 const isActive = active === item.href;
                 return (
-                  <a
+                  <Link
                     key={item.href}
                     href={item.href}
-                    onClick={() => {
-                      go(item.href);
-                      setOpen(false);
-                    }}
-                    aria-current={isActive ? "location" : undefined}
+                    onClick={() => setOpen(false)}
+                    aria-current={isActive ? "page" : undefined}
                     className={`-mx-3 flex min-h-14 items-center gap-4 rounded-md px-3 text-lead font-semibold transition-colors duration-200 ${
                       isActive
                         ? "bg-purple-700 text-white shadow-button"
@@ -293,7 +260,7 @@ export function Header({ logo }: { logo: ReactNode }) {
                       }`}
                     />
                     {item.label}
-                  </a>
+                  </Link>
                 );
               })}
               <a

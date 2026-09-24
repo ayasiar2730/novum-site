@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { ImageResponse } from "next/og";
 import { site } from "@/content/site";
+import { ogAlt, ogSize } from "@/lib/og";
 
 /**
  * Imagen Open Graph oficial (B3). Composición institucional con la marca real:
@@ -10,8 +11,8 @@ import { site } from "@/content/site";
  * purple-900 al pie. Sin mockups ni ilustraciones. Los textos son los mismos
  * de la versión anterior (aprobados): eyebrow, eslogan y dominio.
  */
-export const alt = "Novum Integral — Software y consultoría para el sector solidario";
-export const size = { width: 1200, height: 630 };
+export const alt = ogAlt;
+export const size = ogSize;
 export const contentType = "image/png";
 
 const eyebrow = "Software y consultoría para el sector solidario";
