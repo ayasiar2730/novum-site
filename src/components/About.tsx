@@ -1,3 +1,4 @@
+import type { NivelTitulo } from "@/components/SectionHeading";
 import { about } from "@/content/site";
 
 /**
@@ -9,9 +10,16 @@ import { about } from "@/content/site";
  */
 const showTeam = process.env.NEXT_PUBLIC_SHOW_TEAM === "true";
 
-export function About() {
+/** `nivel={1}` cuando la sección abre su propia página (fase 2): su título pasa a ser el h1. */
+export function About({ nivel = 2 }: { nivel?: NivelTitulo } = {}) {
+  const Titulo = nivel === 1 ? "h1" : "h2";
+  const Subtitulo = nivel === 1 ? "h2" : "h3";
   return (
-    <section id="nosotros" className="py-16 md:py-20" aria-labelledby="nosotros-title">
+    <section
+      id="nosotros"
+      className={nivel === 1 ? "pb-16 pt-8 md:pb-20 md:pt-12" : "py-16 md:py-20"}
+      aria-labelledby="nosotros-title"
+    >
       <div className="container-site">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-8" data-reveal>
           <div className="flex flex-col gap-6 lg:col-span-8">
@@ -19,9 +27,9 @@ export function About() {
               <span aria-hidden="true" className="h-px w-6 bg-purple-500" />
               {about.eyebrow}
             </p>
-            <h2 id="nosotros-title" className="text-h1-sm md:text-h1 text-neutral-950">
+            <Titulo id="nosotros-title" className="text-h1-sm md:text-h1 text-neutral-950">
               {about.title}
-            </h2>
+            </Titulo>
             <p className="border-l-2 border-purple-500 pl-6 text-h3-sm font-medium leading-[1.45] text-neutral-950 md:pl-8 md:text-[1.625rem] md:leading-[1.4]">
               {about.base}
             </p>
@@ -56,10 +64,10 @@ export function About() {
 
         {showTeam ? (
           <div className="mt-12 border-t border-neutral-100 pt-10">
-            <h3 className="flex items-center gap-3 text-label uppercase text-purple-700">
+            <Subtitulo className="flex items-center gap-3 text-label uppercase text-purple-700">
               <span aria-hidden="true" className="h-px w-6 bg-purple-500" />
               {about.teamTitle}
-            </h3>
+            </Subtitulo>
             <ul className="mt-6 divide-y divide-neutral-100 border-b border-neutral-100">
               {about.team.map((member) => (
                 <li key={member.name} className="grid gap-2 py-5 md:grid-cols-12 md:gap-6">

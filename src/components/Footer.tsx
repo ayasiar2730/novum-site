@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { contact, cta, nav, site } from "@/content/site";
 import { Logo } from "@/components/Logo";
 
@@ -17,12 +18,12 @@ export function Footer() {
           <ul className="flex flex-col text-small">
             {nav.map((item) => (
               <li key={item.href}>
-                <a
+                <Link
                   href={item.href}
                   className="flex min-h-11 items-center text-neutral-700 transition-colors hover:text-purple-900"
                 >
                   {item.label}
-                </a>
+                </Link>
               </li>
             ))}
             <li>

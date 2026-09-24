@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 /**
@@ -7,12 +8,17 @@ import { useEffect } from "react";
  * y revela los bloques [data-reveal] al entrar en pantalla.
  * Lo que ya está en el primer fotograma se marca visible en el mismo tick,
  * así que nunca se pinta oculto. Sin JS o con reduced-motion: todo visible.
+ * Vive en el layout: con la navegación entre páginas (fase 2) vuelve a buscar
+ * los bloques de cada página nueva; sin esto, lo que llega por navegación del
+ * cliente quedaría oculto.
  */
 export function MotionRoot() {
+  const pathname = usePathname();
+
   useEffect(() => {
     const root = document.documentElement;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const blocks = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+    const blocks = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]:not(.in)"));
 
     if (reduce || !("IntersectionObserver" in window)) {
       blocks.forEach((el) => el.classList.add("in"));
@@ -43,7 +49,7 @@ export function MotionRoot() {
     root.classList.add("js");
 
     return () => io.disconnect();
-  }, []);
+  }, [pathname]);
 
   return null;
 }

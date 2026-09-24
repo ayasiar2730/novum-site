@@ -1,3 +1,6 @@
+/** Nivel del título: 2 dentro del Home; 1 cuando la sección abre su propia página (fase 2). */
+export type NivelTitulo = 1 | 2;
+
 export function SectionHeading({
   id,
   eyebrow,
@@ -5,6 +8,7 @@ export function SectionHeading({
   intro,
   tone = "light",
   size = "md",
+  nivel = 2,
 }: {
   id: string;
   eyebrow: string;
@@ -12,9 +16,11 @@ export function SectionHeading({
   intro?: string;
   tone?: "light" | "dark";
   size?: "md" | "lg";
+  nivel?: NivelTitulo;
 }) {
   const dark = tone === "dark";
   const titleClass = size === "lg" ? "text-h1-sm md:text-display-md" : "text-h1-sm md:text-h1";
+  const Titulo = nivel === 1 ? "h1" : "h2";
   return (
     <div className="flex flex-col gap-5">
       <p
@@ -23,9 +29,9 @@ export function SectionHeading({
         <span aria-hidden="true" className={`h-px w-6 ${dark ? "bg-green-500" : "bg-purple-500"}`} />
         {eyebrow}
       </p>
-      <h2 id={id} className={`${titleClass} measure ${dark ? "text-white" : "text-neutral-950"}`}>
+      <Titulo id={id} className={`${titleClass} measure ${dark ? "text-white" : "text-neutral-950"}`}>
         {title}
-      </h2>
+      </Titulo>
       {intro ? (
         <p className={`text-body measure ${dark ? "text-neutral-100" : "text-neutral-700"}`}>{intro}</p>
       ) : null}

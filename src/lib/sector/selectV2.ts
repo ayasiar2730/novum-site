@@ -10,6 +10,7 @@ import type {
   Unidad,
 } from "@/lib/sector/types";
 import { corto, fechaLarga, kpi, participacion } from "@/lib/sector/format";
+import type { RangoVM } from "@/lib/sector/select";
 
 /**
  * Selectores puros del contrato v2: del snapshot a lo que cada bloque del
@@ -422,4 +423,16 @@ export function selectMetodologia(s: SectorSnapshotV2): MetodologiaVM {
     fuenteDatos: s.fuente.datos,
     procesamiento: s.fuente.procesamiento,
   };
+}
+
+/** Rangos de tamaño para «Su entidad en contexto», si el snapshot los trae. */
+export function selectRangosContexto(s: SectorSnapshotV2): RangoVM[] | null {
+  if (!s.contexto || s.contexto.rangos.length === 0) return null;
+  return s.contexto.rangos.map((r) => ({
+    etiqueta: r.etiqueta,
+    entidades: participacion(r.participacionEntidades),
+    activo: participacion(r.participacionActivo),
+    pctEntidades: r.participacionEntidades * 100,
+    pctActivo: r.participacionActivo * 100,
+  }));
 }

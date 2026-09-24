@@ -28,7 +28,7 @@ export const site = {
    * del sitemap de forma determinista: se actualiza a mano cuando cambia el contenido,
    * nunca con la fecha del build.
    */
-  contentUpdatedAt: "2026-09-16",
+  contentUpdatedAt: "2026-09-23",
 } as const;
 
 export const contact = {
@@ -40,13 +40,46 @@ export const contact = {
   demoMessage: "Hola, quiero agendar una demostración de Novum Integral para mi entidad.",
 } as const;
 
+/**
+ * Navegación principal (fase 2, multipágina): cada entrada es una página. El
+ * Home sigue siendo la puerta de entrada con el recorrido completo; las páginas
+ * permiten llegar, compartir e indexar cada tema por separado.
+ */
 export const nav = [
-  { label: "Soluciones", href: "#soluciones" },
-  { label: "Inteligencia", href: "#inteligencia" },
-  { label: "Acompañamiento", href: "#servicios" },
-  { label: "Nosotros", href: "#nosotros" },
-  { label: "Contacto", href: "#contacto" },
+  { label: "Soluciones", href: "/soluciones" },
+  { label: "Informes", href: "/informes" },
+  { label: "Acompañamiento", href: "/acompanamiento" },
+  { label: "Nosotros", href: "/nosotros" },
+  { label: "Contacto", href: "/contacto" },
 ] as const;
+
+/** Títulos y descripciones de las páginas internas (metadatos y migas). */
+export const paginas = {
+  soluciones: {
+    titulo: "Soluciones",
+    descripcion:
+      "SIAR, presupuesto y planeación estratégica: tecnología especializada para cooperativas, fondos de empleados y mutuales.",
+  },
+  informes: {
+    titulo: "Informes sectoriales",
+    descripcion:
+      "Informes del sector solidario colombiano con los datos oficiales de la Supersolidaria, procesados y leídos por Novum Integral.",
+  },
+  acompanamiento: {
+    titulo: "Acompañamiento",
+    descripcion:
+      "Diagnóstico de madurez, implementación, capacitación, oficial de cumplimiento y gestor de riesgos para el sector solidario.",
+  },
+  nosotros: {
+    titulo: "Nosotros",
+    descripcion:
+      "Novum Integral SAS: software y consultoría con experiencia directa en el sector de economía solidaria.",
+  },
+  contacto: {
+    titulo: "Contacto",
+    descripcion: "Agende una demostración de Novum Integral para su entidad.",
+  },
+} as const;
 
 export const cta = {
   primary: "Agende una demostración",

@@ -149,6 +149,55 @@ export const sector = {
     },
   },
 
+  /**
+   * Catálogo de informes (fase 2): la web es el catálogo y la puerta de entrada;
+   * el informe completo es la página del informe y su PDF ejecutivo. Rótulos y
+   * texto institucional; las cifras y los títulos llegan en el snapshot.
+   */
+  catalogo: {
+    intro:
+      "Lecturas del sector solidario colombiano construidas con los datos oficiales que las entidades reportan a la Superintendencia de la Economía Solidaria. Cada informe se publica en la web y como PDF ejecutivo descargable.",
+    destacadoLabel: "Último informe publicado",
+    publicadosLabel: "Informes publicados",
+    contenidoLabel: "Hallazgos del corte",
+    leer: "Leer el informe",
+    descargar: "Descargar PDF",
+    todos: "Ver todos los informes",
+    pdfLabel: "PDF",
+    paginasLabel: "páginas",
+    entidadesLabel: "entidades analizadas",
+    entidadesAnalizadasLabel: "Entidades analizadas",
+    reportantesLabel: "reportantes",
+    estadoLabel: "Estado del corte",
+    /** Descripción (metadatos) de la página de una edición; {fecha} y {n} salen del snapshot. */
+    descripcionEdicion:
+      "Sector solidario colombiano con corte al {fecha}: {n} entidades analizadas con los datos oficiales de la Supersolidaria. Resumen ejecutivo, riesgo de cartera, estructura del sector y metodología.",
+    verCatalogo: "Ver los informes sectoriales",
+    comoLabel: "Cómo se elaboran",
+    como: [
+      {
+        titulo: "Datos oficiales",
+        texto:
+          "La información financiera que las entidades reportan a la Supersolidaria, en la fecha de corte que indica cada informe.",
+      },
+      {
+        titulo: "Un método publicado",
+        texto:
+          "Los indicadores salen del motor sectorial de Novum y se publican con su fórmula, su universo, sus exclusiones y sus limitaciones.",
+      },
+      {
+        titulo: "Solo agregados",
+        texto:
+          "Ninguna categoría con menos de {k} entidades se muestra por separado; no se publican nombres, NIT ni cifras de una entidad identificable.",
+      },
+      {
+        titulo: "Dato y lectura, separados",
+        texto:
+          "Cada hallazgo distingue el dato del corte de la Lectura Novum, que es la interpretación del equipo y se aprueba antes de publicar.",
+      },
+    ],
+  },
+
   /** Solo aparece con la fixture de desarrollo (source.ts); nunca en producción. */
   fixtureBanner: "FIXTURE DE DESARROLLO — valores sintéticos, no publicar",
 } as const;

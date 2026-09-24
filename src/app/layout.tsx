@@ -4,6 +4,9 @@ import "./globals.css";
 import { site } from "@/content/site";
 import { JsonLd } from "@/components/JsonLd";
 import { MotionRoot } from "@/components/MotionRoot";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { Logo } from "@/components/Logo";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -53,7 +56,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Saltar al contenido
         </a>
         <JsonLd />
+        {/* Header y footer compartidos por todas las páginas (fase 2): persisten al navegar. */}
+        <Header logo={<Logo variant="light" />} />
         {children}
+        <Footer />
         <MotionRoot />
       </body>
     </html>

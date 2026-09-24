@@ -27,7 +27,8 @@ function Detalle({ titulo, children }: { titulo: string; children: ReactNode }) 
   );
 }
 
-export function Metodologia({ m }: { m: MetodologiaVM }) {
+export function Metodologia({ m, nivel = 3 }: { m: MetodologiaVM; nivel?: 2 | 3 }) {
+  const Titulo = nivel === 2 ? "h2" : "h3";
   return (
     <section
       id="informe-metodologia"
@@ -36,9 +37,9 @@ export function Metodologia({ m }: { m: MetodologiaVM }) {
       data-reveal
     >
       <Rotulo>{t.label}</Rotulo>
-      <h3 id="informe-metodologia-title" className="mt-3 text-h2-sm md:text-h2 text-neutral-950">
+      <Titulo id="informe-metodologia-title" className="mt-3 text-h2-sm md:text-h2 text-neutral-950">
         {t.pregunta}
-      </h3>
+      </Titulo>
 
       {/* Fuente de datos ≠ procesamiento y análisis */}
       <div className="mt-8 grid gap-6 md:grid-cols-2">

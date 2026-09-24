@@ -2,6 +2,8 @@
 
 **Documento técnico del bloque 2B.2.** Versión 1 — 21 de septiembre de 2026.
 
+> **Actualización fase 2 (23-09-2026).** La interfaz con SIAR ya no es un único `src/data/sector/snapshot.json`: es **un archivo por corte publicado**, `src/data/sector/informes/<AAAA-MM>.json`, con el mismo contrato v2. Cada archivo es una edición del catálogo de informes (`/informes`, `/informes/sector-solidario-<AAAA-MM>`) y el más reciente alimenta la portada del Home. Arquitectura del sitio multipágina en `docs/arquitectura-multipagina.md`.
+
 Describe cómo llega una cifra del motor sectorial de SIAR a la sección «Inteligencia del sector» de `novumintegral.com`, qué contrato viaja entre los dos sistemas, por qué el contrato v1 no bastaba, y qué reglas de privacidad y de honestidad temporal aplica la web antes de publicar.
 
 ---
@@ -13,7 +15,7 @@ Supersolidaria ─▶ SIAR importa (import-sector.mjs) ─▶ SIAR procesa (sect
    ─▶ sector_resultado (una fila por corrida × metodología × entidad; PRIVADA)
    ─▶ sector_agregados() / sector_cortes_disponibles()  (agregados, sin filas por entidad)
    ─▶ job `sector-snapshot` (pendiente en SIAR): agrega, aplica k-anonimato, redacta, valida
-   ─▶ src/data/sector/snapshot.json  (artefacto público, versionado en este repo)
+   ─▶ src/data/sector/informes/<AAAA-MM>.json  (artefacto público por corte, versionado en este repo)
    ─▶ novum-site lee el archivo en build (source.ts) ─▶ Informe sectorial
 ```
 
@@ -46,9 +48,9 @@ Conclusión: el motor calcula todo lo que el informe necesita para **dimensión,
    4. calcula el indicador ponderado del sector con `indicadoresDesdeAgregados` sobre las sumas;
    5. con dos o más cortes, construye `evolucion` sobre las entidades presentes en ambos cortes bajo la misma metodología (criterio declarado, `nBase`, `nActual`, `nComparables`, exclusiones);
    6. mezcla la **Lectura Novum**: un archivo de redacción (`sector-lectura.<corteId>.json`) escrito y aprobado por el equipo, con `hallazgos[].titulo`, `hallazgos[].lectura`, `evolucion.lectura`. El job no inventa texto;
-   7. valida el resultado con el mismo esquema que `validarV2` (§6) y lo escribe como `snapshot.json`.
-2. **Entrega**: el job abre un PR contra `novum-site` con `src/data/sector/snapshot.json` (un archivo, un commit, un diff legible). Alternativa equivalente: publicar el JSON como artefacto y copiarlo a mano al repo. En ambos casos **una persona revisa el diff antes del merge**: es la aprobación editorial.
-3. **Web**: al mergear, Vercel construye; `source.ts` lee el archivo, valida (estructura + k-anonimato + `origen !== "fixture"`), y `SectorIntelligence` publica el `Informe` con un corte → **fotografía del sector** (§5). Sin `evolucion`, no aparece el capítulo 04 ni ninguna variación.
+   7. valida el resultado con el mismo esquema que `validarV2` (§6) y lo escribe como `sector-snapshot.json`.
+2. **Entrega**: el job abre un PR contra `novum-site` con `src/data/sector/informes/<AAAA-MM>.json` (un archivo por corte, un commit, un diff legible). Alternativa equivalente: publicar el JSON como artefacto y copiarlo a mano al repo. En ambos casos **una persona revisa el diff antes del merge**: es la aprobación editorial.
+3. **Web**: al mergear, Vercel construye; `source.ts` lee el archivo, valida (estructura + k-anonimato + `origen !== "fixture"`), y el catálogo (`src/lib/informes/catalogo.ts`) publica la edición en `/informes/sector-solidario-<AAAA-MM>` con un corte → **fotografía del sector** (§5). Sin `evolucion`, no aparece el capítulo 04 ni ninguna variación.
 
 Hasta que exista el paso 1, la web sigue en su versión editorial. No hay estado intermedio.
 
@@ -111,7 +113,7 @@ Mejor la versión editorial que una categoría con dos entidades.
 - `src/lib/sector/fixture.dev.ts` («DEV ONLY · NO PUBLICAR · NO SOURCE OF TRUTH»): tres snapshots sintéticos v2 con etiquetas de prueba explícitas (`Corte de prueba`, `Indicador de prueba 1`, `Tipo 1`…), fechas del año 2000 y `origen: "fixture"`.
 - Entra **solo** si `process.env.NODE_ENV !== "production"` **y** `SECTOR_FIXTURE=true|v2` (`v1` para la fixture antigua). Variable privada del servidor; no existe `NEXT_PUBLIC_*`. En Vercel no se configura.
 - `SECTOR_FIXTURE_MODO=comparacion|serie` elige la fixture de 2 o 3 cortes para revisar los modos temporales.
-- Si alguien copiara la fixture a `snapshot.json`, `source.ts` la rechaza por `origen: "fixture"`.
+- Si alguien copiara la fixture a `src/data/sector/informes/`, `source.ts` la rechaza por `origen: "fixture"`.
 - El banner «FIXTURE» (`FixtureBanner`) solo se renderiza cuando `snapshot.origen === "fixture"`, es decir, nunca en producción.
 
 ## 9. Anatomía del informe (componentes)
@@ -134,4 +136,4 @@ Lenguaje visual heredado de B0–B3: morado para estructura y lectura, verde sol
 1. SIAR-AYA: job `sector-snapshot` + archivo de redacción de la Lectura Novum (rama/PR; toca service role y datos).
 2. Decidir `k` (3 o 5) y la lista de segmentaciones a publicar (tipo, departamento, rango de cartera).
 3. Redactar y aprobar la Lectura Novum del corte de julio 2026.
-4. Cuando exista el snapshot real: PR con `src/data/sector/snapshot.json`, revisión del diff, merge.
+4. Cuando exista el snapshot real: PR con `src/data/sector/informes/<AAAA-MM>.json`, revisión del diff, merge.

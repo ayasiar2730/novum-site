@@ -35,7 +35,8 @@ function lines(title: string) {
  * visible. Hover, foco, clic o la propia lectura (scroll) activan un servicio
  * y la red responde: nodo relleno, conexión encendida. Sin tarjetas.
  */
-export function Red({ items }: { items: Servicio[] }) {
+export function Red({ items, nivel = 3 }: { items: Servicio[]; nivel?: 2 | 3 }) {
+  const Titulo = nivel === 2 ? "h2" : "h3";
   const [active, setActive] = useState(0);
   const listRef = useRef<HTMLOListElement>(null);
   useLectura(listRef, ":scope > li", setActive);
@@ -157,7 +158,7 @@ export function Red({ items }: { items: Servicio[] }) {
                 }`}
               />
               <div className="flex flex-col gap-2">
-                <h3 className="text-h3-sm md:text-h3">
+                <Titulo className="text-h3-sm md:text-h3">
                   <button
                     type="button"
                     aria-pressed={on}
@@ -169,7 +170,7 @@ export function Red({ items }: { items: Servicio[] }) {
                   >
                     {item.title}
                   </button>
-                </h3>
+                </Titulo>
                 <p className="text-body-sm max-w-[32rem] text-neutral-700">{item.body}</p>
               </div>
             </li>

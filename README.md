@@ -11,11 +11,17 @@ Producción: `https://novumintegral.com`. Proyecto independiente de la aplicaci�
 | `novum-design-system-v1.md`     | Cómo se ve y se comporta (tokens, tipografía, hero, motion)    |
 | `novum-web-fase0.md`            | Qué dice el sitio y qué es verdad sobre el negocio             |
 
-Todo texto visible sale de `src/content/site.ts`. Todo valor visual sale de `src/app/globals.css` (`@theme`).
+Todo texto visible sale de `src/content/site.ts` (y `src/content/sector.ts` para informes). Todo valor visual sale de `src/app/globals.css` (`@theme`).
+
+Documentos técnicos: `arquitectura-multipagina.md` (rutas, navegación, catálogo de informes), `sector-snapshot-v2.md` (contrato con SIAR) e `informe-sectorial-pdf.md` (generador del PDF).
 
 ## Stack
 
 Next.js 16 (App Router, Turbopack) · React 19 · TypeScript · Tailwind CSS v4 · ESLint 9 · Prettier. Sitio estático, sin base de datos ni autenticación.
+
+## Páginas
+
+`/` (el recorrido completo) · `/soluciones` · `/informes` (catálogo) · `/informes/sector-solidario-<AAAA-MM>` (una edición) · `/acompanamiento` · `/nosotros` · `/contacto`. Header y footer viven en el layout. Cada edición sale de `src/data/sector/informes/<AAAA-MM>.json` y, si existe, de su PDF en `public/informes/`: no hay nada que registrar a mano. Detalle en `docs/arquitectura-multipagina.md`.
 
 ## Scripts
 
@@ -39,7 +45,7 @@ Copiar `.env.example` a `.env.local` para desarrollo.
 
 ### Fixture de «Inteligencia del sector» (solo desarrollo local)
 
-`SECTOR_FIXTURE=true` carga un snapshot **sintético** v2 (`src/lib/sector/fixture.dev.ts`, «DEV ONLY · NO PUBLICAR · NO SOURCE OF TRUTH») para revisar el layout del informe con datos; `SECTOR_FIXTURE=v1` carga la fixture del contrato anterior. Un archivo `snapshot.json` con `origen: "fixture"` se rechaza en cualquier entorno. Es una variable privada del servidor: `src/lib/sector/source.ts` la ignora cuando `NODE_ENV` es `production`, así que **no debe añadirse a Vercel ni a producción**. Se pasa en la línea de comandos, no en `.env.example`:
+`SECTOR_FIXTURE=true` carga un snapshot **sintético** v2 (`src/lib/sector/fixture.dev.ts`, «DEV ONLY · NO PUBLICAR · NO SOURCE OF TRUTH») para revisar el layout del informe con datos; `SECTOR_FIXTURE=v1` carga la fixture del contrato anterior. Un archivo de `src/data/sector/informes/` con `origen: "fixture"` se rechaza en cualquier entorno. Es una variable privada del servidor: `src/lib/sector/source.ts` la ignora cuando `NODE_ENV` es `production`, así que **no debe añadirse a Vercel ni a producción**. Se pasa en la línea de comandos, no en `.env.example`:
 
 ```bash
 SECTOR_FIXTURE=true npm run dev
@@ -48,6 +54,10 @@ SECTOR_FIXTURE=true npm run dev
 ```powershell
 $env:SECTOR_FIXTURE = "true"; npm run dev
 ```
+
+## Informe sectorial en PDF
+
+El informe ejecutivo de un corte se genera desde el mismo `SectorSnapshot v2` que lee el sitio, sin rehacerlo a mano: `node --import ./scripts/_ts.mjs scripts/informe-sectorial.mjs --corte <AAAA-MM> --capturas` (salida en `.informes/`, ignorada por git; sin `--corte`, el más reciente). Con `--publicar` copia el PDF a `public/informes/`, de donde lo descarga la página de la edición. Requiere Chrome o Edge instalados. Arquitectura, comprobaciones y decisiones en `docs/informe-sectorial-pdf.md`.
 
 ## Assets de marca
 
@@ -63,5 +73,5 @@ Vercel, proyecto propio conectado a este repositorio. Dominios `novumintegral.co
 - Una sola banda oscura (la sección de contacto). Sin gradientes de fondo. Sin tarjetas repetidas.
 - Verde `--color-green-500` nunca como texto sobre fondo claro.
 - No inventar clientes, cifras, certificaciones, testimonios ni URLs.
-- **Ninguna cifra sectorial se publica sin un snapshot aprobado y trazable** (`src/data/sector/snapshot.json`, contrato en `src/lib/sector/types.ts`). Sin snapshot, `#inteligencia` publica su versión editorial: sin KPI, gráficas, ceros, «sin datos» ni «próximamente». Bloque 2B.1 = experiencia y contrato v1; 2B.2 = Observatorio Novum sobre el contrato v2 (`docs/sector-snapshot-v2.md`: flujo SIAR → snapshot → web, mapeo, privacidad y regla un corte = fotografía). Falta el job exportador en SIAR.
+- **Ninguna cifra sectorial se publica sin un snapshot aprobado y trazable** (`src/data/sector/informes/<AAAA-MM>.json`, contrato en `src/lib/sector/types.ts`). Sin ninguna edición publicada, el Home publica la versión editorial de `#inteligencia`: sin KPI, gráficas, ceros, «sin datos» ni «próximamente». Bloque 2B.1 = experiencia y contrato v1; 2B.2 = Observatorio Novum sobre el contrato v2 (`docs/sector-snapshot-v2.md`: flujo SIAR → snapshot → web, mapeo, privacidad y regla un corte = fotografía). El archivo lo genera el job `sector-snapshot` de SIAR; la Lectura Novum se aprueba antes de publicar.
 - **Sin estados internos de desarrollo en la web pública** (en desarrollo, en diseño, en pruebas, roadmap, fechas): son información de gestión, no comunicación comercial. Sin nombres ni perfiles de personas: la sección Nosotros es institucional.

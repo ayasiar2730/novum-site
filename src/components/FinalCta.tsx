@@ -1,7 +1,7 @@
 import { contact, cta, finalCta } from "@/content/site";
 import { chatLink, demoLink } from "@/lib/links";
 import { ButtonLink } from "@/components/ButtonLink";
-import { SectionHeading } from "@/components/SectionHeading";
+import { SectionHeading, type NivelTitulo } from "@/components/SectionHeading";
 import { DESKTOP, inputPath, outputPath } from "@/components/systemGeometry";
 
 /** La única banda oscura de la página (design system §2), con el motivo del sistema en marca de agua. */
@@ -38,7 +38,8 @@ function Watermark() {
   );
 }
 
-export function FinalCta() {
+/** `nivel={1}` cuando la sección abre su propia página (fase 2): su título pasa a ser el h1. */
+export function FinalCta({ nivel = 2 }: { nivel?: NivelTitulo } = {}) {
   return (
     <section
       id="contacto"
@@ -57,6 +58,7 @@ export function FinalCta() {
               title={finalCta.title}
               tone="dark"
               size="lg"
+              nivel={nivel}
             />
             <p className="text-body measure text-neutral-100/90">{finalCta.body}</p>
             <div className="flex flex-col gap-3 pt-1 sm:flex-row">

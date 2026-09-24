@@ -1,5 +1,5 @@
 import { products } from "@/content/site";
-import { SectionHeading } from "@/components/SectionHeading";
+import { SectionHeading, type NivelTitulo } from "@/components/SectionHeading";
 import { Ecosystem, type Solution } from "@/components/Ecosystem";
 
 /**
@@ -12,7 +12,8 @@ import { Ecosystem, type Solution } from "@/components/Ecosystem";
  */
 const keys = ["presupuesto", "planeacion", "mas"];
 
-export function Products() {
+/** `nivel={1}` cuando la sección abre su propia página (fase 2): su título pasa a ser el h1. */
+export function Products({ nivel = 2 }: { nivel?: NivelTitulo } = {}) {
   const { siar, others } = products;
   const solutions: Solution[] = [
     {
@@ -28,7 +29,11 @@ export function Products() {
   ];
 
   return (
-    <section id="soluciones" className="py-24 md:py-28" aria-labelledby="soluciones-title">
+    <section
+      id="soluciones"
+      className={nivel === 1 ? "pb-24 pt-8 md:pb-28 md:pt-12" : "py-24 md:py-28"}
+      aria-labelledby="soluciones-title"
+    >
       <div className="container-site">
         <div data-reveal>
           <SectionHeading
@@ -37,10 +42,11 @@ export function Products() {
             title={products.title}
             intro={products.intro}
             size="lg"
+            nivel={nivel}
           />
         </div>
         <div className="mt-16 md:mt-20">
-          <Ecosystem solutions={solutions} />
+          <Ecosystem solutions={solutions} nivel={nivel === 1 ? 2 : 3} />
         </div>
       </div>
     </section>
