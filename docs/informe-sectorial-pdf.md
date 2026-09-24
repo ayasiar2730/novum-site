@@ -5,7 +5,7 @@ informe completo, un PDF ejecutivo descargable. Este documento describe cómo se
 cada mes.
 
 ```
-SectorSnapshot v2 (src/data/sector/snapshot.json, el mismo que lee el sitio)
+SectorSnapshot v2 (src/data/sector/informes/<AAAA-MM>.json, el mismo que lee el sitio)
   → src/lib/informe/modelo.ts      snapshot → modelo del informe (formatea, NO calcula) + trazabilidad de cada cifra
   → src/lib/informe/documento.ts   modelo → HTML de páginas A4 fijas (encabezado, pie, numeración, índice)
   → src/lib/informe/graficos.ts    barras, composición y distribución en HTML + CSS (sin librería de gráficas)
@@ -48,13 +48,30 @@ Requisitos: `npm install` y Chrome o Edge instalados (o `--chrome <ruta>` / `CHR
 node --import ./scripts/_ts.mjs scripts/informe-sectorial.mjs --capturas
 ```
 
-Sin `--snapshot` usa `src/data/sector/snapshot.json`. Salida en `.informes/` (ignorada por git):
+Sin `--corte` ni `--snapshot` usa el corte más reciente de `src/data/sector/informes/`; `--corte AAAA-MM` elige otro
+publicado y `--snapshot <ruta>` acepta cualquier SectorSnapshot v2 publicable (p. ej. el que entrega SIAR, para
+revisarlo antes de copiarlo al repositorio). Salida en `.informes/` (ignorada por git):
 
 - `informe-sectorial-<AAAA-MM>.pdf`
 - `informe-sectorial-<AAAA-MM>.html` — la versión imprimible, útil para revisar en el navegador
 - `informe-sectorial-<AAAA-MM>.trazabilidad.json` — cada cifra con su ruta en el snapshot o su derivación
 - `informe-sectorial-<AAAA-MM>.manifiesto.json` — páginas, peso, SHA-256 del PDF y del snapshot, comprobaciones
 - `informe-sectorial-<AAAA-MM>-paginas/` — una imagen por página (con `--capturas`)
+
+## Publicarlo en la web (fase 2)
+
+```bash
+node --import ./scripts/_ts.mjs scripts/informe-sectorial.mjs --corte 2026-07 --publicar --capturas
+```
+
+`--publicar` copia el PDF, después de pasar todas las comprobaciones, a `public/informes/informe-sectorial-<AAAA-MM>.pdf`:
+la URL fija que enlazan la página del informe, su entrada en el catálogo y la portada del Home
+(`src/lib/informes/catalogo.ts`). Solo se acepta con el snapshot **publicado** del corte
+(`src/data/sector/informes/<AAAA-MM>.json`): el PDF que se descarga sale del mismo archivo que la web muestra. Si el PDF
+no está en `public/informes/`, la edición se publica igual en la web, pero sin botón de descarga (nunca un enlace roto).
+El PDF se revisa y se versiona en el mismo PR que el snapshot. Chrome sella la fecha de creación en cada corrida, así
+que regenerar produce otro SHA-256 aunque el contenido sea idéntico: solo se vuelve a publicar cuando cambia el
+snapshot o el diseño.
 
 ## Decisiones técnicas
 
