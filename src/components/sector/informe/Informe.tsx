@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { sector } from "@/content/sector";
 import type { SectorSnapshotV2 } from "@/lib/sector/types";
 import {
@@ -24,7 +25,24 @@ const t = sector.informe;
  * dominante por capítulo, barras y bandas simples, mucho aire. Todo lo que se
  * muestra viene del snapshot ya calculado y ya redactado.
  */
-export function Informe({ snapshot, titleId }: { snapshot: SectorSnapshotV2; titleId: string }) {
+export function Informe({
+  snapshot,
+  titleId,
+  nivel = 2,
+  acciones,
+}: {
+  snapshot: SectorSnapshotV2;
+  titleId: string;
+  /** 1 en la página del informe (fase 2): la portada es el h1 de la página. */
+  nivel?: 1 | 2;
+  /** Acciones de la portada (p. ej. descargar el PDF). */
+  acciones?: ReactNode;
+}) {
+  const Titulo = nivel === 1 ? "h1" : "h2";
+  // Los niveles internos siguen a la portada: sin saltos de h1 a h3.
+  const nivelCapitulo = nivel === 1 ? 2 : 3;
+  const Seccion = nivel === 1 ? "h2" : "h3";
+  const Hallazgo = nivel === 1 ? "h3" : "h4";
   const portada = selectPortada(snapshot);
   const hallazgos = selectHallazgos(snapshot);
   const dimension = selectDimension(snapshot);
@@ -74,13 +92,14 @@ export function Informe({ snapshot, titleId }: { snapshot: SectorSnapshotV2; tit
             <span aria-hidden="true" className="h-px w-6 bg-purple-500" />
             {sector.eyebrow}
           </p>
-          <h2 id={titleId} className="text-h1-sm md:text-display-md text-neutral-950">
+          <Titulo id={titleId} className="text-h1-sm md:text-display-md text-neutral-950">
             {t.titulo}
             <span className="block text-purple-700">
               {t.cortePrefijo}: {portada.corteEtiqueta}
             </span>
-          </h2>
+          </Titulo>
           <p className="text-body max-w-[34rem] text-neutral-700">{sector.intro}</p>
+          {acciones ? <div className="mt-2">{acciones}</div> : null}
         </div>
         <dl className="grid grid-cols-2 gap-x-6 gap-y-5 text-small lg:col-span-4 lg:col-start-9 lg:self-end">
           <div>
@@ -159,9 +178,9 @@ export function Informe({ snapshot, titleId }: { snapshot: SectorSnapshotV2; tit
             data-reveal
           >
             <Rotulo>{t.resumenLabel}</Rotulo>
-            <h3 id="informe-resumen-title" className="sr-only">
+            <Seccion id="informe-resumen-title" className="sr-only">
               {t.resumenLabel}
-            </h3>
+            </Seccion>
             <p className="mt-3 text-body max-w-[34rem] text-neutral-700">{t.resumenIntro}</p>
             <ol className="mt-10 flex flex-col gap-12">
               {hallazgos.map((h) => (
@@ -180,7 +199,7 @@ export function Informe({ snapshot, titleId }: { snapshot: SectorSnapshotV2; tit
                     </p>
                   </div>
                   <div className="flex flex-col gap-3 md:col-span-7">
-                    <h4 className="text-h3-sm md:text-h3 text-neutral-950">{h.titulo}</h4>
+                    <Hallazgo className="text-h3-sm md:text-h3 text-neutral-950">{h.titulo}</Hallazgo>
                     <div className="border-l-2 border-purple-500 pl-4">
                       <p className="text-label uppercase text-purple-700">{t.lecturaLabel}</p>
                       <p className="mt-2 text-body text-neutral-900">{h.lectura}</p>
@@ -203,6 +222,7 @@ export function Informe({ snapshot, titleId }: { snapshot: SectorSnapshotV2; tit
           {/* ── 01 Dimensión ── */}
           {dimension.principal ? (
             <Capitulo
+              nivel={nivelCapitulo}
               id="informe-dimension"
               numero={CAPITULOS.dimension.numero}
               titulo={CAPITULOS.dimension.etiqueta}
@@ -253,6 +273,7 @@ export function Informe({ snapshot, titleId }: { snapshot: SectorSnapshotV2; tit
           {/* ── 02 Riesgo ── */}
           {riesgo.principal ? (
             <Capitulo
+              nivel={nivelCapitulo}
               id="informe-riesgo"
               numero={CAPITULOS.riesgo.numero}
               titulo={CAPITULOS.riesgo.etiqueta}
@@ -379,6 +400,7 @@ export function Informe({ snapshot, titleId }: { snapshot: SectorSnapshotV2; tit
           {/* ── 03 Estructura ── */}
           {estructura.length ? (
             <Capitulo
+              nivel={nivelCapitulo}
               id="informe-estructura"
               numero={CAPITULOS.estructura.numero}
               titulo={CAPITULOS.estructura.etiqueta}
@@ -441,6 +463,7 @@ export function Informe({ snapshot, titleId }: { snapshot: SectorSnapshotV2; tit
           {/* ── 04 Evolución: solo con dos o más cortes comparables ── */}
           {evolucion ? (
             <Capitulo
+              nivel={nivelCapitulo}
               id="informe-evolucion"
               numero={CAPITULOS.evolucion.numero}
               titulo={CAPITULOS.evolucion.etiqueta}
@@ -565,7 +588,7 @@ export function Informe({ snapshot, titleId }: { snapshot: SectorSnapshotV2; tit
           ) : null}
 
           {/* ── Metodología y fuentes ── */}
-          <Metodologia m={metodologia} />
+          <Metodologia m={metodologia} nivel={nivelCapitulo} />
         </div>
       </div>
     </div>

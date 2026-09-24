@@ -11,13 +11,17 @@ export function Capitulo({
   titulo,
   pregunta,
   children,
+  nivel = 3,
 }: {
   id: string;
   numero: string;
   titulo: string;
   pregunta: string;
   children: ReactNode;
+  /** 3 dentro del Home; 2 en la página del informe, donde la portada es el h1. */
+  nivel?: 2 | 3;
 }) {
+  const Titulo = nivel === 2 ? "h2" : "h3";
   return (
     <article id={id} className="relative scroll-mt-28" aria-labelledby={`${id}-title`} data-reveal>
       <header className="flex items-start gap-5 md:gap-6">
@@ -26,9 +30,9 @@ export function Capitulo({
           <span aria-hidden="true">{numero}</span>
         </p>
         <div className="flex flex-col gap-2 pt-1 md:pt-2">
-          <h3 id={`${id}-title`} className="text-h2-sm md:text-h2 text-neutral-950">
+          <Titulo id={`${id}-title`} className="text-h2-sm md:text-h2 text-neutral-950">
             {titulo}
-          </h3>
+          </Titulo>
           <p className="text-body max-w-[30rem] text-purple-900">{pregunta}</p>
         </div>
       </header>

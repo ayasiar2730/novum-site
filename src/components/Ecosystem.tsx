@@ -47,7 +47,8 @@ function branch(k: string) {
  * ilustración). El SVG es decorativo para tecnologías de apoyo: el HTML ya
  * dice todo lo que muestra.
  */
-export function Ecosystem({ solutions }: { solutions: Solution[] }) {
+export function Ecosystem({ solutions, nivel = 3 }: { solutions: Solution[]; nivel?: 2 | 3 }) {
+  const Titulo = nivel === 2 ? "h2" : "h3";
   const [active, setActive] = useState(solutions[0].key);
   const siar = solutions.find((s) => s.pillars);
   const pillars = siar?.pillars ?? [];
@@ -88,7 +89,7 @@ export function Ecosystem({ solutions }: { solutions: Solution[] }) {
                     {s.name} — {s.fullName}
                   </span>
                 ) : null}
-                <h3 className={main ? "text-h2-sm md:text-h1" : "text-h3-sm md:text-h3"}>
+                <Titulo className={main ? "text-h2-sm md:text-h1" : "text-h3-sm md:text-h3"}>
                   <button
                     type="button"
                     aria-pressed={on}
@@ -106,7 +107,7 @@ export function Ecosystem({ solutions }: { solutions: Solution[] }) {
                       s.name
                     )}
                   </button>
-                </h3>
+                </Titulo>
                 {main ? (
                   <>
                     <p className="text-body max-w-[34rem] text-neutral-700">{s.description}</p>
