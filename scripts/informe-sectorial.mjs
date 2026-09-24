@@ -9,8 +9,11 @@
 
    Uso:
      node --import ./scripts/_ts.mjs scripts/informe-sectorial.mjs \
-       [--snapshot <sector-snapshot.json>] [--salida .informes] [--capturas] [--chrome <ruta>]
-     (sin --snapshot usa src/data/sector/snapshot.json, el que publica el sitio)
+       [--corte AAAA-MM | --snapshot <sector-snapshot.json>] [--salida .informes]
+       [--publicar] [--capturas] [--chrome <ruta>]
+     (sin --corte ni --snapshot usa el corte más reciente de src/data/sector/informes/,
+     el que publica el sitio; --publicar copia el PDF a public/informes/, de donde lo
+     sirve la página del informe, y solo se acepta con el snapshot publicado del corte)
 
    Requisitos: `npm install` (la tipografía Plus Jakarta Sans estática sale de
    `@fontsource/plus-jakarta-sans`, la misma familia del sitio) y Chrome o Edge instalados
@@ -36,7 +39,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { validarV2 } from "@/lib/sector/source";
+import { DIR_INFORMES, cortesPublicados, validarV2 } from "@/lib/sector/source";
 import { construirModelo } from "@/lib/informe/modelo";
 import { documento } from "@/lib/informe/documento";
 import { contact, site } from "@/content/site";
@@ -55,16 +58,29 @@ const salir = (codigo, mensaje) => {
 const sha256 = (b) => createHash("sha256").update(b).digest("hex");
 
 // ── 1) Snapshot ──────────────────────────────────────────────────────────────
-// Por defecto, el snapshot que publica el sitio.
-const rutaSnapshot = valor("--snapshot") ?? path.join(RAIZ, "src/data/sector/snapshot.json");
+// Por defecto, el corte más reciente que publica el sitio (src/data/sector/informes/<AAAA-MM>.json).
+const cortePedido = valor("--corte");
+if (cortePedido && !/^\d{4}-\d{2}$/.test(cortePedido)) salir(1, "--corte va como AAAA-MM (p. ej. 2026-07).");
+const corteDefecto = cortePedido ?? cortesPublicados()[0];
+const rutaSnapshot =
+  valor("--snapshot") ?? (corteDefecto ? path.join(DIR_INFORMES, `${corteDefecto}.json`) : null);
 if (!rutaSnapshot || !fs.existsSync(rutaSnapshot))
-  salir(1, "Hace falta --snapshot <ruta a un SectorSnapshot v2>.");
+  salir(1, "Hace falta un snapshot: --corte AAAA-MM (publicado) o --snapshot <ruta a un SectorSnapshot v2>.");
 const crudo = fs.readFileSync(rutaSnapshot);
 const snapshot = JSON.parse(crudo.toString("utf8"));
 if (!validarV2(snapshot)) salir(1, "El snapshot no pasa el validador del sitio (estructura o k-anonimato).");
 if (snapshot.origen !== "siar")
   salir(1, `El informe solo se genera con un snapshot de origen «siar» (llegó «${snapshot.origen}»).`);
 const modelo = construirModelo(snapshot, { contacto: { web: site.url, correo: contact.emails[0] } });
+
+// --publicar: el PDF que sirve la web tiene que salir del MISMO snapshot que la web muestra.
+const publicar = bandera("--publicar");
+const rutaPublicada = path.join(DIR_INFORMES, `${modelo.corteId}.json`);
+if (publicar && path.resolve(rutaSnapshot) !== path.resolve(rutaPublicada))
+  salir(
+    1,
+    `--publicar solo se acepta con el snapshot publicado del corte (${path.relative(RAIZ, rutaPublicada)}); llegó ${rutaSnapshot}.`,
+  );
 
 // ── 2) Recursos: tipografía y marca ─────────────────────────────────────────
 // Plus Jakarta Sans en instancias ESTÁTICAS (@fontsource, OFL-1.1). La variable
@@ -335,6 +351,13 @@ try {
     console.log(
       `  comprobado: tipografía, 0 desbordes, sin NIT ni uuid, ${decimales.length} cifras con decimales todas trazadas, código interno solo en la versión (${apariciones})`,
     );
+    if (publicar) {
+      // Nombre fijo por corte: es la URL que enlaza la página del informe (lib/informes/catalogo.ts).
+      const destino = path.join(RAIZ, "public", "informes", `${nombre}.pdf`);
+      fs.mkdirSync(path.dirname(destino), { recursive: true });
+      fs.copyFileSync(rutaPdf, destino);
+      console.log(`  publicado: ${path.relative(RAIZ, destino)} (revise el PDF antes del commit)`);
+    }
   }
   ws.close();
 } catch (e) {
