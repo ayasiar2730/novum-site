@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ReactNode } from "react";
 
 type Variant = "primary" | "secondary" | "onDark" | "onDarkSecondary";
@@ -47,6 +48,7 @@ export function ButtonLink({
   size = "md",
   external = false,
   arrow = false,
+  download,
   className = "",
 }: {
   href: string;
@@ -55,13 +57,29 @@ export function ButtonLink({
   size?: Size;
   external?: boolean;
   arrow?: boolean;
+  /** Nombre con el que se guarda el archivo (p. ej. el PDF de un informe). */
+  download?: string;
   className?: string;
 }) {
-  const externalProps = external ? { target: "_blank", rel: "noopener noreferrer" } : {};
-  return (
-    <a href={href} className={`${base} ${sizes[size]} ${variants[variant]} ${className}`} {...externalProps}>
+  const clases = `${base} ${sizes[size]} ${variants[variant]} ${className}`;
+  const contenido = (
+    <>
       {children}
       {arrow ? <Arrow /> : null}
+    </>
+  );
+  // Rutas propias: navegación de cliente entre páginas (fase 2). Descargas y enlaces externos: <a>.
+  if (href.startsWith("/") && !external && !download) {
+    return (
+      <Link href={href} className={clases}>
+        {contenido}
+      </Link>
+    );
+  }
+  const externalProps = external ? { target: "_blank", rel: "noopener noreferrer" } : {};
+  return (
+    <a href={href} className={clases} download={download} {...externalProps}>
+      {contenido}
     </a>
   );
 }
