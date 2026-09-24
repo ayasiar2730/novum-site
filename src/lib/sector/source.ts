@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { SectorSnapshot, SectorSnapshotAny, SectorSnapshotV2 } from "@/lib/sector/types";
 
@@ -7,7 +7,9 @@ import type { SectorSnapshot, SectorSnapshotAny, SectorSnapshotV2 } from "@/lib/
  * así que ningún componente cliente puede importarla (fallaría el bundle).
  *
  * Reglas:
- *  - si `src/data/sector/snapshot.json` no existe → null (ausencia normal, no error);
+ *  - un snapshot por corte publicado en `src/data/sector/informes/<AAAA-MM>.json`
+ *    (el catálogo de informes); el último es el que usa el Home. Sin ninguno →
+ *    null (ausencia normal, no error);
  *  - si existe pero no cumple la validación mínima → null + aviso en la consola de build;
  *  - nunca se generan datos por defecto ni ceros;
  *  - la fixture de desarrollo solo entra fuera de producción y con SECTOR_FIXTURE=true
@@ -17,7 +19,19 @@ import type { SectorSnapshot, SectorSnapshotAny, SectorSnapshotV2 } from "@/lib/
  *    editorial que una categoría con dos entidades.
  */
 
-const SNAPSHOT_PATH = join(process.cwd(), "src", "data", "sector", "snapshot.json");
+/** Un archivo por corte publicado: la interfaz con SIAR (antes `src/data/sector/snapshot.json`). */
+export const DIR_INFORMES = join(process.cwd(), "src", "data", "sector", "informes");
+const RE_ARCHIVO = /^\d{4}-\d{2}\.json$/;
+
+/** Los cortes publicados (AAAA-MM), del más reciente al más antiguo. */
+export function cortesPublicados(): string[] {
+  if (!existsSync(DIR_INFORMES)) return [];
+  return readdirSync(DIR_INFORMES)
+    .filter((f) => RE_ARCHIVO.test(f))
+    .map((f) => f.slice(0, 7))
+    .sort()
+    .reverse();
+}
 
 function esObjeto(v: unknown): v is Record<string, unknown> {
   return typeof v === "object" && v !== null && !Array.isArray(v);
@@ -135,9 +149,49 @@ function validar(v: unknown): v is SectorSnapshot {
   return true;
 }
 
+/** Lee y valida el snapshot publicado de un archivo; null (con aviso) si no se puede publicar. */
+function leerArchivo(ruta: string): SectorSnapshotAny | null {
+  if (!existsSync(ruta)) return null;
+  try {
+    const crudo: unknown = JSON.parse(readFileSync(ruta, "utf8"));
+    if (esObjeto(crudo) && crudo.version === 2) {
+      if (crudo.origen === "fixture") {
+        console.warn(`[sector] ${ruta} es una fixture (origen "fixture"): no se publica.`);
+        return null;
+      }
+      if (!validarV2(crudo)) {
+        console.warn(
+          `[sector] ${ruta} (v2) no cumple el contrato mínimo o el k-anonimato declarado. No se publica.`,
+        );
+        return null;
+      }
+      return crudo;
+    }
+    if (!validar(crudo)) {
+      console.warn(
+        `[sector] ${ruta} no cumple el contrato mínimo (version, corte, fuente, kpis, historias con insight). No se publica.`,
+      );
+      return null;
+    }
+    return crudo;
+  } catch (e) {
+    console.warn(`[sector] No se pudo leer ${ruta}: ${e instanceof Error ? e.message : String(e)}`);
+    return null;
+  }
+}
+
+const porCorte = new Map<string, SectorSnapshotAny | null>();
+
+/** El snapshot publicado de un corte (AAAA-MM), o null. */
+export function getSnapshotDeCorte(corteId: string): SectorSnapshotAny | null {
+  if (!/^\d{4}-\d{2}$/.test(corteId)) return null;
+  if (!porCorte.has(corteId)) porCorte.set(corteId, leerArchivo(join(DIR_INFORMES, `${corteId}.json`)));
+  return porCorte.get(corteId) ?? null;
+}
+
 let cache: SectorSnapshotAny | null | undefined;
 
-/** El snapshot aprobado (v1 o v2), o null. Una sola lectura por proceso de build. */
+/** El último snapshot publicado y válido (v1 o v2), o null. Una sola lectura por proceso de build. */
 export async function getSectorSnapshot(): Promise<SectorSnapshotAny | null> {
   if (cache !== undefined) return cache;
 
@@ -156,41 +210,14 @@ export async function getSectorSnapshot(): Promise<SectorSnapshotAny | null> {
     }
   }
 
-  // 2) Snapshot aprobado, si existe.
-  if (!existsSync(SNAPSHOT_PATH)) {
-    cache = null;
-    return cache;
-  }
-  try {
-    const crudo: unknown = JSON.parse(readFileSync(SNAPSHOT_PATH, "utf8"));
-    if (esObjeto(crudo) && crudo.version === 2) {
-      if (crudo.origen === "fixture") {
-        console.warn(`[sector] ${SNAPSHOT_PATH} es una fixture (origen "fixture"): no se publica.`);
-        cache = null;
-        return cache;
-      }
-      if (!validarV2(crudo)) {
-        console.warn(
-          `[sector] ${SNAPSHOT_PATH} (v2) no cumple el contrato mínimo o el k-anonimato declarado. Se publica la versión editorial.`,
-        );
-        cache = null;
-        return cache;
-      }
-      cache = crudo;
-      return cache;
+  // 2) El corte publicado más reciente que valide.
+  cache = null;
+  for (const id of cortesPublicados()) {
+    const s = getSnapshotDeCorte(id);
+    if (s) {
+      cache = s;
+      break;
     }
-    if (!validar(crudo)) {
-      console.warn(
-        `[sector] ${SNAPSHOT_PATH} existe pero no cumple el contrato mínimo (version, corte, fuente, kpis, historias con insight). Se publica la versión editorial.`,
-      );
-      cache = null;
-      return cache;
-    }
-    cache = crudo;
-    return cache;
-  } catch (e) {
-    console.warn(`[sector] No se pudo leer ${SNAPSHOT_PATH}: ${e instanceof Error ? e.message : String(e)}`);
-    cache = null;
-    return cache;
   }
+  return cache;
 }

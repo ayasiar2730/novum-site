@@ -1,7 +1,7 @@
 import { sector } from "@/content/sector";
 import { getSectorSnapshot } from "@/lib/sector/source";
 import { selectCabecera, selectContexto, selectHistorias, selectKpis } from "@/lib/sector/select";
-import { participacion } from "@/lib/sector/format";
+import { selectRangosContexto } from "@/lib/sector/selectV2";
 import { esV2, type SectorSnapshot } from "@/lib/sector/types";
 import { SectionHeading } from "@/components/SectionHeading";
 import { SectorKpis } from "@/components/sector/SectorKpis";
@@ -173,19 +173,7 @@ export async function SectorIntelligence() {
   const v2 = cualquiera && esV2(cualquiera) ? cualquiera : null;
   const snapshot: SectorSnapshot | null = cualquiera && !esV2(cualquiera) ? cualquiera : null;
   const cabecera = snapshot ? selectCabecera(snapshot) : null;
-  const rangos = v2
-    ? v2.contexto && v2.contexto.rangos.length
-      ? v2.contexto.rangos.map((r) => ({
-          etiqueta: r.etiqueta,
-          entidades: participacion(r.participacionEntidades),
-          activo: participacion(r.participacionActivo),
-          pctEntidades: r.participacionEntidades * 100,
-          pctActivo: r.participacionActivo * 100,
-        }))
-      : null
-    : snapshot
-      ? selectContexto(snapshot)
-      : null;
+  const rangos = v2 ? selectRangosContexto(v2) : snapshot ? selectContexto(snapshot) : null;
 
   return (
     <section
