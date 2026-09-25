@@ -57,13 +57,15 @@ public/informes/informe-sectorial-<AAAA-MM>.pdf  PDF generado desde ese mismo ar
 src/lib/sector/source.ts     cortesPublicados(), getSnapshotDeCorte(): lee y valida cada archivo (solo servidor)
 src/lib/informes/catalogo.ts listarInformes(), informePorSlug(): edición = snapshot publicable + PDF si existe
         ↓
-/  (InformeDestacado, el más reciente)   /informes (catálogo)   /informes/sector-solidario-<AAAA-MM> (edición)
+/  (InformeDestacado: el corte completo más reciente)   /informes (catálogo)   /informes/sector-solidario-<AAAA-MM> (edición)
 ```
 
 Una edición entra al catálogo solo si su snapshot es v2 de origen `siar`, pasa `validarV2` (estructura +
 k-anonimato), trae al menos 3 hallazgos con Lectura Novum y el corte del archivo coincide con el del snapshot. Sin
 PDF, la edición se publica sin botón de descarga. `generateStaticParams` + `dynamicParams = false`: todas las
 ediciones se construyen en el build y cualquier otro slug es 404. No hay nada que registrar a mano.
+
+El Home presenta el **corte completo** más reciente (junio o diciembre, cuando reporta el sector entero; `informeDestacado()`) y, si no hay ninguno, el más reciente: un corte mensual describe sobre todo a las entidades de nivel 1. El catálogo lista todas las ediciones en orden cronológico, cada una con su estado.
 
 Sin ninguna edición publicada, el Home vuelve a la versión editorial de «Inteligencia del sector» y `/informes`
 muestra solo su introducción y «Cómo se elaboran»: sin listas vacías ni «próximamente».

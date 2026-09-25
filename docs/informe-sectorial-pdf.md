@@ -40,6 +40,20 @@ Si alguna falla, el generador no escribe el PDF (sale con 1) y lo dice:
 | Código interno solo como versión | `v2-2026-09` aparece solo en la línea de versión (alcance y metodología) |
 | Cifras trazadas | toda cifra con decimales del texto es una cifra de la trazabilidad o su redondeo exacto |
 
+### Cortes completos (junio y diciembre) — 24-sep-2026
+
+El corte de junio 2026 (1.801 entidades) trajo más contenido que julio y el generador se adapta sin recortar nada:
+
+- **Resumen ejecutivo que se reparte solo.** Tres hallazgos por página y la tabla de cifras clave en la última, por
+  defecto. Si Chrome mide que una página del resumen se desborda (lecturas largas), la tabla pasa a una página propia o
+  el último hallazgo de esa página pasa a la siguiente, y se vuelve a medir. El desborde que quede lo frena la
+  comprobación.
+- **Nivel de supervisión.** Cuando el snapshot lo publica (en los cortes mensuales suele omitirse por k), va en la página
+  de tipo de organización, con su participación en la cartera y en las entidades, y sus cifras quedan trazadas.
+- **Muchas categorías.** Con más de diez departamentos, las filas del territorio se compactan.
+- **Nombres del portafolio.** El cierre habla de Novum Risk y la metodología, del motor sectorial de Novum; el cierre ya
+  no promete «este mismo universo», porque la plataforma solo tiene los cortes que se pudieron cargar.
+
 ## Cómo se genera
 
 Requisitos: `npm install` y Chrome o Edge instalados (o `--chrome <ruta>` / `CHROME_PATH`).

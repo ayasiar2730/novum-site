@@ -6,7 +6,7 @@ import { SectorIntelligence } from "@/components/sector/SectorIntelligence";
 import { InformeDestacado } from "@/components/informes/InformeDestacado";
 import { ComoTrabajamos } from "@/components/nosotros/ComoTrabajamos";
 import { FinalCta } from "@/components/FinalCta";
-import { listarInformes } from "@/lib/informes/catalogo";
+import { informeDestacado } from "@/lib/informes/catalogo";
 
 /**
  * El Home es la puerta de entrada (fase 2, portafolio del 24 sep 2026): cada
@@ -16,12 +16,13 @@ import { listarInformes } from "@/lib/informes/catalogo";
  *   II  tensión — el problema del sector (blanco)
  *   III el sistema — las siete líneas y la tecnología Novum (única superficie
  *       tintada con retícula) → /soluciones, /soluciones/<línea>, /tecnologia
- *   IV  contexto — el último informe sectorial (sin informes, la versión
- *       editorial de «Inteligencia del sector») → /informes
+ *   IV  contexto — el informe sectorial destacado: el corte completo más
+ *       reciente (sin informes, la versión editorial de «Inteligencia del
+ *       sector») → /informes
  *   V   decisión — cómo trabajamos → /nosotros, y la banda de contacto
  */
 export default function Home() {
-  const destacado = listarInformes()[0] ?? null;
+  const destacado = informeDestacado();
   return (
     <main id="contenido" tabIndex={-1} className="flex-1 outline-none">
       <Hero />
