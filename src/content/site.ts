@@ -47,6 +47,17 @@ export const contact = {
 } as const;
 
 /**
+ * Redes sociales (24 sep 2026). Direcciones canónicas, sin parámetros de
+ * rastreo: el enlace de Facebook que se compartió («/share/…») redirige a la
+ * página por su id. Alimentan el pie, la banda de contacto y `sameAs` del JSON-LD.
+ */
+export const redes = [
+  { red: "linkedin", nombre: "LinkedIn", url: "https://www.linkedin.com/in/novum-integral-608544438" },
+  { red: "instagram", nombre: "Instagram", url: "https://www.instagram.com/novumintegral/" },
+  { red: "facebook", nombre: "Facebook", url: "https://www.facebook.com/profile.php?id=61594481222000" },
+] as const;
+
+/**
  * Navegación principal (fase 2, multipágina): cada entrada es una página. El
  * Home es la puerta de entrada —un resumen de cada tema con su enlace— y cada
  * página tiene el contenido completo, sin repetirlo en el Home.

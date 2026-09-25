@@ -1,10 +1,10 @@
 import { existsSync } from "node:fs";
 import path from "node:path";
-import { contact, site } from "@/content/site";
+import { contact, redes, site } from "@/content/site";
 
 /**
  * Datos estructurados. Solo lo que representa contenido visible en la página.
- * Sin sameAs (no hay LinkedIn aún), sin address (ciudad pendiente),
+ * sameAs con las redes publicadas (site.ts: redes), sin address (ciudad pendiente),
  * sin foundingDate (sociedad en constitución). El logo solo se declara cuando
  * public/brand/logo.svg o logo.png existe de verdad: apuntar a un 404 es peor
  * que omitirlo.
@@ -26,6 +26,7 @@ const graph = {
       ...(logoFile ? { logo: `${site.url}/brand/${logoFile}` } : {}),
       description: site.institutional,
       email: contact.emails[0],
+      sameAs: redes.map((r) => r.url),
       telephone: `+${contact.whatsapp[0].number}`,
       areaServed: { "@type": "Country", name: "Colombia" },
       knowsAbout: [
