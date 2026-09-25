@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { contact, cta, nav, site } from "@/content/site";
 import { Logo } from "@/components/Logo";
+import { RedesSociales } from "@/components/RedesSociales";
 
 export function Footer() {
   return (
@@ -65,6 +66,8 @@ export function Footer() {
               </li>
             ))}
           </ul>
+          <p className="mb-3 mt-6 text-label uppercase text-neutral-500">Redes</p>
+          <RedesSociales />
         </div>
       </div>
 

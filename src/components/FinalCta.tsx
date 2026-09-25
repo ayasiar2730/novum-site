@@ -3,6 +3,7 @@ import { chatLink, demoLink } from "@/lib/links";
 import { ButtonLink } from "@/components/ButtonLink";
 import { SectionHeading, type NivelTitulo } from "@/components/SectionHeading";
 import { DESKTOP, inputPath, outputPath } from "@/components/systemGeometry";
+import { RedesSociales } from "@/components/RedesSociales";
 
 /** La única banda oscura de la página (design system §2), con el motivo del sistema en marca de agua. */
 function Watermark() {
@@ -107,6 +108,10 @@ export function FinalCta({ nivel = 2 }: { nivel?: NivelTitulo } = {}) {
                   </li>
                 ))}
               </ul>
+            </div>
+            <div>
+              <p className="mb-3 text-label uppercase text-purple-100/75">Redes</p>
+              <RedesSociales tono="oscuro" />
             </div>
           </div>
         </div>
