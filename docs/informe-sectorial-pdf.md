@@ -51,7 +51,7 @@ El corte de junio 2026 (1.801 entidades) trajo más contenido que julio y el gen
 - **Nivel de supervisión.** Cuando el snapshot lo publica (en los cortes mensuales suele omitirse por k), va en la página
   de tipo de organización, con su participación en la cartera y en las entidades, y sus cifras quedan trazadas.
 - **Muchas categorías.** Con más de diez departamentos, las filas del territorio se compactan.
-- **Nombres del portafolio.** El cierre habla de Novum Risk y la metodología, del motor sectorial de Novum; el cierre ya
+- **Nombres del portafolio.** El cierre habla de Novum Riesgos y la metodología, del motor sectorial de Novum; el cierre ya
   no promete «este mismo universo», porque la plataforma solo tiene los cortes que se pudieron cargar.
 
 ## Cómo se genera

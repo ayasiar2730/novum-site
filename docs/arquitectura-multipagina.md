@@ -15,7 +15,7 @@ el contenido completo. El contenido del portafolio vive en `src/content/portafol
 | `/` | Hero | Puerta de entrada: hero, problema, las siete líneas (una fila por línea, con enlace), Tecnología Novum (los tres productos), el último informe (`InformeDestacado`), «Cómo trabajamos» (los cinco pasos) y la banda de contacto | la de cada acto; líneas y tecnología en `surface-sistema` |
 | `/soluciones` | «Siete líneas que se conectan» | Índice de las siete líneas, cada una con su promesa y lo que la entidad recibe | `surface-sistema` |
 | `/soluciones/<línea>` (7) | El nombre de la línea | Promesa, capacidades y servicios, valor que recibe la entidad, tecnología de la línea (si la tiene), las otras seis; `Service` en schema.org | blanco; «Valor» en neutral-50 |
-| `/tecnologia` | «Software que convierte la metodología en gestión diaria» | Ecosistema de productos (`Products`: Novum Risk, Novum Budget, Novum Strategic Planning) y el criterio (`Differentiators`) | `surface-sistema` |
+| `/tecnologia` | «Software que convierte la metodología en gestión diaria» | Ecosistema de productos (`Products`: Novum Riesgos, Novum Presupuesto, Novum Planeación Estratégica) y el criterio (`Differentiators`) | `surface-sistema` |
 | `/informes` | «Informes sectoriales» | Catálogo: ediciones publicadas, «Cómo se elaboran», «Su entidad en contexto» | blanco; «Cómo se elaboran» en neutral-50 |
 | `/informes/sector-solidario-<AAAA-MM>` | «Informe sectorial · Corte: …» | El Observatorio completo (`Informe`) con la descarga del PDF en la portada, y «Su entidad en contexto» | blanco |
 | `/nosotros` | «Experiencia que entiende el sector» | Declaración institucional y capacidades (`About`), propuesta de valor, a quién acompañamos, cómo trabajamos (`#metodologia`), por qué Novum | blanco; «A quién» en neutral-50 |
@@ -85,10 +85,10 @@ El Home, el catálogo, la página de la edición y el sitemap se actualizan solo
 
 - **El Home es la puerta de entrada (24-sep, elegido por Adrian).** Cada tema aparece resumido y enlaza a su página;
   nada se repite entero. Pasó de ≈ 8.100 a ≈ 5.500 px a 1440. Conserva hero, problema y las superficies de los actos.
-- **El portafolio manda sobre el contenido.** Siete líneas con página propia; los productos se llaman Novum Risk, Novum
-  Budget y Novum Strategic Planning (como en la aplicación); los seis diferenciales, la metodología de cinco pasos, los
+- **El portafolio manda sobre el contenido.** Siete líneas con página propia; los productos se llaman Novum Riesgos, Novum
+  Presupuesto y Novum Planeación Estratégica (como en la aplicación: en español desde el 24-sep, migración 0208 de SIAR); los seis diferenciales, la metodología de cinco pasos, los
   segmentos y las formas de vinculación salen del PDF.
-- **Novum Risk se describe con lo que el software cubre hoy (SARC, SARLAFT y SARO).** La consultoría de la línea 01 sí
+- **Novum Riesgos se describe con lo que el software cubre hoy (SARC, SARLAFT y SARO).** La consultoría de la línea 01 sí
   nombra SARL, porque no depende del software.
 - **Oficial de cumplimiento y gestor de riesgos** (no están en el portafolio) se conservan como capacidades de las líneas
   06 y 01. «Acompañamiento» deja de ser página: sus seis servicios quedan dentro de las líneas y redirige a

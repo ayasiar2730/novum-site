@@ -1,19 +1,20 @@
 /**
  * Contenido del portafolio de soluciones — fuente: «Novum_Portafolio_Corporativo.pdf»
- * (24 sep 2026). Aquí vive lo que el sitio dice de las siete líneas, la
+ * (24 sep 2026; productos con los nombres en español de SIAR). Aquí vive lo que el sitio dice de las siete líneas, la
  * forma de trabajar, a quién acompañamos, los diferenciales y
  * las formas de vinculación; site.ts conserva la identidad, el contacto, los
  * productos (Tecnología Novum) y los textos del Home que no vienen del portafolio.
  *
  * Ajustes al publicar (decisiones del 24 sep 2026):
- *  - Novum Risk se describe con los sistemas que el software cubre hoy (SARC,
+ *  - Novum Riesgos se describe con los sistemas que el software cubre hoy (SARC,
  *    SARLAFT y SARO); la consultoría de la línea 01 sí nombra los cuatro, porque
  *    no depende del software.
  *  - Oficial de cumplimiento y gestor de riesgos (servicios que ya estaban en la
  *    web y no aparecen en el portafolio) se conservan dentro de sus líneas.
  */
 
-export type ProductoClave = "risk" | "budget" | "planning";
+/** Los mismos códigos que el producto en SIAR (`producto.code`). */
+export type ProductoClave = "riesgos" | "presupuesto" | "planeacion";
 
 export interface Linea {
   slug: string;
@@ -52,7 +53,7 @@ export const lineas: readonly Linea[] = [
       { titulo: "Decisión", texto: "Información clara para comités y órganos de gobierno." },
       { titulo: "Trazabilidad", texto: "Evidencia del ciclo completo de gestión del riesgo." },
     ],
-    producto: "risk",
+    producto: "riesgos",
   },
   {
     slug: "consultoria-financiera",
@@ -76,7 +77,7 @@ export const lineas: readonly Linea[] = [
       { titulo: "Anticipación", texto: "Escenarios y flujos para decidir antes del impacto." },
       { titulo: "Seguimiento", texto: "Presupuesto vivo con variaciones y responsables." },
     ],
-    producto: "budget",
+    producto: "presupuesto",
   },
   {
     slug: "auditoria-y-aseguramiento",
@@ -124,7 +125,7 @@ export const lineas: readonly Linea[] = [
       { titulo: "Eficiencia", texto: "Procesos más simples, claros y sostenibles." },
       { titulo: "Dirección", texto: "Estrategia conectada con responsables y resultados." },
     ],
-    producto: "planning",
+    producto: "planeacion",
   },
   {
     slug: "capacitacion-y-formacion",

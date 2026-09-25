@@ -22,7 +22,7 @@ export const site = {
   metaDescription:
     "Empresa colombiana de software y consultoría para cooperativas, fondos de empleados y mutuales: riesgos, finanzas, auditoría, cumplimiento, formación, analítica y tecnología propia.",
   institutional:
-    "Novum Integral SAS es una empresa colombiana de software y consultoría especializada en el sector de economía solidaria: cooperativas de ahorro y crédito, fondos de empleados y asociaciones mutuales. Trabajamos en siete líneas —gestión integral de riesgos, consultoría financiera, auditoría y aseguramiento, transformación institucional, capacitación, cumplimiento y analítica de datos— y desarrollamos tres productos independientes: Novum Risk, Novum Budget y Novum Strategic Planning. Somos un equipo especializado, con experiencia directa en el sector.",
+    "Novum Integral SAS es una empresa colombiana de software y consultoría especializada en el sector de economía solidaria: cooperativas de ahorro y crédito, fondos de empleados y asociaciones mutuales. Trabajamos en siete líneas —gestión integral de riesgos, consultoría financiera, auditoría y aseguramiento, transformación institucional, capacitación, cumplimiento y analítica de datos— y desarrollamos tres productos independientes: Novum Riesgos, Novum Presupuesto y Novum Planeación Estratégica. Somos un equipo especializado, con experiencia directa en el sector.",
   year: 2026,
   /**
    * Fecha del último corte editorial publicado (AAAA-MM-DD). Alimenta `lastModified`
@@ -80,7 +80,7 @@ export const paginas = {
   tecnologia: {
     titulo: "Tecnología",
     descripcion:
-      "Novum Risk, Novum Budget y Novum Strategic Planning: software que convierte la metodología en gestión diaria para cooperativas, fondos de empleados y mutuales.",
+      "Novum Riesgos, Novum Presupuesto y Novum Planeación Estratégica: software que convierte la metodología en gestión diaria para cooperativas, fondos de empleados y mutuales.",
   },
   informes: {
     titulo: "Informes sectoriales",
@@ -202,8 +202,8 @@ export const products = {
     "Las soluciones digitales de Novum organizan la información, mantienen la trazabilidad y facilitan que la administración y los órganos de gobierno decidan con evidencia. Cada producto se contrata por separado.",
   ver: "Conocer la tecnología",
   siar: {
-    name: "Novum Risk",
-    etiqueta: "RISK",
+    name: "Novum Riesgos",
+    etiqueta: "RIESGOS",
     fullName: "Administración integral de riesgos",
     /** Línea corta (resúmenes y páginas de línea). */
     resumen:
@@ -218,16 +218,16 @@ export const products = {
   },
   others: [
     {
-      name: "Novum Budget",
-      etiqueta: "BUDGET",
+      name: "Novum Presupuesto",
+      etiqueta: "PRESUPUESTO",
       subtitle: "Presupuesto y desempeño financiero",
       tagline:
         "Formulación presupuestal, escenarios, ejecución mensual, variaciones, proyecciones y lectura gerencial.",
       open: false,
     },
     {
-      name: "Novum Strategic Planning",
-      etiqueta: "STRATEGIC PLANNING",
+      name: "Novum Planeación Estratégica",
+      etiqueta: "PLANEACIÓN",
       subtitle: "Planeación estratégica",
       tagline:
         "Diagnóstico, DOFA, objetivos, indicadores, riesgos estratégicos, proyectos, metas y seguimiento.",
