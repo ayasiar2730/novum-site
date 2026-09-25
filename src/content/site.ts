@@ -34,9 +34,14 @@ export const site = {
 
 export const contact = {
   emails: ["contacto@novumintegral.com", "administracion@novumintegral.com"],
+  /**
+   * El PRIMERO es el destino de todos los botones de WhatsApp (demostración y
+   * chat, lib/links.ts) y el teléfono del JSON-LD. 24-sep-2026: el 321 480 9336
+   * va primero porque por ahora es el que está más pendiente.
+   */
   whatsapp: [
-    { number: "573015661091", display: "+57 301 566 1091" },
     { number: "573214809336", display: "+57 321 480 9336" },
+    { number: "573015661091", display: "+57 301 566 1091" },
   ],
   demoMessage: "Hola, quiero agendar una demostración de Novum Integral para mi entidad.",
 } as const;
