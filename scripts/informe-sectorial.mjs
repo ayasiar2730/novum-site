@@ -112,11 +112,7 @@ const png = (rel) => `data:image/png;base64,${fs.readFileSync(path.join(RAIZ, re
 const css = fs
   .readFileSync(path.join(RAIZ, "src/lib/informe/informe.css"), "utf8")
   .replace("/* @@FUENTES@@ */", fuentes.join("\n"));
-const { html, paginas } = documento(modelo, {
-  css,
-  logo: png("public/brand/logo.png"),
-  isotipo: png("public/brand/isotipo.png"),
-});
+const marca = { logo: png("public/brand/logo.png"), isotipo: png("public/brand/isotipo.png") };
 
 const salida = path.resolve(valor("--salida") ?? ".informes");
 fs.mkdirSync(salida, { recursive: true });
@@ -124,7 +120,15 @@ const nombre = `informe-sectorial-${modelo.corteId}`;
 const rutaHtml = path.join(salida, `${nombre}.html`);
 const rutaPdf = path.join(salida, `${nombre}.pdf`);
 for (const f of [rutaPdf]) fs.rmSync(f, { force: true });
-fs.writeFileSync(rutaHtml, html);
+// El HTML se compone con un reparto del resumen; si Chrome mide que una página del resumen se
+// desborda, se recompone (ver «Reparto del resumen» más abajo) antes de las comprobaciones.
+let doc = null;
+const componer = (resumen) => {
+  doc = documento(modelo, { css, ...marca, resumen });
+  fs.writeFileSync(rutaHtml, doc.html);
+  return doc;
+};
+componer(undefined);
 fs.writeFileSync(
   path.join(salida, `${nombre}.trazabilidad.json`),
   JSON.stringify({ snapshot: path.basename(rutaSnapshot), cifras: modelo.trazabilidad }, null, 2) + "\n",
@@ -210,12 +214,49 @@ try {
 
   await enviar("Page.enable");
   await enviar("Emulation.setEmulatedMedia", { media: "print" });
-  await enviar("Page.navigate", { url: pathToFileURL(rutaHtml).href });
-  for (let i = 0; i < 100; i++) {
-    await esperar(100);
-    if ((await evaluar("document.readyState")) === "complete") break;
+  let version = 0;
+  const cargar = async () => {
+    // Una URL distinta por composición: así se espera al documento nuevo, no al anterior.
+    const url = `${pathToFileURL(rutaHtml).href}?v=${++version}`;
+    await enviar("Page.navigate", { url });
+    for (let i = 0; i < 150; i++) {
+      await esperar(100);
+      const listo = await evaluar(
+        `document.URL === ${JSON.stringify(url)} && document.readyState === "complete"`,
+      );
+      if (listo) break;
+    }
+    await evaluar("document.fonts.ready.then(() => true)");
+  };
+  await cargar();
+
+  // ── Reparto del resumen ───────────────────────────────────────────────────
+  // Las lecturas cambian de largo en cada corte. Si una página del resumen se desborda, la
+  // tabla de cifras clave pasa a una página propia o el último hallazgo de esa página pasa a
+  // la siguiente, y se vuelve a medir. Nada se recorta: el desborde que quede lo frena la
+  // comprobación de abajo.
+  for (let intento = 0; intento < 8; intento++) {
+    const excesos =
+      await evaluar(`[...document.querySelectorAll('.pagina[data-seccion="resumen"]')].map((p) => {
+      const c = p.querySelector('.pagina__cuerpo');
+      return { pagina: Number(p.dataset.pagina), exceso: c.scrollHeight - c.clientHeight };
+    }).filter((d) => d.exceso > 1)`);
+    if (!excesos.length) break;
+    const { primera, porPagina, claveAparte } = doc.resumen;
+    const gi = excesos[0].pagina - primera;
+    const tam = [...porPagina];
+    let siguiente = null;
+    if (gi === tam.length - 1 && !claveAparte) siguiente = { porPagina: tam, claveAparte: true };
+    else if (gi < tam.length && tam[gi] > 1) {
+      tam[gi] -= 1;
+      tam[gi + 1] = (tam[gi + 1] ?? 0) + 1;
+      siguiente = { porPagina: tam, claveAparte };
+    }
+    if (!siguiente) break;
+    componer(siguiente);
+    await cargar();
   }
-  await evaluar("document.fonts.ready.then(() => true)");
+  const paginas = doc.paginas;
 
   // ── 4) Comprobaciones antes de imprimir ───────────────────────────────────
   const revision = await evaluar(`(() => {
