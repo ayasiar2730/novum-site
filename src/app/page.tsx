@@ -8,7 +8,7 @@ import { InformeDestacado } from "@/components/informes/InformeDestacado";
 import { Services } from "@/components/Services";
 import { FinalCta } from "@/components/FinalCta";
 import { Convergence } from "@/components/Convergence";
-import { listarInformes } from "@/lib/informes/catalogo";
+import { informeDestacado } from "@/lib/informes/catalogo";
 
 /**
  * Orden definitivo (Master Prompt v2 §4):
@@ -20,10 +20,11 @@ import { listarInformes } from "@/lib/informes/catalogo";
  * superficies, el aire y la variación de alturas, no los bordes.
  * Fase 2: header y footer viven en el layout; el Home sigue siendo el
  * recorrido completo y el acto IV es la puerta al último informe publicado
- * (sin informes, la versión editorial de «Inteligencia del sector»).
+ * (el corte completo más reciente; sin informes, la versión editorial de
+ * «Inteligencia del sector»).
  */
 export default function Home() {
-  const destacado = listarInformes()[0] ?? null;
+  const destacado = informeDestacado();
   return (
     <main id="contenido" tabIndex={-1} className="flex-1 outline-none">
       {/* Acto I — apertura: neutral-50 con luz ambiental */}
