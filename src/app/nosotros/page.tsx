@@ -3,6 +3,10 @@ import { paginas } from "@/content/site";
 import { metadatosDePagina } from "@/lib/metadatos";
 import { Migas } from "@/components/Migas";
 import { About } from "@/components/About";
+import { Propuesta } from "@/components/nosotros/Propuesta";
+import { Segmentos } from "@/components/nosotros/Segmentos";
+import { ComoTrabajamos } from "@/components/nosotros/ComoTrabajamos";
+import { Diferenciales } from "@/components/nosotros/Diferenciales";
 import { Convergence } from "@/components/Convergence";
 import { FinalCta } from "@/components/FinalCta";
 
@@ -15,9 +19,10 @@ export const metadata: Metadata = metadatosDePagina({
 });
 
 /**
- * Nosotros (fase 2): la declaración institucional y sus seis capacidades, que
- * convergen en la banda de contacto como en el Home. Los perfiles siguen tras
- * SHOW_TEAM (About).
+ * Nosotros (fase 2): quiénes somos y cómo trabajamos — la declaración
+ * institucional y sus capacidades, la propuesta de valor, a quién
+ * acompañamos, la metodología (ancla #metodologia, a la que enlaza el Home) y
+ * por qué Novum. Los perfiles siguen tras NEXT_PUBLIC_SHOW_TEAM (About).
  */
 export default function NosotrosPage() {
   return (
@@ -26,6 +31,10 @@ export default function NosotrosPage() {
         <Migas items={[{ nombre: p.titulo, href: "/nosotros" }]} />
       </div>
       <About nivel={1} />
+      <Propuesta />
+      <Segmentos />
+      <ComoTrabajamos />
+      <Diferenciales />
       <Convergence />
       <FinalCta />
     </main>

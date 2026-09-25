@@ -7,6 +7,8 @@ export type Solution = {
   key: string;
   name: string;
   tagline: string;
+  /** Rótulo corto dentro del diagrama (el nombre completo va en la lista). */
+  etiqueta?: string;
   /** Solución en construcción: nodo discontinuo. */
   open?: boolean;
   /** Solo SIAR: profundidad del producto. */
@@ -276,7 +278,7 @@ export function Ecosystem({ solutions, nivel = 3 }: { solutions: Solution[]; niv
                     letterSpacing="2.2"
                     fill="var(--color-purple-900)"
                   >
-                    {s.name.toUpperCase()}
+                    {s.etiqueta ?? s.name.toUpperCase()}
                   </text>
                 ) : (
                   <>
@@ -295,7 +297,7 @@ export function Ecosystem({ solutions, nivel = 3 }: { solutions: Solution[]; niv
                       letterSpacing="1.4"
                       fill={s.open ? "var(--color-neutral-500)" : "var(--color-neutral-900)"}
                     >
-                      {s.name.toUpperCase()}
+                      {s.etiqueta ?? s.name.toUpperCase()}
                     </text>
                   </>
                 )}

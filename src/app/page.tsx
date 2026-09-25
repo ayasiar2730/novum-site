@@ -1,47 +1,38 @@
 import { Hero } from "@/components/Hero";
 import { Problem } from "@/components/Problem";
-import { About } from "@/components/About";
-import { Products } from "@/components/Products";
-import { Differentiators } from "@/components/Differentiators";
+import { ResumenLineas } from "@/components/lineas/ResumenLineas";
+import { ResumenTecnologia } from "@/components/tecnologia/ResumenTecnologia";
 import { SectorIntelligence } from "@/components/sector/SectorIntelligence";
 import { InformeDestacado } from "@/components/informes/InformeDestacado";
-import { Services } from "@/components/Services";
+import { ComoTrabajamos } from "@/components/nosotros/ComoTrabajamos";
 import { FinalCta } from "@/components/FinalCta";
-import { Convergence } from "@/components/Convergence";
 import { listarInformes } from "@/lib/informes/catalogo";
 
 /**
- * Orden definitivo (Master Prompt v2 §4):
- * header → hero → problema → soluciones → por qué es distinto →
- * inteligencia del sector → cómo acompañamos → nosotros → CTA → footer.
- * Las secciones se agrupan en cinco actos con superficie propia (Fase A) y
- * cada acto tiene composición propia (B1): promesa, tensión, sistema,
- * criterio, inteligencia, acompañamiento y decisión. El ritmo lo dan las
- * superficies, el aire y la variación de alturas, no los bordes.
- * Fase 2: header y footer viven en el layout; el Home sigue siendo el
- * recorrido completo y el acto IV es la puerta al último informe publicado
- * (sin informes, la versión editorial de «Inteligencia del sector»).
+ * El Home es la puerta de entrada (fase 2, portafolio del 24 sep 2026): cada
+ * tema aparece resumido y enlaza a su página, donde está completo; nada se
+ * repite entero. Conserva los actos y superficies de la Fase A:
+ *   I   apertura — hero (neutral-50 con luz ambiental)
+ *   II  tensión — el problema del sector (blanco)
+ *   III el sistema — las siete líneas y la tecnología Novum (única superficie
+ *       tintada con retícula) → /soluciones, /soluciones/<línea>, /tecnologia
+ *   IV  contexto — el último informe sectorial (sin informes, la versión
+ *       editorial de «Inteligencia del sector») → /informes
+ *   V   decisión — cómo trabajamos → /nosotros, y la banda de contacto
  */
 export default function Home() {
   const destacado = listarInformes()[0] ?? null;
   return (
     <main id="contenido" tabIndex={-1} className="flex-1 outline-none">
-      {/* Acto I — apertura: neutral-50 con luz ambiental */}
       <Hero />
-      {/* Acto II — tensión: blanco limpio */}
       <Problem />
-      {/* Acto III — el sistema: única superficie tintada con retícula (design system §7) */}
       <div className="surface-sistema">
-        <Products />
-        <Differentiators />
+        <ResumenLineas />
+        <ResumenTecnologia />
       </div>
-      {/* Acto IV — contexto: blanco */}
       {destacado ? <InformeDestacado informe={destacado} /> : <SectorIntelligence />}
-      {/* Acto V — cierre: blanco que desemboca en la banda oscura */}
       <div className="bg-neutral-0">
-        <Services />
-        <About />
-        <Convergence />
+        <ComoTrabajamos compacto />
         <FinalCta />
       </div>
     </main>
