@@ -19,6 +19,20 @@ export interface Recursos {
   /** `data:` URIs de la marca. */
   logo: string;
   isotipo: string;
+  /**
+   * Reparto del resumen ejecutivo. Por defecto, tres hallazgos por página y la
+   * tabla de cifras clave en la última si cabe; el generador lo corrige cuando
+   * Chrome mide un desborde (lecturas largas), pasando un hallazgo a la página
+   * siguiente o la tabla a una página propia.
+   */
+  resumen?: { porPagina?: number[]; claveAparte?: boolean };
+}
+
+/** Dónde quedó el resumen: primera página (1-based), hallazgos por página y si la tabla va aparte. */
+export interface RepartoResumen {
+  primera: number;
+  porPagina: number[];
+  claveAparte: boolean;
 }
 
 interface Pagina {
@@ -30,6 +44,18 @@ interface Pagina {
 
 const fragmentos = <T>(xs: T[], n: number): T[][] =>
   xs.reduce<T[][]>((a, x, i) => (i % n ? a[a.length - 1].push(x) : a.push([x]), a), []);
+
+/** Corta en grupos de los tamaños pedidos; lo que sobre, de a tres. */
+function cortar<T>(xs: T[], tamanos: number[]): T[][] {
+  const grupos: T[][] = [];
+  let i = 0;
+  for (const n of tamanos) {
+    if (i >= xs.length) break;
+    if (n > 0) grupos.push(xs.slice(i, i + n));
+    i += Math.max(0, n);
+  }
+  return [...grupos, ...fragmentos(xs.slice(i), 3)];
+}
 
 function cabeceraDeSeccion(id: SeccionId): string {
   const s = SECCIONES[id];
@@ -81,7 +107,10 @@ function tablaIndicadores(xs: IndicadorInf[]): string {
 }
 
 /** Construye el HTML completo del informe. */
-export function documento(m: InformeModelo, r: Recursos): { html: string; paginas: number } {
+export function documento(
+  m: InformeModelo,
+  r: Recursos,
+): { html: string; paginas: number; resumen: RepartoResumen } {
   const hallazgoDe = (id: SeccionId) => m.hallazgos.find((h) => h.seccion === id);
   const paginas: Pagina[] = [];
 
@@ -221,13 +250,17 @@ export function documento(m: InformeModelo, r: Recursos): { html: string; pagina
         `<tr><th scope="row">${esc(c.etiqueta)}</th><td class="num fuerte">${esc(c.valor)}</td><td class="num"><span class="ref" data-ref="${c.seccion}">${SECCIONES[c.seccion].numero}</span></td></tr>`,
     )
     .join("")}</tbody></table></section>`;
-  const grupos = fragmentos(m.hallazgos, 3);
+  const grupos = r.resumen?.porPagina ? cortar(m.hallazgos, r.resumen.porPagina) : fragmentos(m.hallazgos, 3);
+  const ultimo = grupos[grupos.length - 1];
+  const claveAparte = Boolean(r.resumen?.claveAparte) || !ultimo || ultimo.length >= 3;
+  const primeraResumen = paginas.length + 1;
   grupos.forEach((grupo, gi) => {
+    const inicio = grupos.slice(0, gi).reduce((a, g) => a + g.length, 0) + 1;
     paginas.push({
       seccion: "resumen",
       marco: true,
       cuerpo: `${gi === 0 ? `${cabeceraDeSeccion("resumen")}<p class="entrada">El dato sale del motor sectorial; la lectura es de Novum. Cada hallazgo remite a la sección donde se desarrolla.</p>` : `<p class="continuacion">${esc(SECCIONES.resumen.titulo)} · continuación</p>`}
-<ol class="hallazgos" start="${gi * 3 + 1}">
+<ol class="hallazgos" start="${inicio}">
 ${grupo
   .map(
     (h) => `<li class="hallazgo">
@@ -246,10 +279,10 @@ ${grupo
   )
   .join("")}
 </ol>
-${gi === grupos.length - 1 && grupo.length < 3 ? tablaClave : ""}`,
+${gi === grupos.length - 1 && !claveAparte ? tablaClave : ""}`,
     });
   });
-  if (grupos.length && grupos[grupos.length - 1].length === 3) {
+  if (claveAparte) {
     paginas.push({
       seccion: "resumen",
       marco: true,
@@ -375,6 +408,26 @@ ${barrasPorCategoria(
 )}
 ${t.nota ? `<p class="nota">${esc(t.nota)}</p>` : ""}
 </section>
+${
+  m.nivel
+    ? `<section class="bloque">${rotulo(`${m.nivel.etiqueta}: participación en la ${m.nivel.medida.toLowerCase()} y en el número de entidades`)}
+${parrafos(m.nivel.parrafos)}
+${barrasPorCategoria(
+  m.nivel.categorias.map((c) => ({
+    etiqueta: c.etiqueta,
+    valor: c.participacionValor,
+    texto: c.participacion,
+    entidades: c.entidades,
+    valorEntidades: c.participacionEntidadesValor,
+    textoEntidades: c.participacionEntidades,
+    esOtros: c.esOtros,
+  })),
+  { rotuloMedida: m.nivel.medida, rotuloEntidades: "Entidades del universo" },
+)}
+${m.nivel.nota ? `<p class="nota">${esc(m.nivel.nota)}</p>` : ""}
+</section>`
+    : ""
+}
 ${lectura(hallazgoDe("tipo"))}`,
     });
   }
@@ -412,7 +465,7 @@ ${barrasPorCategoria(
     entidades: c.entidades,
     esOtros: c.esOtros,
   })),
-  { rotuloMedida: t.medida },
+  { rotuloMedida: t.medida, compacta: t.categorias.length > 10 },
 )}
 ${t.nota ? `<p class="nota">${esc(t.nota)}</p>` : ""}
 </section>
@@ -470,7 +523,7 @@ ${o.libranza?.distribucion ? distribucion(o.libranza.distribucion, { compacta: t
   <div>${rotulo("Universo y cobertura")}<p class="texto">${esc(mt.universoDefinicion)}${mt.universoDefinicion.includes(mt.universoCriterio) ? "" : ` Criterio: ${esc(mt.universoCriterio)}.`}</p><p class="texto">${esc(m.corte.nUniverso)} de ${esc(m.corte.nReportantes)} entidades reportantes; ${esc(m.corte.nExcluidas)} quedan fuera del universo.</p><p class="texto"><span class="estado estado--${m.corte.estado}">${esc(m.corte.estadoEtiqueta)}</span></p><p class="texto">${esc(m.corte.cobertura)}</p></div>
   <div>${rotulo("Anonimización")}<p class="texto">Solo se publican agregados. Ninguna categoría, distribución ni hallazgo se muestra con menos de ${esc(mt.k)} entidades.</p><ul class="lista">${mt.exclusiones.map((e) => `<li>${esc(e)}</li>`).join("")}</ul><p class="texto">Las distribuciones se presentan con P25, mediana, P75 y media simple. No se publican mínimos ni máximos: cada extremo corresponde a una sola entidad. No se publican nombres, NIT ni cifras de una entidad identificable.</p></div>
 </section>
-<section class="bloque">${rotulo("Dato y lectura")}<p class="texto">Las cifras las calcula el motor sectorial de SIAR con la metodología versionada y no se ajustan a mano. La Lectura Novum es la interpretación de Novum Integral sobre esas cifras: se presenta separada del dato y no es una posición de la Superintendencia de la Economía Solidaria.</p></section>`,
+<section class="bloque">${rotulo("Dato y lectura")}<p class="texto">Las cifras las calcula el motor sectorial de Novum con la metodología versionada y no se ajustan a mano. La Lectura Novum es la interpretación de Novum Integral sobre esas cifras: se presenta separada del dato y no es una posición de la Superintendencia de la Economía Solidaria.</p></section>`,
   });
   paginas.push({
     seccion: "metodologia",
@@ -497,7 +550,7 @@ ${o.libranza?.distribucion ? distribucion(o.libranza.distribucion, { compacta: t
     clase: "pagina--cierre",
     cuerpo: `<div class="cierre">
   <p class="cierre__frase">No vea solamente el sector.<span>Entienda su posición dentro de él.</span></p>
-  <p class="cierre__texto">La plataforma SIAR de Novum Integral ubica a cada entidad frente a este mismo universo, con la misma metodología.</p>
+  <p class="cierre__texto">Novum Risk ubica a cada entidad frente al sector con la misma metodología de este informe.</p>
   <div class="cierre__marca">
     <img class="cierre__logo" src="${r.logo}" alt="Novum Integral" />
     <p class="cierre__contacto">${esc(m.contacto.correo)} · ${esc(m.contacto.web.replace(/^https?:\/\//, ""))}</p>
@@ -547,5 +600,9 @@ ${o.libranza?.distribucion ? distribucion(o.libranza.distribucion, { compacta: t
 ${cuerpo}
 </body>
 </html>`;
-  return { html, paginas: total };
+  return {
+    html,
+    paginas: total,
+    resumen: { primera: primeraResumen, porPagina: grupos.map((g) => g.length), claveAparte },
+  };
 }

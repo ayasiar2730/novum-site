@@ -235,6 +235,8 @@ export interface InformeModelo {
     parrafos: string[];
   };
   tipo: (SegmentacionInf & { parrafos: string[] }) | null;
+  /** Nivel de supervisión, cuando el snapshot lo publica (en los cortes mensuales suele omitirse por k). */
+  nivel: (SegmentacionInf & { parrafos: string[] }) | null;
   territorio:
     | (SegmentacionInf & {
         parrafos: string[];
@@ -608,6 +610,7 @@ export function construirModelo(s: SectorSnapshotV2, o: OpcionesModelo): Informe
   const segs = s.estructura.segmentaciones;
   const iTipo = segs.findIndex((x) => x.clave === "tipo");
   const iDepto = segs.findIndex((x) => x.clave === "departamento");
+  const iNivel = segs.findIndex((x) => x.clave === "nivel");
   let tipo: InformeModelo["tipo"] = null;
   if (iTipo >= 0) {
     const inf = segmentacionInf(segs[iTipo], iTipo);
@@ -625,6 +628,28 @@ export function construirModelo(s: SectorSnapshotV2, o: OpcionesModelo): Informe
         ...(segundo
           ? [
               `Le siguen «${segundo.etiqueta}», con ${segundo.participacion} de la cartera y ${segundo.entidades} entidades (${segundo.participacionEntidades} del universo).`,
+            ]
+          : []),
+      ],
+    };
+  }
+  let nivel: InformeModelo["nivel"] = null;
+  if (iNivel >= 0) {
+    const inf = segmentacionInf(segs[iNivel], iNivel);
+    const reales = inf.categorias.filter((c) => !c.esOtros);
+    const mayor = reales[0];
+    const menor = reales.length > 1 ? reales[reales.length - 1] : undefined;
+    nivel = {
+      ...inf,
+      parrafos: [
+        ...(mayor
+          ? [
+              `«${mayor.etiqueta}» reúne ${mayor.participacion} de la cartera bruta con ${mayor.entidades} entidades, ${mayor.participacionEntidades} del universo.`,
+            ]
+          : []),
+        ...(menor
+          ? [
+              `«${menor.etiqueta}», con ${menor.entidades} entidades (${menor.participacionEntidades} del universo), reúne ${menor.participacion} de la cartera.`,
             ]
           : []),
       ],
@@ -728,6 +753,7 @@ export function construirModelo(s: SectorSnapshotV2, o: OpcionesModelo): Informe
       parrafos: parrafosCobertura,
     },
     tipo,
+    nivel,
     territorio,
     otros: {
       moraDias,

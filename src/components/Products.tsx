@@ -3,10 +3,10 @@ import { SectionHeading, type NivelTitulo } from "@/components/SectionHeading";
 import { Ecosystem, type Solution } from "@/components/Ecosystem";
 
 /**
- * Acto del sistema (B1.2): el ecosistema Novum. SIAR tiene más jerarquía por
- * su profundidad metodológica —descripción, base normativa y siete
- * componentes—; Presupuesto, Planeación estratégica y Más soluciones son
- * módulos del mismo sistema, no secundarios. Sin estados de desarrollo, sin
+ * Tecnología Novum (B1.2; página /tecnologia en la fase 2): el ecosistema. Novum
+ * Risk tiene más jerarquía por su profundidad metodológica —descripción, base
+ * normativa y siete componentes—; Novum Budget, Novum Strategic Planning y Más
+ * soluciones son productos independientes, no secundarios. Sin estados de desarrollo, sin
  * roadmap, sin mockups: todo el contenido está en HTML y el ecosistema
  * responde a la solución activa (Ecosystem).
  */
@@ -19,13 +19,20 @@ export function Products({ nivel = 2 }: { nivel?: NivelTitulo } = {}) {
     {
       key: "siar",
       name: siar.name,
+      etiqueta: siar.etiqueta,
       fullName: siar.fullName,
       tagline: siar.tagline,
       description: siar.description,
       basis: siar.basis,
       pillars: siar.pillars,
     },
-    ...others.map((o, i) => ({ key: keys[i], name: o.name, tagline: o.tagline, open: o.open })),
+    ...others.map((o, i) => ({
+      key: keys[i],
+      name: o.name,
+      etiqueta: o.etiqueta,
+      tagline: o.tagline,
+      open: o.open,
+    })),
   ];
 
   return (

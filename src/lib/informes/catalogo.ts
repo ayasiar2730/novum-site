@@ -74,6 +74,17 @@ export function informePorSlug(slug: string): InformePublicado | null {
   return listarInformes().find((i) => i.slug === slug) ?? null;
 }
 
+/**
+ * La edición que presenta el Home: el corte COMPLETO más reciente (junio y
+ * diciembre, cuando reporta el sector entero) y, si no hay ninguno, el más
+ * reciente. Un corte mensual describe sobre todo a las entidades de nivel 1:
+ * se publica en el catálogo, pero no es la puerta de entrada.
+ */
+export function informeDestacado(): InformePublicado | null {
+  const informes = listarInformes();
+  return informes.find((i) => i.snapshot.cortes[0].estado === "completo") ?? informes[0] ?? null;
+}
+
 /** «426024» → «416 KB». */
 export function pesoLegible(bytes: number): string {
   if (bytes >= 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1).replace(".", ",")} MB`;

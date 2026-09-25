@@ -15,6 +15,10 @@ const cabecerasSeguridad = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // Fase 2: «Acompañamiento» se repartió en las siete líneas de /soluciones; los enlaces viejos no se rompen.
+  async redirects() {
+    return [{ source: "/acompanamiento", destination: "/soluciones", permanent: true }];
+  },
   async headers() {
     return [{ source: "/(.*)", headers: cabecerasSeguridad }];
   },

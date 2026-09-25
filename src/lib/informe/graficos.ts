@@ -68,7 +68,7 @@ export function barrasPorCategoria(
     textoEntidades?: string;
     esOtros?: boolean;
   }>,
-  opciones: { rotuloMedida: string; rotuloEntidades?: string },
+  opciones: { rotuloMedida: string; rotuloEntidades?: string; compacta?: boolean },
 ): string {
   const conEntidades = filas.some((f) => f.valorEntidades !== undefined);
   const cabecera = `<div class="categorias__cabecera"><span></span><span class="categorias__rotulo"><span class="muestra muestra--fuerte" aria-hidden="true"></span>${esc(opciones.rotuloMedida)}${
@@ -92,7 +92,7 @@ export function barrasPorCategoria(
 </div>`,
     )
     .join("");
-  return `<div class="categorias">${cabecera}${cuerpo}</div>`;
+  return `<div class="categorias${opciones.compacta ? " categorias--compactas" : ""}">${cabecera}${cuerpo}</div>`;
 }
 
 /** Dos o tres barras en una misma escala (p. ej. deterioro frente a cartera vencida). */

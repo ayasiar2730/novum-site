@@ -11,7 +11,7 @@ Producción: `https://novumintegral.com`. Proyecto independiente de la aplicaci�
 | `novum-design-system-v1.md`     | Cómo se ve y se comporta (tokens, tipografía, hero, motion)    |
 | `novum-web-fase0.md`            | Qué dice el sitio y qué es verdad sobre el negocio             |
 
-Todo texto visible sale de `src/content/site.ts` (y `src/content/sector.ts` para informes). Todo valor visual sale de `src/app/globals.css` (`@theme`).
+Todo texto visible sale de `src/content/site.ts` (y `src/content/portafolio.ts` para las líneas, la metodología y la vinculación; `src/content/sector.ts` para informes). Todo valor visual sale de `src/app/globals.css` (`@theme`).
 
 Documentos técnicos: `arquitectura-multipagina.md` (rutas, navegación, catálogo de informes), `sector-snapshot-v2.md` (contrato con SIAR) e `informe-sectorial-pdf.md` (generador del PDF).
 
@@ -21,7 +21,7 @@ Next.js 16 (App Router, Turbopack) · React 19 · TypeScript · Tailwind CSS v4 
 
 ## Páginas
 
-`/` (el recorrido completo) · `/soluciones` · `/informes` (catálogo) · `/informes/sector-solidario-<AAAA-MM>` (una edición) · `/acompanamiento` · `/nosotros` · `/contacto`. Header y footer viven en el layout. Cada edición sale de `src/data/sector/informes/<AAAA-MM>.json` y, si existe, de su PDF en `public/informes/`: no hay nada que registrar a mano. Detalle en `docs/arquitectura-multipagina.md`.
+`/` (puerta de entrada: un resumen de cada tema) · `/soluciones` y `/soluciones/<línea>` (las siete líneas del portafolio) · `/tecnologia` (Novum Risk, Budget y Strategic Planning) · `/informes` (catálogo) · `/informes/sector-solidario-<AAAA-MM>` (una edición) · `/nosotros` · `/contacto`. Header y footer viven en el layout. El contenido del portafolio está en `src/content/portafolio.ts`. Cada edición sale de `src/data/sector/informes/<AAAA-MM>.json` y, si existe, de su PDF en `public/informes/`: no hay nada que registrar a mano. Detalle en `docs/arquitectura-multipagina.md`.
 
 ## Scripts
 

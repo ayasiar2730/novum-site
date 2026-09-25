@@ -13,22 +13,23 @@ export const site = {
   legalName: "Novum Integral SAS",
   url: "https://novumintegral.com",
   appUrl: "https://app.novumintegral.com",
-  tagline: "Inteligencia que anticipa, análisis que transforma, decisiones que generan valor.",
+  /** Eslogan tal como va en el logotipo (24 sep 2026: «análisis que transforman»). */
+  tagline: "Inteligencia que anticipa, análisis que transforman, decisiones que generan valor.",
   shortDescription: "Software y consultoría para el sector solidario.",
   footerLine: "Software y acompañamiento especializado para el sector solidario.",
   /** Título para compartir (Open Graph / Twitter): más descriptivo que el nombre, coherente con el hero. */
   ogTitle: "Novum Integral | Tecnología, riesgos y gestión para el sector solidario",
   metaDescription:
-    "Empresa colombiana de software y consultoría para cooperativas, fondos de empleados y mutuales: gestión de riesgos, presupuesto y planeación estratégica.",
+    "Empresa colombiana de software y consultoría para cooperativas, fondos de empleados y mutuales: riesgos, finanzas, auditoría, cumplimiento, formación, analítica y tecnología propia.",
   institutional:
-    "Novum Integral SAS es una empresa colombiana de software y consultoría especializada en el sector de economía solidaria: cooperativas de ahorro y crédito, fondos de empleados y asociaciones mutuales. Desarrollamos SIAR, un sistema integral de administración de riesgos, y productos independientes para presupuesto y planeación estratégica, y acompañamos a las entidades con diagnóstico, implementación, capacitación y servicios especializados como oficial de cumplimiento y gestor de riesgos. Somos un equipo especializado, con experiencia directa en el sector.",
+    "Novum Integral SAS es una empresa colombiana de software y consultoría especializada en el sector de economía solidaria: cooperativas de ahorro y crédito, fondos de empleados y asociaciones mutuales. Trabajamos en siete líneas —gestión integral de riesgos, consultoría financiera, auditoría y aseguramiento, transformación institucional, capacitación, cumplimiento y analítica de datos— y desarrollamos tres productos independientes: Novum Risk, Novum Budget y Novum Strategic Planning. Somos un equipo especializado, con experiencia directa en el sector.",
   year: 2026,
   /**
    * Fecha del último corte editorial publicado (AAAA-MM-DD). Alimenta `lastModified`
    * del sitemap de forma determinista: se actualiza a mano cuando cambia el contenido,
    * nunca con la fecha del build.
    */
-  contentUpdatedAt: "2026-09-23",
+  contentUpdatedAt: "2026-09-24",
 } as const;
 
 export const contact = {
@@ -42,13 +43,13 @@ export const contact = {
 
 /**
  * Navegación principal (fase 2, multipágina): cada entrada es una página. El
- * Home sigue siendo la puerta de entrada con el recorrido completo; las páginas
- * permiten llegar, compartir e indexar cada tema por separado.
+ * Home es la puerta de entrada —un resumen de cada tema con su enlace— y cada
+ * página tiene el contenido completo, sin repetirlo en el Home.
  */
 export const nav = [
   { label: "Soluciones", href: "/soluciones" },
+  { label: "Tecnología", href: "/tecnologia" },
   { label: "Informes", href: "/informes" },
-  { label: "Acompañamiento", href: "/acompanamiento" },
   { label: "Nosotros", href: "/nosotros" },
   { label: "Contacto", href: "/contacto" },
 ] as const;
@@ -58,26 +59,27 @@ export const paginas = {
   soluciones: {
     titulo: "Soluciones",
     descripcion:
-      "SIAR, presupuesto y planeación estratégica: tecnología especializada para cooperativas, fondos de empleados y mutuales.",
+      "Siete líneas para el sector solidario: riesgos, consultoría financiera, auditoría, transformación institucional, formación, cumplimiento y analítica de datos.",
+  },
+  tecnologia: {
+    titulo: "Tecnología",
+    descripcion:
+      "Novum Risk, Novum Budget y Novum Strategic Planning: software que convierte la metodología en gestión diaria para cooperativas, fondos de empleados y mutuales.",
   },
   informes: {
     titulo: "Informes sectoriales",
     descripcion:
       "Informes del sector solidario colombiano con los datos oficiales de la Supersolidaria, procesados y leídos por Novum Integral.",
   },
-  acompanamiento: {
-    titulo: "Acompañamiento",
-    descripcion:
-      "Diagnóstico de madurez, implementación, capacitación, oficial de cumplimiento y gestor de riesgos para el sector solidario.",
-  },
   nosotros: {
     titulo: "Nosotros",
     descripcion:
-      "Novum Integral SAS: software y consultoría con experiencia directa en el sector de economía solidaria.",
+      "Novum Integral SAS: propuesta de valor, a quién acompañamos, cómo trabajamos y por qué Novum, con experiencia directa en el sector de economía solidaria.",
   },
   contacto: {
     titulo: "Contacto",
-    descripcion: "Agende una demostración de Novum Integral para su entidad.",
+    descripcion:
+      "Formas de vinculación con Novum Integral —de una necesidad puntual a una transformación completa— y datos de contacto para agendar una demostración.",
   },
 } as const;
 
@@ -176,17 +178,23 @@ export const statusLabel: Record<ProductStatus, string> = {
   diseno: "En diseño",
 };
 
+/** Tecnología Novum (portafolio 24 sep 2026): tres productos independientes, cada uno se contrata por separado. */
 export const products = {
-  eyebrow: "Soluciones",
-  title: "Tecnología especializada para el sector solidario.",
+  eyebrow: "Tecnología Novum",
+  title: "Software que convierte la metodología en gestión diaria",
   intro:
-    "Cada solución resuelve un frente distinto de la gestión de su entidad y se contrata por separado, con el mismo criterio sectorial y el mismo acompañamiento.",
+    "Las soluciones digitales de Novum organizan la información, mantienen la trazabilidad y facilitan que la administración y los órganos de gobierno decidan con evidencia. Cada producto se contrata por separado.",
+  ver: "Conocer la tecnología",
   siar: {
-    name: "SIAR",
-    fullName: "Sistema Integral de Administración de Riesgos",
+    name: "Novum Risk",
+    etiqueta: "RISK",
+    fullName: "Administración integral de riesgos",
+    /** Línea corta (resúmenes y páginas de línea). */
+    resumen:
+      "Matrices, controles, indicadores, límites, eventos, planes de acción y reportes para SARC, SARLAFT y SARO.",
     tagline: "Gestión integral de riesgos para el sector solidario.",
     description:
-      "Una solución orientada a fortalecer la gestión de riesgos mediante metodologías, medición, control, monitoreo, matrices, indicadores y evidencias.",
+      "Matrices, controles, indicadores, límites, eventos, planes de acción y reportes para SARC, SARLAFT y SARO, con metodologías, medición, control, monitoreo y evidencias.",
     basis:
       "Diseñado tomando como referencia buenas prácticas de gestión de riesgos, ISO 31000 y referentes técnicos aplicables al sistema financiero, adaptados a las necesidades del sector solidario.",
     /** Componentes metodológicos que enuncia la descripción; alimentan la composición visual. */
@@ -194,19 +202,24 @@ export const products = {
   },
   others: [
     {
-      name: "Presupuesto",
+      name: "Novum Budget",
+      etiqueta: "BUDGET",
+      subtitle: "Presupuesto y desempeño financiero",
       tagline:
-        "Planeación, construcción, seguimiento y análisis presupuestal orientado a la toma de decisiones.",
+        "Formulación presupuestal, escenarios, ejecución mensual, variaciones, proyecciones y lectura gerencial.",
       open: false,
     },
     {
-      name: "Planeación estratégica",
+      name: "Novum Strategic Planning",
+      etiqueta: "STRATEGIC PLANNING",
+      subtitle: "Planeación estratégica",
       tagline:
-        "Objetivos, indicadores, iniciativas, responsables y seguimiento dentro de una metodología estructurada.",
+        "Diagnóstico, DOFA, objetivos, indicadores, riesgos estratégicos, proyectos, metas y seguimiento.",
       open: false,
     },
     {
       name: "Más soluciones",
+      etiqueta: "MÁS SOLUCIONES",
       tagline:
         "Seguimos construyendo herramientas especializadas para las necesidades reales del sector solidario.",
       open: true,
@@ -233,38 +246,6 @@ export const differentiators = {
     {
       title: "Diagnóstico antes que solución.",
       body: "Antes de recomendar herramientas o acompañamiento, buscamos entender el nivel de madurez, las brechas y las necesidades reales de la entidad.",
-    },
-  ],
-} as const;
-
-export const services = {
-  eyebrow: "Acompañamiento",
-  title: "Cómo acompañamos",
-  intro: "El software es la herramienta. El acompañamiento es lo que hace que funcione dentro de la entidad.",
-  items: [
-    {
-      title: "Diagnóstico de madurez",
-      body: "Evaluación del sistema de riesgos frente a la norma y a las buenas prácticas, con una calificación y un plan de cierre de brechas.",
-    },
-    {
-      title: "Implementación y consultoría",
-      body: "Políticas, manuales, reglamentos de comités y acompañamiento hasta que el sistema opera solo.",
-    },
-    {
-      title: "Capacitación",
-      body: "Para consejos, juntas, comités y equipos operativos. Metodologías activas, no presentaciones de tres horas.",
-    },
-    {
-      title: "Auditoría SIAR",
-      body: "Evaluamos el nivel de implementación y madurez del Sistema Integral de Administración de Riesgos de su entidad, así como su alineación con los requerimientos aplicables, e identificamos fortalezas, brechas y oportunidades de mejora en gobierno, metodologías, documentación, controles, monitoreo y evidencia.",
-    },
-    {
-      title: "Oficial de cumplimiento",
-      body: "Acompañamiento especializado para fortalecer la gestión de cumplimiento, el seguimiento y la documentación requerida por la entidad.",
-    },
-    {
-      title: "Gestor de riesgos",
-      body: "Gestión de riesgos tercerizada: comités, indicadores, informes y seguimiento.",
     },
   ],
 } as const;
