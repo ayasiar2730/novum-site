@@ -37,6 +37,13 @@ const graph = {
         "asociaciones mutuales",
         "presupuesto",
         "planeación estratégica",
+        "SARLAFT",
+        "consultoría financiera",
+        "auditoría de riesgos",
+        "cumplimiento normativo",
+        "transformación institucional",
+        "analítica de datos",
+        "capacitación en riesgos",
       ],
     },
     {

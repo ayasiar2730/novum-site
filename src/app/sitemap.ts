@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { site } from "@/content/site";
 import { listarInformes } from "@/lib/informes/catalogo";
+import { lineas } from "@/content/portafolio";
 
 // Fechas de contenido, no del build: un sitemap que cambia en cada despliegue
 // sin cambiar el contenido no informa nada. Las páginas institucionales usan el
@@ -26,9 +27,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     pagina("/", reciente, 1),
     pagina("/soluciones", site.contentUpdatedAt, 0.8),
+    ...lineas.map((l) => pagina(`/soluciones/${l.slug}`, site.contentUpdatedAt, 0.7)),
+    pagina("/tecnologia", site.contentUpdatedAt, 0.8),
     pagina("/informes", reciente, 0.8),
     ...informes.map((i) => pagina(`/informes/${i.slug}`, dia(i.snapshot.generadoEl), 0.7)),
-    pagina("/acompanamiento", site.contentUpdatedAt, 0.6),
     pagina("/nosotros", site.contentUpdatedAt, 0.5),
     pagina("/contacto", site.contentUpdatedAt, 0.5),
   ];

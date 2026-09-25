@@ -19,9 +19,9 @@ export const GROUPS: TileGroup[] = [
     key: "software",
     label: "SOFTWARE",
     tiles: [
-      { label: "SIAR" },
-      { label: "PRESUPUESTO" },
-      { label: "PLANEACIÓN" },
+      { label: "NOVUM RISK" },
+      { label: "NOVUM BUDGET" },
+      { label: "NOVUM PLANNING" },
       { label: "MÁS SOLUCIONES", dashed: true },
     ],
   },
