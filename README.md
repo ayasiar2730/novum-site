@@ -21,7 +21,7 @@ Next.js 16 (App Router, Turbopack) · React 19 · TypeScript · Tailwind CSS v4 
 
 ## Páginas
 
-`/` (puerta de entrada: un resumen de cada tema) · `/soluciones` y `/soluciones/<línea>` (las siete líneas del portafolio) · `/tecnologia` (Novum Risk, Budget y Strategic Planning) · `/informes` (catálogo) · `/informes/sector-solidario-<AAAA-MM>` (una edición) · `/nosotros` · `/contacto`. Header y footer viven en el layout. El contenido del portafolio está en `src/content/portafolio.ts`. Cada edición sale de `src/data/sector/informes/<AAAA-MM>.json` y, si existe, de su PDF en `public/informes/`: no hay nada que registrar a mano. Detalle en `docs/arquitectura-multipagina.md`.
+`/` (puerta de entrada: un resumen de cada tema) · `/soluciones` y `/soluciones/<línea>` (las siete líneas del portafolio) · `/tecnologia` (Novum Riesgos, Presupuesto y Planeación Estratégica) · `/informes` (catálogo) · `/informes/sector-solidario-<AAAA-MM>` (una edición) · `/nosotros` · `/contacto`. Header y footer viven en el layout. El contenido del portafolio está en `src/content/portafolio.ts`. Cada edición sale de `src/data/sector/informes/<AAAA-MM>.json` y, si existe, de su PDF en `public/informes/`: no hay nada que registrar a mano. Detalle en `docs/arquitectura-multipagina.md`.
 
 ## Scripts
 

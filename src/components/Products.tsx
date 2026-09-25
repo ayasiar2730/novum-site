@@ -4,8 +4,8 @@ import { Ecosystem, type Solution } from "@/components/Ecosystem";
 
 /**
  * Tecnología Novum (B1.2; página /tecnologia en la fase 2): el ecosistema. Novum
- * Risk tiene más jerarquía por su profundidad metodológica —descripción, base
- * normativa y siete componentes—; Novum Budget, Novum Strategic Planning y Más
+ * Riesgos tiene más jerarquía por su profundidad metodológica —descripción, base
+ * normativa y siete componentes—; Novum Presupuesto, Novum Planeación Estratégica y Más
  * soluciones son productos independientes, no secundarios. Sin estados de desarrollo, sin
  * roadmap, sin mockups: todo el contenido está en HTML y el ecosistema
  * responde a la solución activa (Ecosystem).

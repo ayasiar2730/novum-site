@@ -271,11 +271,12 @@ export function Ecosystem({ solutions, nivel = 3 }: { solutions: Solution[]; niv
                 {s.description ? (
                   <text
                     x={n.x}
-                    y={n.y + 5}
+                    y={n.y + 4}
                     textAnchor="middle"
-                    fontSize="13"
+                    // «RIESGOS» (7 letras) debe caber en el nodo de r = 34, como antes «SIAR».
+                    fontSize="11"
                     fontWeight="700"
-                    letterSpacing="2.2"
+                    letterSpacing="1.1"
                     fill="var(--color-purple-900)"
                   >
                     {s.etiqueta ?? s.name.toUpperCase()}

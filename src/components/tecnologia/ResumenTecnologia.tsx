@@ -7,7 +7,7 @@ import { ButtonLink } from "@/components/ButtonLink";
  * Tecnología Novum en el Home (fase 2): los tres productos, cada uno con su
  * nombre, lo que resuelve y lo que trae; el ecosistema completo y el criterio
  * viven en /tecnologia. Tres columnas sobre la misma línea del sistema, con el
- * nodo de cada producto (Novum Risk, el de más profundidad, relleno).
+ * nodo de cada producto (Novum Riesgos, el de más profundidad, relleno).
  */
 export function ResumenTecnologia() {
   return (

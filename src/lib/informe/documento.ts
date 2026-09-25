@@ -550,7 +550,7 @@ ${o.libranza?.distribucion ? distribucion(o.libranza.distribucion, { compacta: t
     clase: "pagina--cierre",
     cuerpo: `<div class="cierre">
   <p class="cierre__frase">No vea solamente el sector.<span>Entienda su posición dentro de él.</span></p>
-  <p class="cierre__texto">Novum Risk ubica a cada entidad frente al sector con la misma metodología de este informe.</p>
+  <p class="cierre__texto">Novum Riesgos ubica a cada entidad frente al sector con la misma metodología de este informe.</p>
   <div class="cierre__marca">
     <img class="cierre__logo" src="${r.logo}" alt="Novum Integral" />
     <p class="cierre__contacto">${esc(m.contacto.correo)} · ${esc(m.contacto.web.replace(/^https?:\/\//, ""))}</p>

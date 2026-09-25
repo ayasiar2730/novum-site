@@ -15,8 +15,8 @@ export const metadata: Metadata = metadatosDePagina({
 });
 
 /**
- * Tecnología Novum (fase 2): el ecosistema de productos —Novum Risk, Novum
- * Budget, Novum Strategic Planning— y el criterio con que están hechos, sobre
+ * Tecnología Novum (fase 2): el ecosistema de productos —Novum Riesgos, Novum
+ * Presupuesto, Novum Planeación Estratégica— y el criterio con que están hechos, sobre
  * la superficie del sistema.
  */
 export default function TecnologiaPage() {

@@ -17,7 +17,7 @@ import { DESK, GROUPS, MOB, deskLink, deskTileY, mobLink, type TileGroup } from 
  */
 
 const ARIA_LABEL =
-  "Diagrama: el software de Novum — Novum Risk, Novum Budget, Novum Strategic Planning y más soluciones — y el acompañamiento — diagnóstico, implementación, capacitación y cumplimiento — convergen en su entidad y en sus decisiones.";
+  "Diagrama: el software de Novum — Novum Riesgos, Novum Presupuesto, Novum Planeación Estratégica y más soluciones — y el acompañamiento — diagnóstico, implementación, capacitación y cumplimiento — convergen en su entidad y en sus decisiones.";
 
 const linkStyle = {
   fill: "none",
