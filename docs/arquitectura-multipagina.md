@@ -16,6 +16,8 @@ el contenido completo. El contenido del portafolio vive en `src/content/portafol
 | `/soluciones` | «Siete líneas que se conectan» | Índice de las siete líneas, cada una con su promesa y lo que la entidad recibe | `surface-sistema` |
 | `/soluciones/<línea>` (7) | El nombre de la línea | Promesa, capacidades y servicios, valor que recibe la entidad, tecnología de la línea (si la tiene), las otras seis; `Service` en schema.org | blanco; «Valor» en neutral-50 |
 | `/tecnologia` | «Software que convierte la metodología en gestión diaria» | Ecosistema de productos (`Products`: Novum Riesgos, Novum Presupuesto, Novum Planeación Estratégica) y el criterio (`Differentiators`) | `surface-sistema` |
+| `/inteligencia-sectorial` | «Inteligencia sectorial» | Puerta a los dos informes interactivos (Cartera y riesgo, Panorama financiero) y a las ediciones en PDF — ver `docs/inteligencia-sectorial.md` | blanco; ediciones en neutral-50 |
+| `/inteligencia-sectorial/cartera-riesgo` · `/panorama-financiero` | el informe | Shell interactivo común (filtros, secciones, entidad) sobre `public/datos/inteligencia/<AAAA-MM>.json` | neutral-50 |
 | `/informes` | «Informes sectoriales» | Catálogo: ediciones publicadas, «Cómo se elaboran», «Su entidad en contexto» | blanco; «Cómo se elaboran» en neutral-50 |
 | `/informes/sector-solidario-<AAAA-MM>` | «Informe sectorial · Corte: …» | El Observatorio completo (`Informe`) con la descarga del PDF en la portada, y «Su entidad en contexto» | blanco |
 | `/nosotros` | «Experiencia que entiende el sector» | Declaración institucional y capacidades (`About`), propuesta de valor, a quién acompañamos, cómo trabajamos (`#metodologia`), por qué Novum | blanco; «A quién» en neutral-50 |
@@ -28,7 +30,7 @@ Home (esos temas tienen su página).
 ## Piezas
 
 - **Header y footer en el layout** (`src/app/layout.tsx`): persisten al navegar. El enlace activo sale de la ruta
-  (`usePathname`; `/informes/...` activa «Informes») y la píldora morada se desliza detrás de él. Los tres estados de
+  (`usePathname`; `/inteligencia-sectorial/...` y `/informes/...` activan «Inteligencia sectorial») y la píldora morada se desliza detrás de él. Los tres estados de
   superficie del header dependen del hero, que solo existe en el Home; en las páginas internas el header entra ya en su
   estado sólido, con el CTA de demostración visible. En el Home no hay enlace activo.
 - **Navegación de cliente**: `Link` en header, menú móvil (se cierra al elegir), footer, migas y `ButtonLink` para
