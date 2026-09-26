@@ -50,6 +50,7 @@ export function ButtonLink({
   arrow = false,
   download,
   className = "",
+  ariaLabel,
 }: {
   href: string;
   children: ReactNode;
@@ -60,6 +61,8 @@ export function ButtonLink({
   /** Nombre con el que se guarda el archivo (p. ej. el PDF de un informe). */
   download?: string;
   className?: string;
+  /** Nombre accesible cuando el texto visible es una forma corta. */
+  ariaLabel?: string;
 }) {
   const clases = `${base} ${sizes[size]} ${variants[variant]} ${className}`;
   const contenido = (
@@ -71,14 +74,14 @@ export function ButtonLink({
   // Rutas propias: navegación de cliente entre páginas (fase 2). Descargas y enlaces externos: <a>.
   if (href.startsWith("/") && !external && !download) {
     return (
-      <Link href={href} className={clases}>
+      <Link href={href} className={clases} aria-label={ariaLabel}>
         {contenido}
       </Link>
     );
   }
   const externalProps = external ? { target: "_blank", rel: "noopener noreferrer" } : {};
   return (
-    <a href={href} className={clases} download={download} {...externalProps}>
+    <a href={href} className={clases} download={download} aria-label={ariaLabel} {...externalProps}>
       {contenido}
     </a>
   );
