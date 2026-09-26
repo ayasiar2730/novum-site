@@ -29,7 +29,7 @@ export const site = {
    * del sitemap de forma determinista: se actualiza a mano cuando cambia el contenido,
    * nunca con la fecha del build.
    */
-  contentUpdatedAt: "2026-09-24",
+  contentUpdatedAt: "2026-09-26",
 } as const;
 
 export const contact = {
@@ -65,7 +65,8 @@ export const redes = [
 export const nav = [
   { label: "Soluciones", href: "/soluciones" },
   { label: "Tecnología", href: "/tecnologia" },
-  { label: "Informes", href: "/informes" },
+  // Las ediciones en PDF (/informes) son parte de Inteligencia sectorial: el menú las marca ahí.
+  { label: "Inteligencia", href: "/inteligencia-sectorial", tambien: ["/informes"] },
   { label: "Nosotros", href: "/nosotros" },
   { label: "Contacto", href: "/contacto" },
 ] as const;
@@ -81,6 +82,11 @@ export const paginas = {
     titulo: "Tecnología",
     descripcion:
       "Novum Riesgos, Novum Presupuesto y Novum Planeación Estratégica: software que convierte la metodología en gestión diaria para cooperativas, fondos de empleados y mutuales.",
+  },
+  inteligencia: {
+    titulo: "Inteligencia sectorial",
+    descripcion:
+      "Informes interactivos del sector solidario colombiano con los datos oficiales de la Supersolidaria: cartera y riesgo, y panorama financiero, por tipo de entidad, departamento y entidad.",
   },
   informes: {
     titulo: "Informes sectoriales",
@@ -101,6 +107,8 @@ export const paginas = {
 
 export const cta = {
   primary: "Agende una demostración",
+  /** En la barra entre 1024 y 1279 px, donde el texto completo no cabe. */
+  primaryCorto: "Agende una demo",
   secondary: "Escribir por WhatsApp",
   app: "Ingresar a la plataforma",
 } as const;

@@ -26,7 +26,11 @@ export function Header({ logo }: { logo: ReactNode }) {
   const [pastHeroObservado, setPastHero] = useState(false);
   const pastHero = esInicio ? pastHeroObservado : true;
   const active =
-    nav.find((item) => pathname === item.href || pathname.startsWith(`${item.href}/`))?.href ?? null;
+    nav.find((item) =>
+      [item.href, ...("tambien" in item ? item.tambien : [])].some(
+        (h) => pathname === h || pathname.startsWith(`${h}/`),
+      ),
+    )?.href ?? null;
   const [marker, setMarker] = useState<{ left: number; width: number } | null>(null);
   const [open, setOpen] = useState(false);
   const sentinelRef = useRef<HTMLDivElement>(null);
@@ -133,7 +137,7 @@ export function Header({ logo }: { logo: ReactNode }) {
             pastHero && !open ? "opacity-100" : "opacity-0"
           }`}
         />
-        <div className="container-wide flex h-16 items-center justify-between gap-6 lg:h-[4.5rem]">
+        <div className="container-wide flex h-16 items-center justify-between gap-3 lg:h-[4.5rem] xl:gap-6">
           <Link href="/" aria-label={`${site.name} — inicio`} className="flex min-h-11 shrink-0 items-center">
             {logo}
           </Link>
@@ -141,7 +145,7 @@ export function Header({ logo }: { logo: ReactNode }) {
           <nav
             ref={navRef}
             aria-label="Principal"
-            className="relative hidden h-full items-center gap-1 lg:flex xl:gap-2"
+            className="relative hidden h-full items-center gap-0 lg:flex xl:gap-2"
           >
             {nav.map((item) => {
               const isActive = active === item.href;
@@ -150,7 +154,7 @@ export function Header({ logo }: { logo: ReactNode }) {
                   key={item.href}
                   href={item.href}
                   aria-current={isActive ? "page" : undefined}
-                  className={`relative z-[1] flex h-11 items-center rounded-md px-3.5 text-nav transition-colors duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:transition-none ${
+                  className={`relative z-[1] flex h-11 items-center whitespace-nowrap rounded-md px-2 text-nav xl:px-3.5 transition-colors duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:transition-none ${
                     isActive ? "text-white" : "text-neutral-700 hover:text-purple-900"
                   }`}
                 >
@@ -168,14 +172,21 @@ export function Header({ logo }: { logo: ReactNode }) {
             />
           </nav>
 
-          <div className="hidden items-center gap-4 lg:flex xl:gap-5">
+          <div className="hidden shrink-0 items-center gap-2 lg:flex xl:gap-5">
             <a
               href={site.appUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-11 items-center gap-2 rounded-md bg-purple-100/70 px-3.5 text-small font-semibold text-purple-900 transition-[background-color,color] duration-200 hover:bg-purple-100"
+              aria-label={cta.app}
+              className="inline-flex h-11 items-center gap-2 whitespace-nowrap rounded-md bg-purple-100/70 px-3.5 text-small font-semibold text-purple-900 transition-[background-color,color] duration-200 hover:bg-purple-100"
             >
-              {cta.app}
+              {/* Entre 1024 y 1279 px no cabe el texto completo junto al CTA principal: se abrevia (el nombre accesible es el completo). */}
+              <span aria-hidden="true" className="xl:hidden">
+                Plataforma
+              </span>
+              <span aria-hidden="true" className="hidden xl:inline">
+                {cta.app}
+              </span>
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                 <path
                   d="M3.5 10.5 10.5 3.5M5.5 3.5h5v5"
@@ -191,13 +202,18 @@ export function Header({ logo }: { logo: ReactNode }) {
               inert={!pastHero}
               className={`grid transition-[grid-template-columns,margin-left,opacity,transform] duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:transition-none ${
                 pastHero
-                  ? "ml-4 translate-y-0 opacity-100 [grid-template-columns:1fr]"
+                  ? "ml-2 translate-y-0 opacity-100 [grid-template-columns:1fr] xl:ml-4"
                   : "pointer-events-none ml-0 -translate-y-1 opacity-0 [grid-template-columns:0fr]"
               }`}
             >
               <div className="min-w-0 overflow-hidden">
-                <ButtonLink href={demoLink} external size="sm">
-                  {cta.primary}
+                <ButtonLink href={demoLink} external size="sm" ariaLabel={cta.primary}>
+                  <span aria-hidden="true" className="whitespace-nowrap xl:hidden">
+                    {cta.primaryCorto}
+                  </span>
+                  <span aria-hidden="true" className="hidden whitespace-nowrap xl:inline">
+                    {cta.primary}
+                  </span>
                 </ButtonLink>
               </div>
             </div>
