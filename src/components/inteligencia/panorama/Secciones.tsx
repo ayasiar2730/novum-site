@@ -6,18 +6,8 @@ import { etiquetaDeTipo } from "@/lib/inteligencia/tipos";
 import { BarrasH, BarrasPareadas, Kpi } from "../graficos";
 import type { ContextoSeccion } from "../InformeInteractivo";
 import { Bloque, Nota, Selector } from "../piezas";
-import {
-  barrasPorTipo,
-  FilaEntidad,
-  KpiCifra,
-  ListaDepartamentos,
-  referenciaTipos,
-  TablaEntidades,
-  TablaPorTipo,
-  useLectura,
-  valorDeGrupo,
-  type Lectura,
-} from "./comunes";
+import { FilaEntidad, KpiCifra, ListaDepartamentos, TablaEntidades, TablaPorTipo } from "./comunes";
+import { barrasPorTipo, referenciaTipos, useLectura, valorDeGrupo, type Lectura } from "./lectura";
 
 /**
  * Panorama financiero: las 18 páginas del Power BI «Seguimiento sector»,
